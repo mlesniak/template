@@ -24,7 +24,8 @@ public class HomePage extends WebPage {
             @Override
             protected void onSubmit() {
                 log.info(message.toString());
-                MessageDao.get().write(message);
+                // Copy message to new object.
+                MessageDao.get().write(new Message(message));
             }
         };
         TextField<String> input = new TextField<>("message");

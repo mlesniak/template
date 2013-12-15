@@ -11,6 +11,14 @@ public class Message implements Serializable {
     @GeneratedValue
     private long id;
 
+    public Message() {
+        // Empty.
+    }
+
+    public Message(Message that) {
+        message = that.message;
+    }
+
     private String message;
 
     public String getMessage() {
@@ -24,7 +32,8 @@ public class Message implements Serializable {
     @Override
     public String toString() {
         return "Message{" +
-                "message='" + message + '\'' +
+                "id=" + id +
+                ", message='" + message + '\'' +
                 '}';
     }
 }
