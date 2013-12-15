@@ -5,8 +5,12 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HomePage extends WebPage {
+    private Logger log = LoggerFactory.getLogger(HomePage.class);
+
     public HomePage(final PageParameters parameters) {
         super(parameters);
 
@@ -15,7 +19,7 @@ public class HomePage extends WebPage {
         Form<Message> messageForm = new Form<Message>("messageForm", new CompoundPropertyModel<>(message)) {
             @Override
             protected void onSubmit() {
-                System.out.println(message);
+                log.info(message.toString());
             }
         };
         TextField<String> input = new TextField<>("message");
