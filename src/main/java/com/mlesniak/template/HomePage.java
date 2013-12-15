@@ -14,8 +14,10 @@ public class HomePage extends WebPage {
     public HomePage(final PageParameters parameters) {
         super(parameters);
 
-        final Message message = new Message();
+        // For I18N-testing.
+        // getSession().setLocale(Locale.GERMANY);
 
+        final Message message = new Message();
         Form<Message> messageForm = new Form<Message>("messageForm", new CompoundPropertyModel<>(message)) {
             @Override
             protected void onSubmit() {
