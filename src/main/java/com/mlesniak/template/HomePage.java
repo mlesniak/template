@@ -25,8 +25,10 @@ public class HomePage extends WebPage {
             }
         };
         TextField<String> input = new TextField<>("message");
-
         add(messageForm);
         messageForm.add(input);
+        if (!Config.get().getBoolean(Config.Key.allowSubmit)) {
+            messageForm.setVisible(false);
+        }
     }
 }
