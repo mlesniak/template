@@ -1,5 +1,6 @@
 package com.mlesniak.template;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.HashMap;
@@ -23,5 +24,9 @@ public abstract class BaseDao {
         }
 
         factory = Persistence.createEntityManagerFactory("database", configuration);
+    }
+
+    protected EntityManager getEntityManager() {
+        return factory.createEntityManager();
     }
 }
