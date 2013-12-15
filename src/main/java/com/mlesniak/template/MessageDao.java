@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class MessageDao {
+public class MessageDao extends BaseDao {
     private Logger log = LoggerFactory.getLogger(MessageDao.class);
 
     private static MessageDao INSTANCE;

@@ -13,7 +13,32 @@ public class Config {
     private static Config INSTANCE;
 
     public enum Key {
-        allowSubmit;
+        allowSubmit(),
+
+        // Database configuration.
+        databaseDriver("database.driver"),
+        databaseURL("database.url"),
+        databaseUsername("database.user"),
+        databasePassword("database.password"),
+        databaseGeneration("database.generation");
+
+        private final String path;
+
+        Key() {
+            this.path = null;
+        }
+
+        Key(String path) {
+            this.path = path;
+        }
+
+        public String get() {
+            if (path == null) {
+                return this.toString();
+            }
+
+            return path;
+        }
     }
 
     private Config() {
@@ -38,10 +63,10 @@ public class Config {
     }
 
     public boolean getBoolean(Key key) {
-        return Boolean.parseBoolean(properties.getProperty(key.toString()));
+        return Boolean.parseBoolean(properties.getProperty(key.get()));
     }
 
     public String get(Key key) {
-        return properties.getProperty(key.toString());
+        return properties.getProperty(key.get());
     }
 }
