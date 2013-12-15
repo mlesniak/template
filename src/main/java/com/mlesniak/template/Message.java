@@ -1,10 +1,16 @@
 package com.mlesniak.template;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
 public class Message implements Serializable {
+    @Id
+    @GeneratedValue
+    private long id;
+
     private String message;
 
     public String getMessage() {
