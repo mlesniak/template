@@ -4,6 +4,7 @@
              version="1.0">
     <persistence-unit name="database" transaction-type="RESOURCE_LOCAL">
         <class>com.mlesniak.template.Message</class>
+        <class>com.mlesniak.template.ConfigDO</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

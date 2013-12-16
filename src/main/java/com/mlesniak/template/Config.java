@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Set;
 
 public class Config {
     private Logger log = LoggerFactory.getLogger(Config.class);
     private static final String FILENAME = "/config.properties";
     private final Properties properties;
     private static Config INSTANCE;
+    private boolean databaseResolution = false;
 
     public enum Key {
         allowSubmit(),
@@ -20,7 +22,11 @@ public class Config {
         databaseURL("database.url"),
         databaseUsername("database.user"),
         databasePassword("database.password"),
-        databaseGeneration("database.generation");
+        databaseGeneration("database.generation"),
+
+        // True if in database.
+        inDatabase()
+        ;
 
         private final String path;
 
@@ -39,11 +45,25 @@ public class Config {
 
             return path;
         }
+
+        public static Key getKey(String value) {
+            for (Key key : Key.values()) {
+                if (key.get().equals(value)) {
+                    return key;
+                }
+            }
+
+            return null;
+        }
     }
 
     private Config() {
         properties = new Properties();
         load();
+    }
+
+    public void init() {
+        ConfigDao.get().init();
     }
 
     public static Config get() {
@@ -54,19 +74,40 @@ public class Config {
         return INSTANCE;
     }
 
+    public Set<String> getDefinedKeys() {
+        return properties.stringPropertyNames();
+    }
+
     public void load() {
+        log.info("Loading configuration.");
         try {
             properties.load(Config.class.getResourceAsStream(FILENAME));
+            // Check that only valid configuration keys are loaded.
+            for (String key : properties.stringPropertyNames()) {
+                if (Key.getKey(key) == null) {
+                    log.warn("Key not defined in enum, ignoring. key=" + key);
+                    properties.remove(key);
+                }
+            }
         } catch (IOException | NullPointerException e) {
             log.error("Unable to load config file from classpath. filename=" + FILENAME);
         }
     }
 
     public boolean getBoolean(Key key) {
-        return Boolean.parseBoolean(properties.getProperty(key.get()));
+        return Boolean.parseBoolean(get(key));
+    }
+
+    public void enableDatabaseResolution() {
+        log.info("Database resolution enabled.");
+        databaseResolution = true;
     }
 
     public String get(Key key) {
+        if (databaseResolution) {
+            return ConfigDao.get().get(key).getValue();
+        }
+
         return properties.getProperty(key.get());
     }
 }

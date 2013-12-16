@@ -12,5 +12,6 @@ public class WicketApplication extends WebApplication {
     @Override
     public void init() {
         super.init();
+        Config.get().init();
     }
 }
