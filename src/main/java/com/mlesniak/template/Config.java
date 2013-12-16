@@ -101,10 +101,9 @@ public class Config {
     }
 
     public String get(Key key) {
-        if (databaseResolution) {
-            return ConfigDao.get().get(key).getValue();
+        if (!databaseResolution) {
+            return properties.getProperty(key.get());
         }
-
-        return properties.getProperty(key.get());
+        return ConfigDao.get().get(key).getValue();
     }
 }
