@@ -23,9 +23,6 @@ public class Config {
         databaseUsername("database.user"),
         databasePassword("database.password"),
         databaseGeneration("database.generation"),
-
-        // True if in database.
-        inDatabase()
         ;
 
         private final String path;
