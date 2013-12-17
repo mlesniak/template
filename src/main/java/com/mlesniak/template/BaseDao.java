@@ -59,4 +59,8 @@ public class BaseDao {
     public EntityManager getEntityManager() {
         return factory.createEntityManager();
     }
+
+    public EntityManagerFactory getEntityManagerFactory() {
+        return factory;
+    }
 }
