@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class Config {
     private Logger log = LoggerFactory.getLogger(Config.class);
@@ -71,8 +70,8 @@ public class Config {
         return INSTANCE;
     }
 
-    public Set<String> getDefinedKeys() {
-        return properties.stringPropertyNames();
+    public List<Key> getDefinedKeys() {
+        return Arrays.asList(Key.values());
     }
 
     public void load() {

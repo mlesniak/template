@@ -40,8 +40,7 @@ public class BaseDao {
         Config config = Config.get();
         log.info("Updating database");
         ConfigDao dao = ConfigDao.get();
-        for (String stringKey : config.getDefinedKeys()) {
-            Config.Key key = Config.Key.getKey(stringKey);
+        for (Config.Key key : config.getDefinedKeys()) {
             if (dao.isKeyDefined(key)) {
                 continue;
             }
