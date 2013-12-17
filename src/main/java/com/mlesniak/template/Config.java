@@ -99,6 +99,15 @@ public class Config {
         databaseResolution = true;
     }
 
+    public void set(Key key, String value) {
+        if (!databaseResolution) {
+            log.warn("Key not set. Database initalization not finished.");
+            return;
+        }
+
+        ConfigDao.get().update(key, value);
+    }
+
     public String get(Key key) {
         if (!databaseResolution) {
             return properties.getProperty(key.get());

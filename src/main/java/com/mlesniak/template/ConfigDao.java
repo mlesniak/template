@@ -35,7 +35,7 @@ public class ConfigDao extends BaseDao {
     private ConfigDO get(Config.Key key, boolean doLog) {
         try {
             checkAndInvalidateCache();
-            return getConfigForKey(key);
+            return getConfigForKey(key, true);
         } catch (RuntimeException exception) {
             if (doLog) {
                 log.warn("Unable to get key. key=" + key.get());
@@ -45,11 +45,13 @@ public class ConfigDao extends BaseDao {
         return null;
     }
 
-    private ConfigDO getConfigForKey(Config.Key key) {
+    private ConfigDO getConfigForKey(Config.Key key, boolean detach) {
         EntityManager em = getEntityManager();
         String query = "SELECT c FROM ConfigDO c WHERE c.key = '" + key.get() + "'";
         ConfigDO configDO = em.createQuery(query, ConfigDO.class).getSingleResult();
-        em.detach(configDO);
+        if (detach) {
+            em.detach(configDO);
+        }
         em.close();
         return configDO;
     }
@@ -68,6 +70,18 @@ public class ConfigDao extends BaseDao {
             getEntityManagerFactory().getCache().evict(ConfigDO.class);
             lastCacheUpdate = now;
         }
+    }
+
+    public void update(Config.Key key, String value) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        ConfigDO configDO = getConfigForKey(key, false);
+        configDO.setValue(value);
+        em.merge(configDO);
+        em.getTransaction().commit();
+        em.close();
+
+        resetCache();
     }
 
     public void put(Config.Key key, String value) {

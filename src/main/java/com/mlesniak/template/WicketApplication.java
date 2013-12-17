@@ -13,5 +13,7 @@ public class WicketApplication extends WebApplication {
     public void init() {
         super.init();
         Config.get().init();
+
+        mountPage("/config", ConfigPage.class);
     }
 }
