@@ -5,7 +5,7 @@
         </encoder>
     </appender>
       
-    <logger name="com.mlesniak" level="debug" additivity="false">
+    <logger name="com.mlesniak" level="info" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
