@@ -70,6 +70,14 @@ public class Config {
         return INSTANCE;
     }
 
+    public Map<Key, String> getConfig() {
+        Map<Key, String> map = new HashMap<>();
+        for (Key key : Key.values()) {
+            map.put(key, get(key));
+        }
+        return map;
+    }
+
     public List<Key> getDefinedKeys() {
         return Arrays.asList(Key.values());
     }

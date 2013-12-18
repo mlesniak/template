@@ -11,39 +11,56 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedList;
+import java.util.Map;
+
 public class ConfigPage extends WebPage {
     private Logger log = LoggerFactory.getLogger(ConfigPage.class);
 
     public ConfigPage(PageParameters parameters) {
         super(parameters);
 
-        // Model from Config values to HashMap.
-        // Form
-        // Backing model for Form
+        final Map<Config.Key,String> model = Config.get().getConfig();
+        Form form = createForm(model);
+        add(form);
+    }
 
+    private Form createForm(final Map<Config.Key, String> model) {
+        Form form = new Form("configForm") {
+            @Override
+            protected void onSubmit() {
+                super.onSubmit();
+                for (Map.Entry<Config.Key, String> entry : model.entrySet()) {
+                    Config.get().set(entry.getKey(), entry.getValue());
+                    log.info("Storing new value. " + entry.getKey() + ": " + entry.getValue());
+                }
+            }
+        };
 
-        Form<ConfigModel> form = new Form<ConfigModel>("configForm", new ConfigModel());
+        ListView<Config.Key> formFields = createFormFields(model);
+        form.add(formFields);
+        return form;
+    }
 
-        ListView<Config.Key> listView = new ListView<Config.Key>("configValues", Config.get().getDefinedKeys()) {
+    private ListView<Config.Key> createFormFields(final Map<Config.Key, String> model) {
+        ListView<Config.Key> listView = new ListView<Config.Key>("configValues", new LinkedList<>(model.keySet())) {
             @Override
             protected void populateItem(final ListItem<Config.Key> item) {
-                item.add(new Label("key", item.getModel().getObject().get()));
-                item.add(new TextField<String>("value", new Model<String>() {
+                item.add(new Label("key", item.getModelObject().get()));
+                item.add(new TextField<>("value", new Model<String>() {
                     @Override
                     public String getObject() {
-                        return Config.get().get(item.getModelObject());
+                        return model.get(item.getModelObject());
                     }
 
                     @Override
                     public void setObject(String newValue) {
-                        Config.get().set(item.getModelObject(), newValue);
+                        model.put(item.getModelObject(), newValue);
                     }
                 }));
             }
         };
         listView.setReuseItems(true);
-
-        form.add(listView);
-        add(form);
+        return listView;
     }
 }
