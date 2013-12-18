@@ -19,6 +19,21 @@ public class HomePage extends WebPage {
         // For I18N-testing.
         // getSession().setLocale(Locale.GERMANY);
 
+        addMessageInputField();
+        addNotVisibleLabel();
+    }
+
+    private void addNotVisibleLabel() {
+        Label disabledMessage = new Label("disabledMessage", new ResourceModel("form.disabled")) {
+            @Override
+            public boolean isVisible() {
+                return !Config.get().getBoolean(Config.Key.allowSubmit);
+            }
+        };
+        add(disabledMessage);
+    }
+
+    private void addMessageInputField() {
         final Message message = new Message();
         Form<Message> messageForm = new Form<Message>("messageForm", new CompoundPropertyModel<>(message)) {
             @Override
@@ -27,16 +42,14 @@ public class HomePage extends WebPage {
                 // Copy message to new object.
                 MessageDao.get().write(new Message(message));
             }
+
+            @Override
+            public boolean isVisible() {
+                return Config.get().getBoolean(Config.Key.allowSubmit);
+            }
         };
         TextField<String> input = new TextField<>("message");
         add(messageForm);
         messageForm.add(input);
-        Label disabledMessage = new Label("disabledMessage", new ResourceModel("form.disabled"));
-        disabledMessage.setVisible(false);
-        if (!Config.get().getBoolean(Config.Key.allowSubmit)) {
-            messageForm.setVisible(false);
-            disabledMessage.setVisible(true);
-        }
-        add(disabledMessage);
     }
 }
