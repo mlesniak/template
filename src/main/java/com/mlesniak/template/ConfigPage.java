@@ -1,6 +1,7 @@
 package com.mlesniak.template;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -46,9 +47,7 @@ public class ConfigPage extends WebPage {
         ListView<Config.Key> listView = new ListView<Config.Key>("configValues", computeListModel(model)) {
             @Override
             protected void populateItem(final ListItem<Config.Key> item) {
-
-
-                item.add(new Label("key", item.getModelObject().get()));
+                Label label = new Label("key", item.getModelObject().get());
                 TextField<String> inputField = new TextField<>("value", new Model<String>() {
                     @Override
                     public String getObject() {
@@ -60,11 +59,23 @@ public class ConfigPage extends WebPage {
                         model.put(item.getModelObject(), newValue);
                     }
                 });
-                // Focus on first field.
+                handleAutoFocusOnFirstElement(item, inputField);
+                handleDatabaseDisabeled(item, label, inputField);
+                item.add(inputField);
+                item.add(label);
+            }
+
+            private void handleDatabaseDisabeled(ListItem<Config.Key> item, Label label, TextField<String> inputField) {
+                if (item.getModelObject().get().startsWith("database.")) {
+                    inputField.setEnabled(false);
+                    label.add(new AttributeAppender("class", "disabled"));
+                }
+            }
+
+            private void handleAutoFocusOnFirstElement(ListItem<Config.Key> item, TextField<String> inputField) {
                 if (item.getIndex() == 0) {
                     inputField.add(new AttributeModifier("autofocus", "true"));
                 }
-                item.add(inputField);
             }
         };
         listView.setReuseItems(true);
