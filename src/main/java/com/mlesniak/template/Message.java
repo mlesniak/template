@@ -33,6 +33,10 @@ public class Message implements Serializable {
         this.message = message;
     }
 
+    public long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Message{" +

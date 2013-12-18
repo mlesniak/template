@@ -38,9 +38,10 @@ public class HomePage extends WebPage {
         Form<Message> messageForm = new Form<Message>("messageForm", new CompoundPropertyModel<>(message)) {
             @Override
             protected void onSubmit() {
-                log.info(message.toString());
                 // Copy message to new object.
-                MessageDao.get().write(new Message(message));
+                Message messageDO = new Message(message);
+                MessageDao.get().write(messageDO);
+                log.info(message.toString(), messageDO.getId());
             }
 
             @Override
