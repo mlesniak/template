@@ -1,4 +1,4 @@
-package com.mlesniak.template;
+package com.mlesniak.template.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * This model is used both as the DO and (currently) as the DTO for the web frontend. Hence it supports a clone-
+ * This model is used both as the DO and (currently) as the DTO for the app frontend. Hence it supports a clone-
  * constructor to allow for the creation of a clone before persisting.
  */
 @Entity

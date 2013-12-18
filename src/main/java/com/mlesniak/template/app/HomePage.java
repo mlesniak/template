@@ -1,5 +1,8 @@
-package com.mlesniak.template;
+package com.mlesniak.template.app;
 
+import com.mlesniak.template.config.Config;
+import com.mlesniak.template.dao.MessageDao;
+import com.mlesniak.template.model.Message;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;

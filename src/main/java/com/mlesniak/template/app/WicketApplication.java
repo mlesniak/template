@@ -1,5 +1,7 @@
-package com.mlesniak.template;
+package com.mlesniak.template.app;
 
+import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigPage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 

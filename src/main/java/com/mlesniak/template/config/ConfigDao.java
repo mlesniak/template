@@ -1,5 +1,6 @@
-package com.mlesniak.template;
+package com.mlesniak.template.config;
 
+import com.mlesniak.template.dao.BaseDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package com.mlesniak.template;
+package com.mlesniak.template.config;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.AttributeAppender;
