@@ -39,11 +39,13 @@
         <h1>
             <wicket:message key="form.welcomeMessage"/>
         </h1>
+        <div style="text-align: center;">
         <form wicket:id="messageForm" method="post">
             <input wicket:id="message" type="text" size="80" autofocus/>
             <input type="submit" wicket:message="value:form.submit"/>
         </form>
         <span wicket:id="disabledMessage"/>
+        </div>
     </div>
 </div>
 

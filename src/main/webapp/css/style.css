@@ -3,6 +3,9 @@ body {
 }
 .starter-template {
     padding: 40px 15px;
+}
+
+h1 {
     text-align: center;
 }
 
