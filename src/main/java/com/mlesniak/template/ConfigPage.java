@@ -1,5 +1,6 @@
 package com.mlesniak.template;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -19,7 +20,7 @@ public class ConfigPage extends WebPage {
     public ConfigPage(PageParameters parameters) {
         super(parameters);
 
-        final Map<Config.Key,String> model = Config.get().getConfig();
+        final Map<Config.Key, String> model = Config.get().getConfig();
         Form form = createForm(model);
         add(form);
     }
@@ -45,8 +46,10 @@ public class ConfigPage extends WebPage {
         ListView<Config.Key> listView = new ListView<Config.Key>("configValues", computeListModel(model)) {
             @Override
             protected void populateItem(final ListItem<Config.Key> item) {
+
+
                 item.add(new Label("key", item.getModelObject().get()));
-                item.add(new TextField<>("value", new Model<String>() {
+                TextField<String> inputField = new TextField<>("value", new Model<String>() {
                     @Override
                     public String getObject() {
                         return model.get(item.getModelObject());
@@ -56,7 +59,12 @@ public class ConfigPage extends WebPage {
                     public void setObject(String newValue) {
                         model.put(item.getModelObject(), newValue);
                     }
-                }));
+                });
+                // Focus on first field.
+                if (item.getIndex() == 0) {
+                    inputField.add(new AttributeModifier("autofocus", "true"));
+                }
+                item.add(inputField);
             }
         };
         listView.setReuseItems(true);
