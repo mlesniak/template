@@ -11,8 +11,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class ConfigPage extends WebPage {
     private Logger log = LoggerFactory.getLogger(ConfigPage.class);
@@ -43,7 +42,7 @@ public class ConfigPage extends WebPage {
     }
 
     private ListView<Config.Key> createFormFields(final Map<Config.Key, String> model) {
-        ListView<Config.Key> listView = new ListView<Config.Key>("configValues", new LinkedList<>(model.keySet())) {
+        ListView<Config.Key> listView = new ListView<Config.Key>("configValues", computeListModel(model)) {
             @Override
             protected void populateItem(final ListItem<Config.Key> item) {
                 item.add(new Label("key", item.getModelObject().get()));
@@ -62,5 +61,16 @@ public class ConfigPage extends WebPage {
         };
         listView.setReuseItems(true);
         return listView;
+    }
+
+    private List<Config.Key> computeListModel(Map<Config.Key, String> model) {
+        List<Config.Key> keys = new ArrayList<>(model.keySet());
+        Collections.sort(keys, new Comparator<Config.Key>() {
+            @Override
+            public int compare(Config.Key o1, Config.Key o2) {
+                return o1.get().compareTo(o2.get());
+            }
+        });
+        return keys;
     }
 }
