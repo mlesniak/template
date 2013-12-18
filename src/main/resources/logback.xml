@@ -1,10 +1,12 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-            <driverClass>org.postgresql.Driver</driverClass>
-            <url>jdbc:postgresql://localhost/template</url>
-            <user>template</user>
-            <password>template</password>
+            <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+                <driverClass>org.postgresql.Driver</driverClass>
+                <url>jdbc:postgresql://localhost/template</url>
+                <user>template</user>
+                <password>template</password>
+            </dataSource>
         </connectionSource>
     </appender>
 

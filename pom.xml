@@ -29,6 +29,12 @@
             <artifactId>logback-classic</artifactId>
             <version>1.0.9</version>
         </dependency>
+        <!--Connection Pooling for database logging-->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.1</version>
+        </dependency>
         <!--  WICKET DEPENDENCIES -->
         <dependency>
             <groupId>org.apache.wicket</groupId>
