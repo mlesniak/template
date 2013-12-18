@@ -32,8 +32,10 @@ public class ConfigPage extends WebPage {
             protected void onSubmit() {
                 super.onSubmit();
                 for (Map.Entry<Config.Key, String> entry : model.entrySet()) {
-                    Config.get().set(entry.getKey(), entry.getValue());
-                    log.info("Storing new value. " + entry.getKey() + ": " + entry.getValue());
+                    if (isChangeableKey(entry.getKey())) {
+                        Config.get().set(entry.getKey(), entry.getValue());
+                        log.info("Storing new value. " + entry.getKey() + ": " + entry.getValue());
+                    }
                 }
             }
         };
@@ -66,7 +68,7 @@ public class ConfigPage extends WebPage {
             }
 
             private void handleDatabaseDisabeled(ListItem<Config.Key> item, Label label, TextField<String> inputField) {
-                if (item.getModelObject().get().startsWith("database.")) {
+                if (!isChangeableKey(item.getModelObject())) {
                     inputField.setEnabled(false);
                     label.add(new AttributeAppender("class", "disabled"));
                 }
@@ -91,5 +93,9 @@ public class ConfigPage extends WebPage {
             }
         });
         return keys;
+    }
+
+    private boolean isChangeableKey(Config.Key key) {
+        return !key.get().startsWith("database.");
     }
 }
