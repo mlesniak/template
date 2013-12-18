@@ -1,4 +1,13 @@
 <configuration scan="true" scanPeriod="30 seconds">
+    <appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>org.postgresql.Driver</driverClass>
+            <url>jdbc:postgresql://localhost/template</url>
+            <user>template</user>
+            <password>template</password>
+        </connectionSource>
+    </appender>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} %msg%n</pattern>
@@ -7,6 +16,7 @@
       
     <logger name="com.mlesniak" level="info" additivity="false">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DATABASE"/>
     </logger>
 
     <root level="warn">
