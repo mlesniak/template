@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
 <wicket:panel>
-    <form class="form-horizontal divider" role="form">
+    <form wicket:id="logForm" class="form-horizontal divider" role="form">
         <div class="form-group">
             <label for="level" class="col-sm-1">Level</label>
-            <select name="level" id="level">
-                <option>All</option>
-                <option>Error</option>
-                <option>Warning</option>
-                <option>Info</option>
-                <option>Debug</option>
-                <option>Trace</option>
-            </select>
+            <select wicket:id="level" name="level" id="level"/>
         </div>
 
         <div class="form-group">
             <label for="keyword" class="col-sm-1">Keyword</label>
-            <input type="text" id="keyword" autofocus/>
+            <input wicket:id="keyword" type="text" id="keyword" autofocus/>
         </div>
 
         <div class="form-group">
