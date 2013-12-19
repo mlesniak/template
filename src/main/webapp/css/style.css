@@ -12,3 +12,7 @@ h1 {
 .disabled {
     color: #808080;
 }
+
+.divider {
+    border-bottom: solid 1px;
+}
