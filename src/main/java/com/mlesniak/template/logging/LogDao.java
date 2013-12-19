@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 
 public class LogDao extends BaseDao {
@@ -27,5 +28,15 @@ public class LogDao extends BaseDao {
         em.detach(logDO);
         em.close();
         return logDO;
+    }
+
+    public List<LogDO> getLogByFilter(LogFilter logFilter) {
+        EntityManager em = getEntityManager();
+        List<LogDO> logDOList = em.createQuery(logFilter.build(), LogDO.class).getResultList();
+        for (LogDO logDO : logDOList) {
+            em.detach(logDO);
+        }
+        em.close();
+        return logDOList;
     }
 }
