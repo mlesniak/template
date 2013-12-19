@@ -21,13 +21,13 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/app">
+                <li><a href="/app">
                     <wicket:message key="application.home"/>
                 </a></li>
                 <li><a href="config">
                     <wicket:message key="application.configuration"/>
                 </a></li>
-                <li><a href="log">
+                <li  class="active"><a href="log">
                     <wicket:message key="application.logging"/>
                 </a></li>
                 <li><a href="#contact">
@@ -40,16 +40,8 @@
 
 <div class="container">
     <div class="starter-template">
-        <h1>
-            <wicket:message key="form.welcomeMessage"/>
-        </h1>
-        <div style="text-align: center;">
-        <form wicket:id="messageForm" method="post">
-            <input wicket:id="message" type="text" size="80" autofocus/>
-            <input type="submit" wicket:message="value:form.submit"/>
-        </form>
-        <span wicket:id="disabledMessage"/>
-        </div>
+        <h1><wicket:message key="application.logging"/></h1>
+        <div wicket:id="logPanel"/>
     </div>
 </div>
 
