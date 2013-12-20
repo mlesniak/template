@@ -3,6 +3,7 @@ package com.mlesniak.template.logging;
 import ch.qos.logback.classic.Level;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -14,6 +15,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +53,13 @@ public class LogPanel extends Panel {
                 item.add(new Label("timestamp", toDate(model.getTimestamp())));
                 item.add(new Label("level", model.getLevel()));
                 item.add(new Label("message", model.getFormattedMessages()));
+
+                if (model.getLevel().equals(Level.WARN.toString())) {
+                    item.add(new AttributeAppender("class", new Model<String>("warning"), " "));
+                }
+                if (model.getLevel().equals(Level.ERROR.toString())) {
+                    item.add(new AttributeAppender("class", new Model<String>("danger"), " "));
+                }
             }
         };
 
