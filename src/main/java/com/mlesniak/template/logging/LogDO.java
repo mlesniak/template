@@ -4,13 +4,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * JPA entity mirroring the logback table schema to allow for queries.
  */
 @Entity
 @Table(name = "logging_event")
-public class LogDO {
+public class LogDO implements Serializable {
     @Id
     @Column(name = "event_id")
     private long id;

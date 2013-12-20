@@ -1,6 +1,8 @@
 package com.mlesniak.template.logging;
 
 import ch.qos.logback.classic.Level;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -15,35 +17,38 @@ import java.util.List;
 public class LogPanel extends Panel {
     private Logger log = LoggerFactory.getLogger(LogPanel.class);
     private static List<Level> availableLevel = availableLogLevels();
+    private List<LogDO> logDOs = new LinkedList<>();
 
     public LogPanel(String id) {
         super(id);
 
         final LogModel model = new LogModel();
-        Form<LogModel> form = new Form<LogModel>("logForm", new CompoundPropertyModel<>(model)) {
-            @Override
-            protected void onSubmit() {
-                handleSubmit(model);
-            }
-        };
+        Form<LogModel> form = new Form<>("logForm", new CompoundPropertyModel<>(model));
 
-        TextField<String> keyword = new TextField<>("keyword");
+        final TextField<String> keyword = new TextField<>("keyword");
+        keyword.setOutputMarkupId(true);
         form.add(keyword);
 
         DropDownChoice<Level> level = new DropDownChoice<>("level", availableLevel);
         model.setLevel(Level.ALL);
         form.add(level);
 
+        AjaxFallbackButton button = new AjaxFallbackButton("submit", form) {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                super.onSubmit(target, form);
+                handleSubmit(model);
+                target.focusComponent(keyword);
+            }
+        };
+        form.add(button);
+
         add(form);
     }
 
-
     public void handleSubmit(LogModel model) {
-        List<LogDO> logDOs = LogDao.get().getLogByFilter(modelToLogFilter(model));
-
-        for (LogDO logDO : logDOs) {
-            System.out.println(logDO.toString());
-        }
+        logDOs = LogDao.get().getLogByFilter(modelToLogFilter(model));
+        System.out.println(logDOs.size());
     }
 
     private LogFilter modelToLogFilter(LogModel model) {
