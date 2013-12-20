@@ -36,7 +36,7 @@ public class LogFilter {
             attributeQueries.add(" l.level = '" + level.levelStr + "\'");
         }
         if (keyword != null) {
-            attributeQueries.add(" l.formattedMessages like '%" + keyword + "%'");
+            attributeQueries.add(" LOWER(l.formattedMessages) LIKE '%" + keyword.toLowerCase() + "%' ");
         }
 
         if (!attributeQueries.isEmpty()) {
@@ -49,7 +49,7 @@ public class LogFilter {
             }
         }
 
-        sb.append("Order by l.id desc");
+        sb.append(" Order by l.id desc ");
 
         return sb.toString();
     }
