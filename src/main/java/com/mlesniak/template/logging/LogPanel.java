@@ -19,6 +19,7 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,20 @@ public class LogPanel extends Panel {
     private Logger log = LoggerFactory.getLogger(LogPanel.class);
     private static List<Level> availableLevel = availableLogLevels();
     private List<LogDO> logDOs = new LinkedList<>();
+
+    private ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
+
+    private ThreadLocal<SimpleDateFormat> simpleTimeFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("HH:mm:ss.SSS");
+        }
+    };
 
     public LogPanel(String id) {
         super(id);
@@ -50,7 +65,8 @@ public class LogPanel extends Panel {
             protected void populateItem(ListItem<LogDO> item) {
                 LogDO model = item.getModelObject();
                 item.add(new Label("eventid", model.getId()));
-                item.add(new Label("timestamp", toDate(model.getTimestamp())));
+                item.add(new Label("date", toDate(model.getTimestamp())));
+                item.add(new Label("time", toTime(model.getTimestamp())));
                 item.add(new Label("level", model.getLevel()));
                 item.add(new Label("message", model.getFormattedMessages()));
 
@@ -112,6 +128,10 @@ public class LogPanel extends Panel {
     }
 
     private String toDate(long timestamp) {
-        return new Date(timestamp).toString();
+        return simpleDateFormat.get().format(new Date(timestamp));
+    }
+
+    private String toTime(long timestamp) {
+        return simpleTimeFormat.get().format(new Date(timestamp));
     }
 }
