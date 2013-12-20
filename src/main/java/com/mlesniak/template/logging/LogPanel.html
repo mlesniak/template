@@ -18,9 +18,13 @@
     </form>
 
     <div wicket:id="view">
-        <div wicket:id="listview">
-            <span wicket:id="message"/>
-        </div>
+        <table>
+            <tr wicket:id="listview">
+                <td><span wicket:id="timestamp"></span></td>
+                <td><span wicket:id="level"></span></td>
+                <td><span wicket:id="message"></span></td>
+            </tr>
+        </table>
     </div>
 </wicket:panel>
 </html>

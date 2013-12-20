@@ -45,6 +45,8 @@ public class LogPanel extends Panel {
         final ListView<LogDO> listView = new ListView<LogDO>("listview", logs) {
             @Override
             protected void populateItem(ListItem<LogDO> item) {
+                item.add(new Label("timestamp", item.getModelObject().getTimestamp()));
+                item.add(new Label("level", item.getModelObject().getLevel()));
                 item.add(new Label("message", item.getModelObject().getFormattedMessages()));
             }
         };
