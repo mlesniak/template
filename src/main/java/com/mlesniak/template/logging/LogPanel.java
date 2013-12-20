@@ -17,6 +17,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,10 +46,11 @@ public class LogPanel extends Panel {
         final ListView<LogDO> listView = new ListView<LogDO>("listview", logs) {
             @Override
             protected void populateItem(ListItem<LogDO> item) {
-                item.add(new Label("eventid", item.getModelObject().getId()));
-                item.add(new Label("timestamp", item.getModelObject().getTimestamp()));
-                item.add(new Label("level", item.getModelObject().getLevel()));
-                item.add(new Label("message", item.getModelObject().getFormattedMessages()));
+                LogDO model = item.getModelObject();
+                item.add(new Label("eventid", model.getId()));
+                item.add(new Label("timestamp", toDate(model.getTimestamp())));
+                item.add(new Label("level", model.getLevel()));
+                item.add(new Label("message", model.getFormattedMessages()));
             }
         };
 
@@ -98,5 +100,9 @@ public class LogPanel extends Panel {
         list.add(Level.DEBUG);
         list.add(Level.TRACE);
         return list;
+    }
+
+    private String toDate(long timestamp) {
+        return new Date(timestamp).toString();
     }
 }
