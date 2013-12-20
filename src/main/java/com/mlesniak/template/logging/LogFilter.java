@@ -32,11 +32,11 @@ public class LogFilter {
         sb.append("SELECT l FROM LogDO l ");
 
         List<String> attributeQueries = new ArrayList<>();
-        if (level != null) {
+        if (level != null && level != Level.ALL) {
             attributeQueries.add(" l.level = '" + level.levelStr + "\'");
         }
         if (keyword != null) {
-            attributeQueries.add(" l.keyword like '%" + keyword + "%'");
+            attributeQueries.add(" l.formattedMessages like '%" + keyword + "%'");
         }
 
         if (!attributeQueries.isEmpty()) {
@@ -52,5 +52,13 @@ public class LogFilter {
         sb.append("Order by l.id desc");
 
         return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return "LogFilter{" +
+                "level=" + level +
+                ", keyword='" + keyword + '\'' +
+                '}';
     }
 }

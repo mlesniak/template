@@ -14,17 +14,7 @@ import java.util.List;
 
 public class LogPanel extends Panel {
     private Logger log = LoggerFactory.getLogger(LogPanel.class);
-
-    private static List<Level> availableLevel = new LinkedList<>();
-
-    {
-        availableLevel.add(Level.ALL);
-        availableLevel.add(Level.ERROR);
-        availableLevel.add(Level.WARN);
-        availableLevel.add(Level.INFO);
-        availableLevel.add(Level.DEBUG);
-        availableLevel.add(Level.TRACE);
-    }
+    private static List<Level> availableLevel = availableLogLevels();
 
     public LogPanel(String id) {
         super(id);
@@ -33,7 +23,7 @@ public class LogPanel extends Panel {
         Form<LogModel> form = new Form<LogModel>("logForm", new CompoundPropertyModel<>(model)) {
             @Override
             protected void onSubmit() {
-                System.out.println(model);
+                handleSubmit(model);
             }
         };
 
@@ -45,5 +35,34 @@ public class LogPanel extends Panel {
         form.add(level);
 
         add(form);
+    }
+
+
+    public void handleSubmit(LogModel model) {
+        List<LogDO> logDOs = LogDao.get().getLogByFilter(modelToLogFilter(model));
+
+        for (LogDO logDO : logDOs) {
+            System.out.println(logDO.toString());
+        }
+    }
+
+    private LogFilter modelToLogFilter(LogModel model) {
+        LogFilter logFilter = LogFilter.start();
+        logFilter.addKeyword(model.getKeyword());
+        logFilter.addLevel(model.getLevel());
+        logFilter.build();
+        System.out.println(logFilter);
+        return logFilter;
+    }
+
+    private static List<Level> availableLogLevels() {
+        List<Level> list = new LinkedList<>();
+        list.add(Level.ALL);
+        list.add(Level.ERROR);
+        list.add(Level.WARN);
+        list.add(Level.INFO);
+        list.add(Level.DEBUG);
+        list.add(Level.TRACE);
+        return list;
     }
 }
