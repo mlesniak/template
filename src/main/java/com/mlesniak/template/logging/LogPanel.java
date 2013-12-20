@@ -3,11 +3,17 @@ package com.mlesniak.template.logging;
 import ch.qos.logback.classic.Level;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +35,25 @@ public class LogPanel extends Panel {
         keyword.setOutputMarkupId(true);
         form.add(keyword);
 
+        IModel logs = new LoadableDetachableModel<List<LogDO>>() {
+            @Override
+            protected List<LogDO> load() {
+                return logDOs;
+            }
+        };
+
+        final ListView<LogDO> listView = new ListView<LogDO>("listview", logs) {
+            @Override
+            protected void populateItem(ListItem<LogDO> item) {
+                item.add(new Label("message", item.getModelObject().getFormattedMessages()));
+            }
+        };
+
+        final WebMarkupContainer container = new WebMarkupContainer("view");
+        container.add(listView);
+        container.setOutputMarkupId(true);
+        add(container);
+
         DropDownChoice<Level> level = new DropDownChoice<>("level", availableLevel);
         model.setLevel(Level.ALL);
         form.add(level);
@@ -38,6 +63,7 @@ public class LogPanel extends Panel {
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 super.onSubmit(target, form);
                 handleSubmit(model);
+                target.add(container);
                 target.focusComponent(keyword);
             }
         };
