@@ -5,13 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
 public class LogDao extends BaseDao {
     private Logger log = LoggerFactory.getLogger(LogDao.class);
-
     private static LogDao INSTANCE;
+    public static int MAX_RESULTS = 1000;
 
     public static LogDao get() {
         if (INSTANCE == null) {
@@ -32,7 +33,9 @@ public class LogDao extends BaseDao {
 
     public List<LogDO> getLogByFilter(LogFilter logFilter) {
         EntityManager em = getEntityManager();
-        List<LogDO> logDOList = em.createQuery(logFilter.build(), LogDO.class).getResultList();
+        TypedQuery<LogDO> query = em.createQuery(logFilter.build(), LogDO.class);
+        query.setMaxResults(MAX_RESULTS);
+        List<LogDO> logDOList = query.getResultList();
         for (LogDO logDO : logDOList) {
             em.detach(logDO);
         }
