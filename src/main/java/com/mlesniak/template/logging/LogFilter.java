@@ -113,7 +113,6 @@ public class LogFilter {
                 ", keyword='" + keyword + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", dateTimeFormat=" + dateTimeFormat +
                 '}';
     }
 }
