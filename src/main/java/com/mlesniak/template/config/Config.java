@@ -83,7 +83,7 @@ public class Config {
     }
 
     public void load() {
-        log.info("Loading configuration.");
+        log.debug("Loading configuration.");
         try {
             properties.load(Config.class.getResourceAsStream(FILENAME));
             // Check that only valid configuration keys are loaded.
