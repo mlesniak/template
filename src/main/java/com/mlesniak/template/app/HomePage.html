@@ -40,12 +40,9 @@
 
 <div class="container">
     <div class="starter-template">
-        <h1>
-            <wicket:message key="form.welcomeMessage"/>
-        </h1>
         <div style="text-align: center;">
         <form wicket:id="messageForm" method="post">
-            <input wicket:id="message" type="text" size="80" autofocus/>
+            <input wicket:id="message" type="text" wicket:message="placeholder:form.welcomeMessage" size="80" autofocus/>
             <input type="submit" class="btn btn-default" wicket:message="value:form.submit"/>
         </form>
         <span wicket:id="disabledMessage"/>
