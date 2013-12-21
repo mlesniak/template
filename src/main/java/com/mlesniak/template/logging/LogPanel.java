@@ -40,7 +40,7 @@ public class LogPanel extends Panel implements Serializable {
     private transient ThreadLocal<SimpleDateFormat> simpleTimeFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("HH:mm:ss.SSS");
+            return new SimpleDateFormat("HH:mm:ss");
         }
     };
 
@@ -69,6 +69,8 @@ public class LogPanel extends Panel implements Serializable {
                 item.add(new Label("date", toDate(model.getTimestamp())));
                 item.add(new Label("time", toTime(model.getTimestamp())));
                 item.add(new Label("level", model.getLevel()));
+                String callerClass = model.getCallerClass();
+                item.add(new Label("class", callerClass.substring(callerClass.lastIndexOf('.') + 1)));
                 item.add(new Label("message", model.getFormattedMessages()));
 
                 if (model.getLevel().equals(Level.WARN.toString())) {
