@@ -83,6 +83,13 @@ public class LogFilter {
         if (keyword != null) {
             attributeQueries.add(" LOWER(l.formattedMessages) LIKE '%" + keyword.toLowerCase() + "%' ");
         }
+        if (startTime != null) {
+            attributeQueries.add(" l.timestamp >= " + startTime);
+        }
+        if (endTime != null) {
+            attributeQueries.add(" l.timestamp <= " + endTime);
+        }
+
 
         if (!attributeQueries.isEmpty()) {
             sb.append(" WHERE ");
