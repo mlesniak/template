@@ -19,12 +19,13 @@ import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LogPanel extends Panel {
+public class LogPanel extends Panel implements Serializable {
     private Logger log = LoggerFactory.getLogger(LogPanel.class);
     private static List<Level> availableLevel = availableLogLevels();
     private List<LogDO> logDOs = new LinkedList<>();

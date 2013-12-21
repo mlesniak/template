@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
+
+<wicket:head>
+    <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/>
+</wicket:head>
+
 <wicket:panel>
     <form wicket:id="logForm" class="form-horizontal" role="form">
         <div class="form-group">
@@ -10,6 +15,13 @@
         <div class="form-group">
             <label for="keyword" class="col-sm-1">Keyword</label>
             <input wicket:id="keyword" type="text" id="keyword" autofocus/>
+
+        </div>
+        <div class="form-group">
+            <label for="datetimepickerStart" class="col-sm-1">Start</label>
+            <input id="datetimepickerStart" class="col-sm-2" type="text"/>
+            <label for="datetimepickerEnd" class="col-sm-1">End</label>
+            <input id="datetimepickerEnd"  class="col-sm-2" type="text"/>
         </div>
 
         <div class="form-group">
@@ -39,5 +51,14 @@
             </tbody>
         </table>
     </div>
+
+    <script src="js/jquery.datetimepicker.js"></script>
+    <script>
+        $(function() {
+            $('#datetimepickerStart').datetimepicker();
+            $('#datetimepickerEnd').datetimepicker();
+        })
+    </script>
+
 </wicket:panel>
 </html>
