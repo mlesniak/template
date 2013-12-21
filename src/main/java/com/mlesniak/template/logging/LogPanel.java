@@ -89,7 +89,7 @@ public class LogPanel extends Panel implements Serializable {
         model.setLevel(Level.ALL);
         form.add(level);
 
-        AjaxFallbackButton button = new AjaxFallbackButton("submit", form) {
+        AjaxFallbackButton searchButton = new AjaxFallbackButton("submit", form) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 super.onSubmit(target, form);
@@ -98,7 +98,7 @@ public class LogPanel extends Panel implements Serializable {
                 target.focusComponent(keyword);
             }
         };
-        form.add(button);
+        form.add(searchButton);
 
         final TextField<String> startTime = new TextField<>("startTime");
         startTime.setOutputMarkupId(true);
@@ -108,6 +108,7 @@ public class LogPanel extends Panel implements Serializable {
         endTime.setOutputMarkupId(true);
         form.add(endTime);
 
+        form.setOutputMarkupId(true);
         add(form);
     }
 
