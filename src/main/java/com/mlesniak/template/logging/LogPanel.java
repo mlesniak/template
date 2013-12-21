@@ -30,14 +30,14 @@ public class LogPanel extends Panel implements Serializable {
     private static List<Level> availableLevel = availableLogLevels();
     private List<LogDO> logDOs = new LinkedList<>();
 
-    private ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
+    private transient ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
             return new SimpleDateFormat("yyyy-MM-dd");
         }
     };
 
-    private ThreadLocal<SimpleDateFormat> simpleTimeFormat = new ThreadLocal<SimpleDateFormat>() {
+    private transient ThreadLocal<SimpleDateFormat> simpleTimeFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
             return new SimpleDateFormat("HH:mm:ss.SSS");
@@ -100,6 +100,14 @@ public class LogPanel extends Panel implements Serializable {
         };
         form.add(button);
 
+        final TextField<String> startTime = new TextField<>("startTime");
+        startTime.setOutputMarkupId(true);
+        form.add(startTime);
+
+        final TextField<String> endTime = new TextField<>("endTime");
+        endTime.setOutputMarkupId(true);
+        form.add(endTime);
+
         add(form);
     }
 
@@ -112,6 +120,8 @@ public class LogPanel extends Panel implements Serializable {
         LogFilter logFilter = LogFilter.start();
         logFilter.addKeyword(model.getKeyword());
         logFilter.addLevel(model.getLevel());
+        logFilter.addStartTime(model.getStartTime());
+        logFilter.addEndTime(model.getEndTime());
         logFilter.build();
         System.out.println(logFilter);
         return logFilter;

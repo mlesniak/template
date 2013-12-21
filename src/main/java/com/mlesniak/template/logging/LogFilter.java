@@ -1,13 +1,29 @@
 package com.mlesniak.template.logging;
 
 import ch.qos.logback.classic.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LogFilter {
+    private Logger log = LoggerFactory.getLogger(LogFilter.class);
+    
     private Level level;
     private String keyword;
+    private long startTime;
+    private long endTime;
+
+    private transient ThreadLocal<SimpleDateFormat> dateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        }
+    };
 
     private LogFilter() {
         // Empty.
@@ -16,6 +32,35 @@ public class LogFilter {
     public static LogFilter start() {
         return new LogFilter();
     }
+
+    public LogFilter addStartTime(String start) {
+        if (start == null) {
+            return this;
+        }
+
+        try {
+            Date date = dateTimeFormat.get().parse(start);
+            startTime = date.getTime();
+        } catch (ParseException e) {
+            log.error("Unable to parse start time. startTime=" + start);
+        }
+        return this;
+    }
+
+    public LogFilter addEndTime(String end) {
+        if (end == null) {
+            return this;
+        }
+
+        try {
+            Date date = dateTimeFormat.get().parse(end);
+            endTime = date.getTime();
+        } catch (ParseException e) {
+            log.error("Unable to parse end time. endTime=" + end);
+        }
+        return this;
+    }
+
 
     public LogFilter addLevel(Level level) {
         this.level = level;
@@ -59,6 +104,9 @@ public class LogFilter {
         return "LogFilter{" +
                 "level=" + level +
                 ", keyword='" + keyword + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", dateTimeFormat=" + dateTimeFormat +
                 '}';
     }
 }
