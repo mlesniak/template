@@ -15,8 +15,8 @@ public class LogFilter {
     
     private Level level;
     private String keyword;
-    private long startTime;
-    private long endTime;
+    private Long startTime;
+    private Long endTime;
 
     private transient ThreadLocal<SimpleDateFormat> dateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
