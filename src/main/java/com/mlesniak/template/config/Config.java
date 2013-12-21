@@ -103,7 +103,7 @@ public class Config {
     }
 
     public void enableDatabaseResolution() {
-        log.info("Database resolution enabled.");
+        log.debug("Database resolution enabled.");
         databaseResolution = true;
     }
 
