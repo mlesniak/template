@@ -20,6 +20,10 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
         return result;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     @Override
     public Roles getRoles() {
         Roles resultRoles = new Roles();

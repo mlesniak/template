@@ -1,8 +1,11 @@
 package com.mlesniak.template.navbar;
 
+import com.mlesniak.template.auth.BasicAuthenticationSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 
 public class NavigationBarPanel extends Panel {
     public NavigationBarPanel(String id) {
@@ -17,7 +20,7 @@ public class NavigationBarPanel extends Panel {
         };
         add(adminMenu);
 
-        WebMarkupContainer loginMenu= new WebMarkupContainer("loginMenu") {
+        WebMarkupContainer loginMenu = new WebMarkupContainer("loginMenu") {
             @Override
             public boolean isVisible() {
                 return !AuthenticatedWebSession.get().isSignedIn();
@@ -25,12 +28,26 @@ public class NavigationBarPanel extends Panel {
         };
         add(loginMenu);
 
-        WebMarkupContainer logoutnMenu= new WebMarkupContainer("logoutMenu") {
+        WebMarkupContainer logoutMenu = new WebMarkupContainer("logoutMenu") {
             @Override
             public boolean isVisible() {
                 return AuthenticatedWebSession.get().isSignedIn();
             }
         };
-        add(logoutnMenu);
+        add(logoutMenu);
+
+        add(new Label("loggedInAs", new Model<String>() {
+            @Override
+            public String getObject() {
+                return get("panel.loggedInAs") + " " +
+                        ((BasicAuthenticationSession) AuthenticatedWebSession.get()).getUsername();
+            }
+        }) {
+            @Override
+            public boolean isVisible() {
+                return AuthenticatedWebSession.get().isSignedIn();
+            }
+        });
+
     }
 }
