@@ -30,13 +30,6 @@ public class HomePage extends WebPage {
 
         addMessageInputField();
         addNotVisibleLabel();
-
-        // Pure debugging:
-        LogFilter logFilter = LogFilter.start().addLevel(Level.INFO);
-        List<LogDO> logByFilter = LogDao.get().getLogByFilter(logFilter);
-        for (LogDO logDo : logByFilter) {
-            System.out.println(logDo);
-        }
     }
 
     private void addNotVisibleLabel() {
