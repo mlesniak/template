@@ -8,24 +8,33 @@
 <wicket:panel>
     <form wicket:id="logForm" class="form-horizontal" role="form">
         <div class="form-group">
-            <label for="level" class="col-sm-1">Level</label>
+            <label for="level" class="col-sm-1">
+                <wicket:message key="logpanel.level"/>
+            </label>
             <select wicket:id="level" name="level" id="level"/>
         </div>
 
         <div class="form-group">
-            <label for="keyword" class="col-sm-1">Keyword</label>
+            <label for="keyword" class="col-sm-1">
+                <wicket:message key="logpanel.keyword"/>
+            </label>
             <input wicket:id="keyword" type="text" id="keyword" autofocus/>
 
         </div>
         <div class="form-group">
-            <label for="datetimepickerStart" class="col-sm-1">Start</label>
+            <label for="datetimepickerStart" class="col-sm-1">
+                <wicket:message key="logpanel.start"/>
+            </label>
             <input wicket:id="startTime" id="datetimepickerStart" class="col-sm-2" type="text"/>
-            <label for="datetimepickerEnd" class="col-sm-1">End</label>
-            <input wicket:id="endTime" id="datetimepickerEnd"  class="col-sm-2" type="text"/>
+            <label for="datetimepickerEnd" class="col-sm-1">
+                <wicket:message key="logpanel.end"/>
+            </label>
+            <input wicket:id="endTime" id="datetimepickerEnd" class="col-sm-2" type="text"/>
         </div>
 
         <div class="form-group">
-            <input wicket:id="submit" type="submit" class="btn btn-default col-sm-offset-1 col-sm-1" value="Search"/>
+            <input wicket:id="submit" type="submit" class="btn btn-default col-sm-offset-1 col-sm-1"
+                   wicket:message="value:logpanel.search"/>
         </div>
     </form>
 
@@ -33,12 +42,12 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th class="col-sm-1">Event</th>
-                <th class="col-sm-1">Date</th>
-                <th class="col-sm-1">Time</th>
-                <th class="col-sm-1">Level</th>
-                <th class="col-sm-1">Class</th>
-                <th>Message</th>
+                <th class="col-sm-1"><wicket:message key="logpanel.event"/></th>
+                <th class="col-sm-1"><wicket:message key="logpanel.date"/></th>
+                <th class="col-sm-1"><wicket:message key="logpanel.time"/></th>
+                <th class="col-sm-1"><wicket:message key="logpanel.level"/></th>
+                <th class="col-sm-1"><wicket:message key="logpanel.class"/></th>
+                <th><wicket:message key="logpanel.message"/></th>
             </tr>
             </thead>
             <tbody>
@@ -56,8 +65,8 @@
 
     <script src="js/jquery.datetimepicker.js"></script>
     <script>
-        $(function() {
-            $('#datetimepickerStart').datetimepicker( {
+        $(function () {
+            $('#datetimepickerStart').datetimepicker({
                 validateOnBlur: false,
                 style: 'top: 50px !important;'
             });
