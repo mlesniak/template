@@ -15,6 +15,7 @@ public class Config {
 
     public enum Key {
         allowSubmit(),
+        showDefaultOptions(),
 
         // Database configuration.
         databaseDriver("database.driver"),

@@ -30,11 +30,20 @@ public class ConfigPanel extends Panel {
             @Override
             protected void onSubmit() {
                 super.onSubmit();
+                boolean reload = false;
                 for (Map.Entry<Config.Key, String> entry : model.entrySet()) {
                     if (isChangeableKey(entry.getKey())) {
+                        if (entry.getKey().equals(Config.Key.showDefaultOptions)) {
+                            reload = true;
+                        }
+
                         Config.get().set(entry.getKey(), entry.getValue());
                         log.info("Storing new value. " + entry.getKey() + ": " + entry.getValue());
                     }
+                }
+
+                if (reload) {
+                    setResponsePage(getPage());
                 }
             }
         };
@@ -70,6 +79,7 @@ public class ConfigPanel extends Panel {
                 if (!isChangeableKey(item.getModelObject())) {
                     inputField.setEnabled(false);
                     label.add(new AttributeAppender("class", "disabled"));
+                    item.setVisible(Config.get().getBoolean(Config.Key.showDefaultOptions));
                 }
             }
 
