@@ -3,7 +3,7 @@ package com.mlesniak.template.app;
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.dao.MessageDao;
 import com.mlesniak.template.model.Message;
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import com.mlesniak.template.navbar.NavigationBarPanel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -25,6 +25,8 @@ public class HomePage extends WebPage {
 
         addMessageInputField();
         addNotVisibleLabel();
+
+        add(new NavigationBarPanel("navigationBar"));
     }
 
     private void addNotVisibleLabel() {
