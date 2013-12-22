@@ -1,6 +1,7 @@
 package com.mlesniak.template.app;
 
 import com.mlesniak.template.config.ConfigPanel;
+import com.mlesniak.template.navbar.NavigationBarPanel;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -19,5 +20,7 @@ public class ConfigPage extends WebPage {
 
         ConfigPanel configPanel = new ConfigPanel("configPanel");
         add(configPanel);
+
+        add(new NavigationBarPanel("navigationBar"));
     }
 }
