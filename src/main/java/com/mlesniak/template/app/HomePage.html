@@ -25,17 +25,21 @@
                 <li class="active"><a href="/app">
                     <wicket:message key="application.home"/>
                 </a></li>
-                <li><a href="config">
-                    <wicket:message key="application.configuration"/>
-                </a></li>
-                <li><a href="log">
-                    <wicket:message key="application.logging"/>
-                </a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="config">
+                            <wicket:message key="application.configuration"/>
+                        </a></li>
+                        <li><a href="log">
+                            <wicket:message key="application.logging"/>
+                        </a></li>
+                    </ul>
+                </li>
+
                 <li><a href="logout">
                     <wicket:message key="application.logout"/>
-                </a></li>
-                <li><a href="#contact">
-                    <wicket:message key="application.contact"/>
                 </a></li>
             </ul>
         </div>
@@ -45,11 +49,12 @@
 <div class="container">
     <div class="starter-template">
         <div style="text-align: center;">
-        <form wicket:id="messageForm" method="post">
-            <input wicket:id="message" type="text" wicket:message="placeholder:form.welcomeMessage" size="80" autofocus/>
-            <input type="submit" class="btn btn-default" wicket:message="value:form.submit"/>
-        </form>
-        <span wicket:id="disabledMessage"/>
+            <form wicket:id="messageForm" method="post">
+                <input wicket:id="message" type="text" wicket:message="placeholder:form.welcomeMessage" size="80"
+                       autofocus/>
+                <input type="submit" class="btn btn-default" wicket:message="value:form.submit"/>
+            </form>
+            <span wicket:id="disabledMessage"/>
         </div>
     </div>
 </div>
