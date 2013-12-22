@@ -14,7 +14,6 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@AuthorizeInstantiation("USER")
 public class HomePage extends WebPage {
     private Logger log = LoggerFactory.getLogger(HomePage.class);
 
