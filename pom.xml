@@ -10,6 +10,12 @@
     <version>1.0-SNAPSHOT</version>
     <name>template</name>
 
+    <properties>
+        <wicket.version>6.12.0</wicket.version>
+        <jetty.version>7.6.13.v20130916</jetty.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
         <!--Persistence-->
         <dependency>
@@ -73,11 +79,6 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <wicket.version>6.12.0</wicket.version>
-        <jetty.version>7.6.13.v20130916</jetty.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <build>
         <!--For HTML and other resources-->
         <resources>
