@@ -43,6 +43,7 @@ public class ConfigPanel extends Panel {
                 }
 
                 if (reload) {
+                    getSession().invalidateNow();
                     setResponsePage(getPage());
                 }
             }
