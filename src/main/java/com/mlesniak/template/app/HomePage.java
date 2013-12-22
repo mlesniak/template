@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Locale;
 
 public class HomePage extends WebPage {
     private Logger log = LoggerFactory.getLogger(HomePage.class);
@@ -27,7 +26,7 @@ public class HomePage extends WebPage {
         super(parameters);
 
         // For I18N-testing.
-        getSession().setLocale(Locale.GERMANY);
+        // getSession().setLocale(Locale.GERMANY);
 
         addMessageInputField();
         addNotVisibleLabel();

@@ -13,6 +13,8 @@ public class Config {
     private static Config INSTANCE;
     private boolean databaseResolution = false;
 
+
+
     public enum Key {
         allowSubmit(),
         showDefaultOptions(),
@@ -22,9 +24,8 @@ public class Config {
         databaseURL("database.url"),
         databaseUsername("database.user"),
         databasePassword("database.password"),
-        databaseGeneration("database.generation"),
+        databaseGeneration("database.generation");
         ;
-
         private final String path;
 
         Key() {
@@ -52,8 +53,8 @@ public class Config {
 
             return null;
         }
-    }
 
+    }
     private Config() {
         properties = new Properties();
         load();
@@ -122,5 +123,12 @@ public class Config {
             return properties.getProperty(key.get());
         }
         return ConfigDao.get().get(key).getValue();
+    }
+
+    public void resetToConfigFile() {
+        databaseResolution = false;
+        ConfigDao.get().clear();
+        ConfigDao.get().initializeFromPropertiesFile();
+        databaseResolution = true;
     }
 }

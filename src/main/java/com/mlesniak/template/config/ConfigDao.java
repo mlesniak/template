@@ -95,4 +95,16 @@ public class ConfigDao extends BaseDao {
         em.getTransaction().commit();
         em.close();
     }
+
+    public void clear() {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM ConfigDO").executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void initializeFromPropertiesFile() {
+        storeNewKeysInDatabase();
+    }
 }

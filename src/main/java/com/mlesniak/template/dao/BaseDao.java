@@ -38,7 +38,7 @@ public class BaseDao {
         factory = Persistence.createEntityManagerFactory("database", configuration);
     }
 
-    private static void storeNewKeysInDatabase() {
+    protected static void storeNewKeysInDatabase() {
         Config config = Config.get();
         log.debug("Updating database");
         ConfigDao dao = ConfigDao.get();

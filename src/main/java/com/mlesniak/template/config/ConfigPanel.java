@@ -1,6 +1,8 @@
 package com.mlesniak.template.config;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -23,6 +25,8 @@ public class ConfigPanel extends Panel {
         final Map<Config.Key, String> model = Config.get().getConfig();
         Form form = createForm(model);
         add(form);
+
+        addResetButton(model, form);
     }
 
     private Form createForm(final Map<Config.Key, String> model) {
@@ -117,5 +121,20 @@ public class ConfigPanel extends Panel {
 
     private boolean isChangeableKey(Config.Key key) {
         return !key.get().startsWith("database.");
+    }
+
+    private void addResetButton(final Map<Config.Key, String> model, final Form form) {
+        AjaxFallbackButton resetButton = new AjaxFallbackButton("resetButton", form) {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                super.onSubmit(target, form);
+                log.info("Resetting configuration.");
+                Config.get().resetToConfigFile();
+                getSession().invalidateNow();
+                setResponsePage(getPage());
+                model.clear();
+            }
+        };
+        form.add(resetButton);
     }
 }
