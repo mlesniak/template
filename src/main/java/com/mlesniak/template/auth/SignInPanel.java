@@ -1,5 +1,6 @@
 package com.mlesniak.template.auth;
 
+import com.mlesniak.template.app.HomePage;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -22,6 +23,7 @@ public class SignInPanel extends Panel {
                 boolean authResult = AuthenticatedWebSession.get().signIn(model.getUsername(), model.getPassword());
                 if (authResult) {
                     continueToOriginalDestination();
+                    setResponsePage(HomePage.class);
                 }
             }
         };

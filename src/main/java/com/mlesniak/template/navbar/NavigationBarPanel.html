@@ -23,7 +23,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav pull-right">
-                    <li class="dropdown">
+                    <li wicket:id="adminMenu"  class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="config">
@@ -34,10 +34,23 @@
                             </a></li>
                         </ul>
                     </li>
-                    <li><a href="logout">
+
+                    <li wicket:id="loginMenu" ><a href="login">
+                        <wicket:message key="application.login"/>
+                    </a></li>
+
+                    <li wicket:id="logoutMenu"><a href="logout">
                         <wicket:message key="application.logout"/>
                     </a></li>
                 </ul>
+
+                <!--<ul class="nav navbar-nav pull-right">-->
+                    <!---->
+                <!--</ul>-->
+
+                <!--<ul  class="nav navbar-nav pull-right">-->
+                    <!---->
+                <!--</ul>-->
             </div>
         </div>
     </div>
