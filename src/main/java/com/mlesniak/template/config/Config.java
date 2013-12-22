@@ -110,7 +110,7 @@ public class Config {
 
     public void set(Key key, String value) {
         if (!databaseResolution) {
-            log.warn("Key not set. Database initalization not finished.");
+            log.warn("Key not set. Database initalization not finished. key=" + key.get());
             return;
         }
 
