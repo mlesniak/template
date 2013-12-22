@@ -1,12 +1,9 @@
 package com.mlesniak.template.app;
 
-import ch.qos.logback.classic.Level;
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.dao.MessageDao;
-import com.mlesniak.template.logging.LogDO;
-import com.mlesniak.template.logging.LogDao;
-import com.mlesniak.template.logging.LogFilter;
 import com.mlesniak.template.model.Message;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,8 +14,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
+@AuthorizeInstantiation("USER")
 public class HomePage extends WebPage {
     private Logger log = LoggerFactory.getLogger(HomePage.class);
 

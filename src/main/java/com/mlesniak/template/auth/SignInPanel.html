@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+
+<wicket:panel>
+    <form wicket:id="signInForm">
+
+        <div class="form-group">
+            <label for="username" class="col-sm-1">
+                <wicket:message key="panel.username"/>
+            </label>
+            <input wicket:id="username" type="text" id="username" autofocus/>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-1">
+                <wicket:message key="panel.password"/>
+            </label>
+            <input wicket:id="password" type="password" id="password" />
+        </div>
+
+        <input type="submit" class="btn btn-default col-sm-offset-1 col-sm-1" wicket:message="value:panel.submit"/>
+    </form>
+</wicket:panel>
+
+</html>
