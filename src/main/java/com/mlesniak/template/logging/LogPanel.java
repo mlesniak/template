@@ -50,9 +50,7 @@ public class LogPanel extends Panel implements Serializable {
         final LogModel model = new LogModel();
         Form<LogModel> form = new Form<>("logForm", new CompoundPropertyModel<>(model));
 
-        final TextField<String> keyword = new TextField<>("keyword");
-        keyword.setOutputMarkupId(true);
-        form.add(keyword);
+        final TextField<String> keyword = addKeywordField(form);
 
         IModel logs = new LoadableDetachableModel<List<LogDO>>() {
             @Override
@@ -61,6 +59,17 @@ public class LogPanel extends Panel implements Serializable {
             }
         };
 
+        final WebMarkupContainer container = addLogListView(logs);
+
+        addLevelField(model, form);
+        addSearchButton(model, form, keyword, container);
+        addDateFields(form);
+
+        form.setOutputMarkupId(true);
+        add(form);
+    }
+
+    private WebMarkupContainer addLogListView(final IModel logs) {
         final ListView<LogDO> listView = new ListView<LogDO>("listview", logs) {
             @Override
             protected void populateItem(ListItem<LogDO> item) {
@@ -86,11 +95,10 @@ public class LogPanel extends Panel implements Serializable {
         container.add(listView);
         container.setOutputMarkupId(true);
         add(container);
+        return container;
+    }
 
-        DropDownChoice<Level> level = new DropDownChoice<>("level", availableLevel);
-        model.setLevel(Level.ALL);
-        form.add(level);
-
+    private void addSearchButton(final LogModel model, final Form<LogModel> form, final TextField<String> keyword, final WebMarkupContainer container) {
         AjaxFallbackButton searchButton = new AjaxFallbackButton("submit", form) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -101,7 +109,15 @@ public class LogPanel extends Panel implements Serializable {
             }
         };
         form.add(searchButton);
+    }
 
+    private void addLevelField(LogModel model, Form<LogModel> form) {
+        DropDownChoice<Level> level = new DropDownChoice<>("level", availableLevel);
+        model.setLevel(Level.ALL);
+        form.add(level);
+    }
+
+    private void addDateFields(Form<LogModel> form) {
         final TextField<String> startTime = new TextField<>("startTime");
         startTime.setOutputMarkupId(true);
         form.add(startTime);
@@ -109,9 +125,13 @@ public class LogPanel extends Panel implements Serializable {
         final TextField<String> endTime = new TextField<>("endTime");
         endTime.setOutputMarkupId(true);
         form.add(endTime);
+    }
 
-        form.setOutputMarkupId(true);
-        add(form);
+    private TextField<String> addKeywordField(Form<LogModel> form) {
+        final TextField<String> keyword = new TextField<>("keyword");
+        keyword.setOutputMarkupId(true);
+        form.add(keyword);
+        return keyword;
     }
 
     public void handleSubmit(LogModel model) {

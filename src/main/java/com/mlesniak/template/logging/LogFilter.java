@@ -90,7 +90,6 @@ public class LogFilter {
             attributeQueries.add(" l.timestamp <= " + endTime);
         }
 
-
         if (!attributeQueries.isEmpty()) {
             sb.append(" WHERE ");
             for (int i = 0; i < attributeQueries.size(); i++) {
