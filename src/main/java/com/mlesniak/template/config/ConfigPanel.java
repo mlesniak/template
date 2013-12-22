@@ -70,6 +70,16 @@ public class ConfigPanel extends Panel {
                         model.put(item.getModelObject(), newValue);
                     }
                 });
+
+                try {
+                    String documentation = getString(item.getModelObject().get());
+                    if (documentation != null) {
+                        inputField.add(new AttributeModifier("title", documentation));
+                    }
+                } catch (MissingResourceException e) {
+                    // This is ok.
+                }
+
                 handleAutoFocusOnFirstElement(item, inputField);
                 handleDatabaseDisabeled(item, label, inputField);
                 item.add(inputField);
