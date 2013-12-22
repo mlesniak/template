@@ -63,16 +63,20 @@
         </table>
     </div>
 
+    <span id="lang" style="display:none"><wicket:message key="logpanel.lang"/></span>
+
     <script src="js/jquery.datetimepicker.js"></script>
     <script>
         $(function () {
             $('#datetimepickerStart').datetimepicker({
                 validateOnBlur: false,
-                style: 'top: 50px !important;'
+                style: 'top: 50px !important;',
+                lang: $("#lang").text()
             });
             $('#datetimepickerEnd').datetimepicker({
                 validateOnBlur: false,
-                style: 'top: 50px !important;'
+                style: 'top: 50px !important;',
+                lang: $("#lang").text()
             });
         })
     </script>
