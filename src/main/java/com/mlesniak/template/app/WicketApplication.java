@@ -3,6 +3,7 @@ package com.mlesniak.template.app;
 import com.mlesniak.template.auth.BasicAuthenticationSession;
 import com.mlesniak.template.auth.LogoutPage;
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.dao.UserDao;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
@@ -32,6 +33,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         super.init();
         log.info("Starting application.");
         Config.get().init();
+        UserDao.get().addAdminUser();
 
         mountPage("/config", ConfigPage.class);
         mountPage("/log", LogPage.class);

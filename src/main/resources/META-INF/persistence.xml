@@ -4,6 +4,7 @@
              version="1.0">
     <persistence-unit name="database" transaction-type="RESOURCE_LOCAL">
         <class>com.mlesniak.template.model.Message</class>
+        <class>com.mlesniak.template.model.UserDO</class>
 
         <!--Application-independent DOs-->
         <class>com.mlesniak.template.config.ConfigDO</class>

@@ -24,7 +24,12 @@ public class Config {
         databaseURL("database.url"),
         databaseUsername("database.user"),
         databasePassword("database.password"),
-        databaseGeneration("database.generation");
+        databaseGeneration("database.generation"),
+
+        defaultAdminUsername("database.admin.username"),
+        defaultAdminPassword("database.admin.password"),
+        defaultAdminEmail("database.admin.email"),
+        defaultAdminRoles("database.admin.roles"),
         ;
         private final String path;
 
