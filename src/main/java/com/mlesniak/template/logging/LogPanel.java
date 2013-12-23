@@ -136,7 +136,6 @@ public class LogPanel extends Panel implements Serializable {
 
     public void handleSubmit(LogModel model) {
         logDOs = LogDao.get().getLogByFilter(modelToLogFilter(model));
-        System.out.println(logDOs.size());
     }
 
     private LogFilter modelToLogFilter(LogModel model) {
@@ -146,7 +145,6 @@ public class LogPanel extends Panel implements Serializable {
         logFilter.addStartTime(model.getStartTime());
         logFilter.addEndTime(model.getEndTime());
         logFilter.build();
-        System.out.println(logFilter);
         return logFilter;
     }
 
