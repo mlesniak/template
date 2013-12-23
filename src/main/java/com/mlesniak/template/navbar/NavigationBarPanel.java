@@ -39,7 +39,7 @@ public class NavigationBarPanel extends Panel {
         add(new Label("loggedInAs", new Model<String>() {
             @Override
             public String getObject() {
-                return get("panel.loggedInAs") + " " +
+                return getString("panel.loggedInAs") + " " +
                         ((BasicAuthenticationSession) AuthenticatedWebSession.get()).getUsername();
             }
         }) {
@@ -49,5 +49,6 @@ public class NavigationBarPanel extends Panel {
             }
         });
 
+        // add to logout container
     }
 }
