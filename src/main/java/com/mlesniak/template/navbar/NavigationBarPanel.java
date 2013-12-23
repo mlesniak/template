@@ -11,31 +11,12 @@ public class NavigationBarPanel extends Panel {
     public NavigationBarPanel(String id) {
         super(id);
 
-        WebMarkupContainer adminMenu = new WebMarkupContainer("adminMenu") {
-            @Override
-            public boolean isVisible() {
-                AuthenticatedWebSession session = AuthenticatedWebSession.get();
-                return session.isSignedIn() && session.getRoles().hasRole("ADMIN");
-            }
-        };
-        add(adminMenu);
+        addLoginMenu();
+        addLoggedInMenu();
+        addAdminMenu();
+    }
 
-        WebMarkupContainer loginMenu = new WebMarkupContainer("loginMenu") {
-            @Override
-            public boolean isVisible() {
-                return !AuthenticatedWebSession.get().isSignedIn();
-            }
-        };
-        add(loginMenu);
-
-        WebMarkupContainer logoutMenu = new WebMarkupContainer("logoutMenu") {
-            @Override
-            public boolean isVisible() {
-                return AuthenticatedWebSession.get().isSignedIn();
-            }
-        };
-        add(logoutMenu);
-
+    private void addLoggedInMenu() {
         add(new Label("loggedInAs", new Model<String>() {
             @Override
             public String getObject() {
@@ -48,7 +29,26 @@ public class NavigationBarPanel extends Panel {
                 return AuthenticatedWebSession.get().isSignedIn();
             }
         });
+    }
 
-        // add to logout container
+    private void addAdminMenu() {
+        WebMarkupContainer adminMenu = new WebMarkupContainer("adminMenu") {
+            @Override
+            public boolean isVisible() {
+                AuthenticatedWebSession session = AuthenticatedWebSession.get();
+                return session.isSignedIn() && session.getRoles().hasRole("ADMIN");
+            }
+        };
+        add(adminMenu);
+    }
+
+    private void addLoginMenu() {
+        WebMarkupContainer loginMenu = new WebMarkupContainer("loginMenu") {
+            @Override
+            public boolean isVisible() {
+                return !AuthenticatedWebSession.get().isSignedIn();
+            }
+        };
+        add(loginMenu);
     }
 }

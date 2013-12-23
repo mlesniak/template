@@ -22,8 +22,14 @@
                     </a></li>
                 </ul>
 
-                <ul class="nav navbar-nav pull-right">
-                    <li wicket:id="adminMenu"  class="dropdown">
+                <ul wicket:enclosure class="nav navbar-nav pull-right">
+                    <li wicket:id="loginMenu"><a href="login">
+                        <wicket:message key="application.login"/>
+                    </a></li>
+                </ul>
+
+                <ul wicket:enclosure="loggedInAs" class="nav navbar-nav pull-right">
+                    <li wicket:id="adminMenu" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="config">
@@ -35,16 +41,14 @@
                         </ul>
                     </li>
 
-                    <li wicket:id="loginMenu" ><a href="login">
-                        <wicket:message key="application.login"/>
-                    </a></li>
-
                     <li wicket:id="loggedInAs" class="navbar-text">
                         <a href="" class="disabled">LOGGED IN AS</a>
                     </li>
 
-                    <li wicket:id="logoutMenu">
-                        <a href="logout"><wicket:message key="application.logout"/></a>
+                    <li>
+                        <a href="logout">
+                            <wicket:message key="application.logout"/>
+                        </a>
                     </li>
                 </ul>
             </div>
