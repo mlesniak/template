@@ -30,7 +30,7 @@ public class SignInPanel extends Panel {
                     continueToOriginalDestination();
                     setResponsePage(HomePage.class);
                 } else {
-                    log.info("Failed attempt to log in. username=" + model.getUsername());
+                    log.warn("Failed attempt to log in. username=" + model.getUsername());
                 }
             }
         };
