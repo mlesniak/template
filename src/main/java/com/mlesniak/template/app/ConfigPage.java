@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @AuthorizeInstantiation("ADMIN")
-public class ConfigPage extends WebPage {
+public class ConfigPage extends BasePage {
     private Logger log = LoggerFactory.getLogger(ConfigPage.class);
 
     public ConfigPage(final PageParameters parameters) {
