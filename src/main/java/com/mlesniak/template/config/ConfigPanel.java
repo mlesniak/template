@@ -47,8 +47,7 @@ public class ConfigPanel extends Panel {
                 }
 
                 if (reload) {
-                    getSession().invalidateNow();
-                    setResponsePage(getPage());
+                    setResponsePage(getPage().getClass());
                 }
             }
         };
@@ -130,8 +129,7 @@ public class ConfigPanel extends Panel {
                 super.onSubmit(target, form);
                 log.info("Resetting configuration.");
                 Config.get().resetToConfigFile();
-                getSession().invalidateNow();
-                setResponsePage(getPage());
+                setResponsePage(getPage().getClass());
                 model.clear();
             }
         };
