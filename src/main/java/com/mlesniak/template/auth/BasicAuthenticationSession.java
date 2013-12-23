@@ -3,8 +3,11 @@ package com.mlesniak.template.auth;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasicAuthenticationSession extends AuthenticatedWebSession {
+    private Logger log = LoggerFactory.getLogger(BasicAuthenticationSession.class);
     private String username;
 
     public BasicAuthenticationSession(Request request) {

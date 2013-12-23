@@ -7,8 +7,12 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SignInPanel extends Panel {
+    private Logger log = LoggerFactory.getLogger(SignInPanel.class);
+
     public SignInPanel(String id) {
         super(id);
 
@@ -22,8 +26,11 @@ public class SignInPanel extends Panel {
 
                 boolean authResult = AuthenticatedWebSession.get().signIn(model.getUsername(), model.getPassword());
                 if (authResult) {
+                    log.info("User logged in. username=" + model.getUsername());
                     continueToOriginalDestination();
                     setResponsePage(HomePage.class);
+                } else {
+                    log.info("Failed attempt to log in. username=" + model.getUsername());
                 }
             }
         };
