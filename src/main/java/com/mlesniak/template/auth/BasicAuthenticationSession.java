@@ -1,5 +1,8 @@
 package com.mlesniak.template.auth;
 
+import com.mlesniak.template.dao.UserDao;
+import com.mlesniak.template.model.UserDO;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
@@ -8,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class BasicAuthenticationSession extends AuthenticatedWebSession {
     private Logger log = LoggerFactory.getLogger(BasicAuthenticationSession.class);
-    private String username;
+    private UserDO user;
 
     public BasicAuthenticationSession(Request request) {
         super(request);
@@ -16,15 +19,20 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
 
     @Override
     public boolean authenticate(String username, String password) {
-        boolean result = username.equals(password);
+        UserDO user = UserDao.get().getByUsername(username);
+        if (user == null) {
+            return false;
+        }
+
+        boolean result = DigestUtils.md5Hex(username + password).equals(user.getPassword());
         if (result) {
-            this.username = username;
+            this.user = user;
         }
         return result;
     }
 
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     @Override
@@ -32,11 +40,9 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
         Roles resultRoles = new Roles();
 
         if (isSignedIn()) {
-            resultRoles.add(Roles.USER);
-        }
-
-        if (username != null && username.equals("m")) {
-            resultRoles.add(Roles.ADMIN);
+            for (String role : user.getRoles().split(",")) {
+                resultRoles.add(role);
+            }
         }
 
         return resultRoles;
