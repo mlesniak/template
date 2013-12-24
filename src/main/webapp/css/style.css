@@ -25,3 +25,11 @@ h1 {
     font-family: monospace;
     font-size: 18pt;
 }
+
+/* Gravatar support*/
+.navbar-text img {
+    max-height:20px;
+    width:auto;
+    vertical-align:middle;
+    margin-right: -30px;
+}

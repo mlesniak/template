@@ -17,7 +17,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/app">
+                    <li><a href="/app">
                         <wicket:message key="application.home"/>
                     </a></li>
                 </ul>
@@ -41,8 +41,12 @@
                         </ul>
                     </li>
 
+                    <li class="navbar-text">
+                        <img  wicket:id="gravatar" src="http://www.gravatar.com/avatar/88c03b703c520710e22b79c9d9643679?s=30"/>
+                    </li>
+
                     <li wicket:id="loggedInAs" class="navbar-text">
-                        <a href="" class="disabled">LOGGED IN AS</a>
+                        Username
                     </li>
 
                     <li>

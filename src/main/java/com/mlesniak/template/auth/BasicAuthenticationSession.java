@@ -47,4 +47,8 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
 
         return resultRoles;
     }
+
+    public UserDO getUser() {
+        return user;
+    }
 }

@@ -1,6 +1,8 @@
 package com.mlesniak.template.navbar;
 
 import com.mlesniak.template.auth.BasicAuthenticationSession;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -14,14 +16,30 @@ public class NavigationBarPanel extends Panel {
         addLoginMenu();
         addLoggedInMenu();
         addAdminMenu();
+        addGravatarImage();
+    }
+
+    private void addGravatarImage() {
+        WebMarkupContainer container = new WebMarkupContainer("gravatar");
+        add(container);
+
+        BasicAuthenticationSession session = (BasicAuthenticationSession) getSession();
+        if (session.isSignedIn()) {
+            String email = session.getUser().getEmail();
+            if (email == null) {
+                email = "";
+            }
+
+            String url = "http://www.gravatar.com/avatar/" + DigestUtils.md5Hex(email) + "?s=30";
+            container.add(new AttributeModifier("src", new Model<>(url)));
+        }
     }
 
     private void addLoggedInMenu() {
         add(new Label("loggedInAs", new Model<String>() {
             @Override
             public String getObject() {
-                return getString("panel.loggedInAs") + " " +
-                        ((BasicAuthenticationSession) AuthenticatedWebSession.get()).getUsername();
+                return ((BasicAuthenticationSession) AuthenticatedWebSession.get()).getUsername();
             }
         }) {
             @Override
