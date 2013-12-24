@@ -31,7 +31,6 @@ public class SignInPanel extends Panel {
                     setResponsePage(HomePage.class);
                 } else {
                     log.warn("Failed attempt to log in. username=" + model.getUsername());
-                    throw new NullPointerException();
                 }
             }
         };
