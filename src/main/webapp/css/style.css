@@ -16,3 +16,12 @@ h1 {
 .divider {
     border-bottom: solid 1px;
 }
+
+.errorCode {
+    text-align: center;
+}
+
+.errorCodeMessage {
+    font-family: monospace;
+    font-size: 18pt;
+}

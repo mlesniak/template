@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="utf-8"/>
+    <title wicket:id="pageTitle">Dummy</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="Stylesheet"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+<span wicket:id="navigationBar"/>
+
+<div class="container">
+    <h1>
+        <wicket:message key="internalError"/>
+    </h1>
+    <div class="errorCode">
+        <wicket:message key="errorCode"/><br/>
+        <span wicket:id="errorCode" class="errorCodeMessage"></span>
+    </div>
+</div>
+
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>

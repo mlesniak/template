@@ -14,8 +14,8 @@ public class UserDO implements Serializable {
 
     @Column(unique = true)
     private String username;
-
     private String password;
+    @Column(unique = true)
     private String email;
     private String roles;
 
