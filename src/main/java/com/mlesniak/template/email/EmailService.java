@@ -8,8 +8,6 @@ import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-
 public class EmailService  {
     private Logger log = LoggerFactory.getLogger(EmailService.class);
     private static EmailService INSTANCE;
@@ -22,7 +20,7 @@ public class EmailService  {
         return INSTANCE;
     }
 
-    public void sendEmail() {
+    public void sendEmail(String to, String subject, String message) {
         Email email = new SimpleEmail();
         Config config = Config.get();
 
@@ -34,10 +32,10 @@ public class EmailService  {
             email.setAuthenticator(auth);
             email.setSSLOnConnect(true);
             email.setFrom(config.get(Config.Key.emailFrom));
-            email.setSubject("[mlesniak.com] Statistic (" + new Date() + ")");
-            email.setMsg("Hello, world");
-            email.addTo("mail@mlesniak.com");
-//            email.send();
+            email.setSubject(subject);
+            email.setMsg(message);
+            email.addTo(to);
+            email.send();
             log.info("Email sent");
         } catch (EmailException e) {
             log.error("Error sending email. e=" + e.getMessage(), e);
