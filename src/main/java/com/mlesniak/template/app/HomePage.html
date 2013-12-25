@@ -1,30 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Hello, world</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="Stylesheet"/>
-    <link rel="stylesheet" href="css/bootstrap.css">
-</head>
+<head/>
 <body>
-
-<span wicket:id="navigationBar"/>
-
-<div class="container">
-    <div class="starter-template">
-        <div style="text-align: center;">
-            <form wicket:id="messageForm" method="post">
-                <input wicket:id="message" type="text" wicket:message="placeholder:form.welcomeMessage" size="80"
-                       autofocus/>
-                <input type="submit" class="btn btn-default" wicket:message="value:form.submit"/>
-            </form>
-            <span wicket:id="disabledMessage"/>
-        </div>
+<wicket:extend>
+    <div style="text-align: center;">
+        <form wicket:id="messageForm" method="post">
+            <input wicket:id="message" type="text" wicket:message="placeholder:form.welcomeMessage" size="80"
+                   autofocus/>
+            <input type="submit" class="btn btn-default" wicket:message="value:form.submit"/>
+        </form>
+        <span wicket:id="disabledMessage"/>
     </div>
-</div>
-
-<script src="js/jquery-2.0.3.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-
+</wicket:extend>
 </body>
 </html>
