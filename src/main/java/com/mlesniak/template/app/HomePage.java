@@ -1,8 +1,9 @@
 package com.mlesniak.template.app;
 
+import com.mlesniak.template.BasePage;
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.dao.MessageDao;
-import com.mlesniak.template.model.Message;
+import com.mlesniak.template.model.MessageDO;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -36,12 +37,12 @@ public class HomePage extends BasePage {
     }
 
     private void addMessageInputField() {
-        final Message message = new Message();
-        Form<Message> messageForm = new Form<Message>("messageForm", new CompoundPropertyModel<>(message)) {
+        final MessageDO message = new MessageDO();
+        Form<MessageDO> messageForm = new Form<MessageDO>("messageForm", new CompoundPropertyModel<>(message)) {
             @Override
             protected void onSubmit() {
                 // Copy message to new object.
-                Message messageDO = new Message(message);
+                MessageDO messageDO = new MessageDO(message);
                 MessageDao.get().write(messageDO);
                 log.info(message.toString(), messageDO.getId());
             }

@@ -10,16 +10,16 @@ import java.io.Serializable;
  * constructor to allow for the creation of a clone before persisting.
  */
 @Entity
-public class Message implements Serializable {
+public class MessageDO implements Serializable {
     @Id
     @GeneratedValue
     private long id;
 
-    public Message() {
+    public MessageDO() {
         // Empty.
     }
 
-    public Message(Message that) {
+    public MessageDO(MessageDO that) {
         message = that.message;
     }
 

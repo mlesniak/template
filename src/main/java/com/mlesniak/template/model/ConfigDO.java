@@ -1,4 +1,4 @@
-package com.mlesniak.template.config;
+package com.mlesniak.template.model;
 
 import javax.persistence.*;
 

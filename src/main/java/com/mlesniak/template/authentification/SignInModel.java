@@ -1,4 +1,4 @@
-package com.mlesniak.template.auth;
+package com.mlesniak.template.authentification;
 
 import java.io.Serializable;
 

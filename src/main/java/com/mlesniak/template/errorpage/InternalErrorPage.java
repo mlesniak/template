@@ -1,7 +1,7 @@
 package com.mlesniak.template.errorpage;
 
-import com.mlesniak.template.app.BasePage;
-import com.mlesniak.template.navbar.NavigationBarPanel;
+import com.mlesniak.template.BasePage;
+import com.mlesniak.template.navigation.NavigationBarPanel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

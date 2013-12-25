@@ -1,6 +1,6 @@
-package com.mlesniak.template.app;
+package com.mlesniak.template.authentification;
 
-import com.mlesniak.template.auth.SignInPanel;
+import com.mlesniak.template.BasePage;
 
 public class SignInPage extends BasePage {
     public SignInPage() {

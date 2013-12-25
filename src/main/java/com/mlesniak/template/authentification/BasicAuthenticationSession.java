@@ -1,4 +1,4 @@
-package com.mlesniak.template.auth;
+package com.mlesniak.template.authentification;
 
 import com.mlesniak.template.dao.UserDao;
 import com.mlesniak.template.model.UserDO;

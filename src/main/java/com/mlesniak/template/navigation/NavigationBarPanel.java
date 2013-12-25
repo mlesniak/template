@@ -1,6 +1,6 @@
-package com.mlesniak.template.navbar;
+package com.mlesniak.template.navigation;
 
-import com.mlesniak.template.auth.BasicAuthenticationSession;
+import com.mlesniak.template.authentification.BasicAuthenticationSession;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;

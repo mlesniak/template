@@ -1,6 +1,6 @@
 package com.mlesniak.template.dao;
 
-import com.mlesniak.template.model.Message;
+import com.mlesniak.template.model.MessageDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class MessageDao extends BaseDao {
         return INSTANCE;
     }
 
-    public void write(Message message) {
+    public void write(MessageDO message) {
         log.debug("Persisting: " + message);
         EntityManager em = getEntityManager();
         em.getTransaction().begin();

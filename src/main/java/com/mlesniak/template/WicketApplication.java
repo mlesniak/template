@@ -1,11 +1,15 @@
-package com.mlesniak.template.app;
+package com.mlesniak.template;
 
-import com.mlesniak.template.auth.BasicAuthenticationSession;
-import com.mlesniak.template.auth.LogoutPage;
+import com.mlesniak.template.app.HomePage;
+import com.mlesniak.template.authentification.BasicAuthenticationSession;
+import com.mlesniak.template.authentification.SignOutPage;
+import com.mlesniak.template.authentification.SignInPage;
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigPage;
 import com.mlesniak.template.dao.UserDao;
 import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
+import com.mlesniak.template.logging.LogPage;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
@@ -46,6 +50,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
         mountPage("/config", ConfigPage.class);
         mountPage("/log", LogPage.class);
         mountPage("/login", SignInPage.class);
-        mountPage("/logout", LogoutPage.class);
+        mountPage("/logout", SignOutPage.class);
     }
 }

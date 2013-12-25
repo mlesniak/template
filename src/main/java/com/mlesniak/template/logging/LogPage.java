@@ -1,6 +1,6 @@
-package com.mlesniak.template.app;
+package com.mlesniak.template.logging;
 
-import com.mlesniak.template.logging.LogPanel;
+import com.mlesniak.template.BasePage;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.slf4j.Logger;
