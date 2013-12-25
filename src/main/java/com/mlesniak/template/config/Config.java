@@ -30,6 +30,7 @@ public class Config {
         defaultAdminPassword("database.admin.password"),
         defaultAdminEmail("database.admin.email"),
         defaultAdminRoles("database.admin.roles"),
+        defaultAdmimLanguage("database.admin.language"),
         ;
         private final String path;
 

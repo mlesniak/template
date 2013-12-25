@@ -9,6 +9,8 @@ import org.apache.wicket.request.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Locale;
+
 public class BasicAuthenticationSession extends AuthenticatedWebSession {
     private Logger log = LoggerFactory.getLogger(BasicAuthenticationSession.class);
     private UserDO user;
@@ -27,6 +29,11 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
         boolean result = DigestUtils.md5Hex(username + password).equals(user.getPassword());
         if (result) {
             this.user = user;
+            String language = "en'";
+            if (user.getLanguage() != null) {
+                language = user.getLanguage();
+            }
+            setLocale(new Locale(language));
         }
         return result;
     }
