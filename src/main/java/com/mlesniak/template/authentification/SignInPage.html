@@ -1,22 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
-<head>
-    <meta charset="utf-8"/>
-    <title wicket:id="pageTitle">Dummy</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="Stylesheet"/>
-    <link rel="stylesheet" href="css/bootstrap.css">
-</head>
+<head/>
 <body>
-<span wicket:id="navigationBar"/>
-
-<div class="container">
-    <div class="starter-template">
-        <div wicket:id="signInPanel"/>
-    </div>
-</div>
-
-<script src="js/jquery-2.0.3.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-
+<wicket:extend>
+    <div wicket:id="signInPanel"/>
+</wicket:extend>
 </body>
 </html>
