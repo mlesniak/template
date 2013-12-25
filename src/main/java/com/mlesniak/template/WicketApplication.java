@@ -7,6 +7,7 @@ import com.mlesniak.template.authentification.SignInPage;
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.config.ConfigPage;
 import com.mlesniak.template.dao.UserDao;
+import com.mlesniak.template.email.EmailService;
 import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.logging.LogPage;
@@ -51,5 +52,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         mountPage("/log", LogPage.class);
         mountPage("/login", SignInPage.class);
         mountPage("/logout", SignOutPage.class);
+
+        EmailService.get().sendEmail();
     }
 }

@@ -32,6 +32,14 @@ public class Config {
         defaultAdminEmail("database.admin.email"),
         defaultAdminRoles("database.admin.roles"),
         defaultAdmimLanguage("database.admin.language"),
+
+        // This is currently quite GMail-centric.
+        emailFrom("email.from"),
+        emailHost("email.host"),
+        emailPort("email.port"),
+        emailUsername("email.username"),
+        emailPassword("email.password"),
+
         ;
         private final String path;
 
@@ -109,6 +117,10 @@ public class Config {
 
     public boolean getBoolean(Key key) {
         return Boolean.parseBoolean(get(key));
+    }
+
+    public int getInt(Key key) {
+        return Integer.parseInt(get(key));
     }
 
     public void enableDatabaseResolution() {
