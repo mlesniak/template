@@ -12,12 +12,13 @@ public class UserDO implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
     private String password;
     @Column(unique = true)
     private String email;
     private String roles;
+    private String language;
 
     public Long getId() {
         return id;
@@ -55,14 +56,23 @@ public class UserDO implements Serializable {
         this.roles = roles;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", roles='" + roles + '\'' +
+                ", language='" + language + '\'' +
                 '}';
     }
 }
