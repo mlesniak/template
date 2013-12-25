@@ -37,7 +37,7 @@ public class EmailService  {
             email.setSubject("[mlesniak.com] Statistic (" + new Date() + ")");
             email.setMsg("Hello, world");
             email.addTo("mail@mlesniak.com");
-            email.send();
+//            email.send();
             log.info("Email sent");
         } catch (EmailException e) {
             log.error("Error sending email. e=" + e.getMessage(), e);
