@@ -11,14 +11,27 @@ public class StatisticDO {
     private long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StatisticCategory category;
+
+    @Column(nullable = false)
+    private long timestamp;
 
     private String description;
 
+    @Column(nullable = false)
     private long time;
 
     public long getId() {
         return id;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public StatisticCategory getCategory() {
@@ -50,8 +63,10 @@ public class StatisticDO {
         return "StatisticDO{" +
                 "id=" + id +
                 ", category=" + category +
+                ", timestamp=" + timestamp +
                 ", description='" + description + '\'' +
                 ", time=" + time +
                 '}';
     }
+
 }

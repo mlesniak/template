@@ -44,6 +44,7 @@ public class StatisticService {
         statisticDO.setCategory(category);
         statisticDO.setDescription(description);
         statisticDO.setTime(time);
+        statisticDO.setTimestamp(start);
         StatisticsDao.get().write(statisticDO);
 
         return result;
