@@ -83,7 +83,7 @@ public class ConfigPanel extends Panel {
                     // This is ok.
                 }
 
-                handleAutoFocusOnFirstElement(item, inputField);
+                // handleAutoFocusOnFirstElement(item, inputField);
                 handleDatabaseDisabeled(item, label, inputField);
                 item.add(inputField);
                 item.add(label);
