@@ -8,7 +8,7 @@
 
         <!--Application-independent DOs-->
         <class>com.mlesniak.template.model.ConfigDO</class>
-        <class>com.mlesniak.template.logging.LogDO</class>
+        <class>com.mlesniak.template.model.LogDO</class>
         <class>com.mlesniak.template.model.StatisticDO</class>
 
         <properties>

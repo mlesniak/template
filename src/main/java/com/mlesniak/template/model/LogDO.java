@@ -1,4 +1,4 @@
-package com.mlesniak.template.logging;
+package com.mlesniak.template.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

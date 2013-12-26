@@ -1,6 +1,7 @@
 package com.mlesniak.template.logging;
 
 import com.mlesniak.template.dao.BaseDao;
+import com.mlesniak.template.model.LogDO;
 import com.mlesniak.template.statistics.StatisticCategory;
 import com.mlesniak.template.statistics.StatisticService;
 import org.slf4j.Logger;

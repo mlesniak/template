@@ -1,6 +1,7 @@
 package com.mlesniak.template.logging;
 
 import ch.qos.logback.classic.Level;
+import com.mlesniak.template.model.LogDO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.behavior.AttributeAppender;
