@@ -1,12 +1,15 @@
 package com.mlesniak.template.logging;
 
 import com.mlesniak.template.dao.BaseDao;
+import com.mlesniak.template.statistics.StatisticCategory;
+import com.mlesniak.template.statistics.StatisticService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 
 public class LogDao extends BaseDao {
@@ -31,15 +34,20 @@ public class LogDao extends BaseDao {
         return logDO;
     }
 
-    public List<LogDO> getLogByFilter(LogFilter logFilter) {
-        EntityManager em = getEntityManager();
-        TypedQuery<LogDO> query = em.createQuery(logFilter.build(), LogDO.class);
-        query.setMaxResults(MAX_RESULTS);
-        List<LogDO> logDOList = query.getResultList();
-        for (LogDO logDO : logDOList) {
-            em.detach(logDO);
-        }
-        em.close();
-        return logDOList;
+    public List<LogDO> getLogByFilter(final LogFilter logFilter) {
+        return StatisticService.collect(StatisticCategory.Database, "collecting log", new Callable<List<LogDO>>() {
+            @Override
+            public List<LogDO> call() throws Exception {
+                EntityManager em = getEntityManager();
+                TypedQuery<LogDO> query = em.createQuery(logFilter.build(), LogDO.class);
+                query.setMaxResults(MAX_RESULTS);
+                List<LogDO> logDOList = query.getResultList();
+                for (LogDO logDO : logDOList) {
+                    em.detach(logDO);
+                }
+                em.close();
+                return logDOList;
+            }
+        });
     }
 }
