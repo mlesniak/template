@@ -5,12 +5,14 @@
     <title wicket:id="pageTitle">Dummy</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="Stylesheet"/>
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/jquery.qtip.css">
 
     <!--Load before for datetimepicker-->
-
     <script src="js/jquery-2.0.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
     <script src="js/jquery.datetimepicker.js"></script>
+    <script src="js/jquery.qtip.min.js"></script>
 </head>
 <body>
 <span wicket:id="navigationBar"/>
@@ -20,6 +22,22 @@
         <wicket:child/>
     </div>
 </div>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $('input[title]').qtip({
+            show: 'focus',
+            hide: 'blur',
+            position: {
+                my: 'top left',  // Position my top left...
+                at: 'bottom left' // at the bottom right of...
+            }
+        });
+
+    });
+</script>
 
 </body>
 </html>
