@@ -1,6 +1,6 @@
-package com.mlesniak.template.logging;
+package com.mlesniak.template.dao;
 
-import com.mlesniak.template.dao.BaseDao;
+import com.mlesniak.template.logging.LogFilter;
 import com.mlesniak.template.model.LogDO;
 import com.mlesniak.template.statistics.StatisticCategory;
 import com.mlesniak.template.statistics.StatisticService;
