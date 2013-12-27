@@ -1,4 +1,4 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
 import java.io.Serializable;
 

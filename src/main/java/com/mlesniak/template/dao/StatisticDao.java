@@ -1,9 +1,9 @@
 package com.mlesniak.template.dao;
 
 import com.mlesniak.template.model.StatisticDO;
-import com.mlesniak.template.statistics.StatisticCategory;
-import com.mlesniak.template.statistics.StatisticFilter;
-import com.mlesniak.template.statistics.StatisticService;
+import com.mlesniak.template.statistic.StatisticCategory;
+import com.mlesniak.template.statistic.StatisticFilter;
+import com.mlesniak.template.statistic.StatisticService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +12,14 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class StatisticsDao extends BaseDao {
-    private Logger log = LoggerFactory.getLogger(StatisticsDao.class);
+public class StatisticDao extends BaseDao {
+    private Logger log = LoggerFactory.getLogger(StatisticDao.class);
 
-    private static StatisticsDao INSTANCE;
+    private static StatisticDao INSTANCE;
 
-    public static StatisticsDao get() {
+    public static StatisticDao get() {
         if (INSTANCE == null) {
-            INSTANCE = new StatisticsDao();
+            INSTANCE = new StatisticDao();
         }
 
         return INSTANCE;

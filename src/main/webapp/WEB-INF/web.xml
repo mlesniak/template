@@ -26,7 +26,7 @@
 	</filter>
     <filter>
         <filter-name>statisticServletFilter</filter-name>
-        <filter-class>com.mlesniak.template.statistics.StatisticServletFilter</filter-class>
+        <filter-class>com.mlesniak.template.statistic.StatisticServletFilter</filter-class>
     </filter>
 
 

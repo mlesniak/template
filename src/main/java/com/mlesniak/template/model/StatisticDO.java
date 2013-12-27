@@ -1,6 +1,6 @@
 package com.mlesniak.template.model;
 
-import com.mlesniak.template.statistics.StatisticCategory;
+import com.mlesniak.template.statistic.StatisticCategory;
 
 import javax.persistence.*;
 import java.io.Serializable;

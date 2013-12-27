@@ -1,4 +1,4 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
 public enum StatisticCategory {
     // Used for GUI only.

@@ -1,6 +1,6 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
-import com.mlesniak.template.dao.StatisticsDao;
+import com.mlesniak.template.dao.StatisticDao;
 import com.mlesniak.template.model.StatisticDO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
@@ -110,7 +110,7 @@ public class StatisticPanel extends Panel implements Serializable {
     }
 
     public void handleSubmit(StatisticModel model) {
-        logDOs = StatisticsDao.get().getStatisticByFilter(modelToLogFilter(model));
+        logDOs = StatisticDao.get().getStatisticByFilter(modelToLogFilter(model));
         for (StatisticDO statisticDO : logDOs) {
             System.out.println(statisticDO);
         }

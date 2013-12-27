@@ -1,4 +1,4 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

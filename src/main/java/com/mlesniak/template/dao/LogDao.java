@@ -2,8 +2,8 @@ package com.mlesniak.template.dao;
 
 import com.mlesniak.template.logging.LogFilter;
 import com.mlesniak.template.model.LogDO;
-import com.mlesniak.template.statistics.StatisticCategory;
-import com.mlesniak.template.statistics.StatisticService;
+import com.mlesniak.template.statistic.StatisticCategory;
+import com.mlesniak.template.statistic.StatisticService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

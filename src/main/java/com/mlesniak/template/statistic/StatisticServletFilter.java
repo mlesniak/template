@@ -1,7 +1,7 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
 import com.mlesniak.template.WicketApplication;
-import com.mlesniak.template.dao.StatisticsDao;
+import com.mlesniak.template.dao.StatisticDao;
 import com.mlesniak.template.model.StatisticDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +66,7 @@ public class StatisticServletFilter implements Filter {
         statisticDO.setDescription(loggedPath);
         statisticDO.setTime(duration);
         statisticDO.setTimestamp(starttime);
-        StatisticsDao.get().write(statisticDO);
+        StatisticDao.get().write(statisticDO);
     }
 
     private boolean isHomepage(String uri) {

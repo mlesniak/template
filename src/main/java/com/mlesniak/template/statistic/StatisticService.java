@@ -1,6 +1,6 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
-import com.mlesniak.template.dao.StatisticsDao;
+import com.mlesniak.template.dao.StatisticDao;
 import com.mlesniak.template.model.StatisticDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ public class StatisticService {
         statisticDO.setDescription(description);
         statisticDO.setTime(time);
         statisticDO.setTimestamp(start);
-        StatisticsDao.get().write(statisticDO);
+        StatisticDao.get().write(statisticDO);
 
         return result;
     }

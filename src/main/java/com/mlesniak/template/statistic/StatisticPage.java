@@ -1,4 +1,4 @@
-package com.mlesniak.template.statistics;
+package com.mlesniak.template.statistic;
 
 import com.mlesniak.template.BasePage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
