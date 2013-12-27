@@ -3,9 +3,10 @@ package com.mlesniak.template.model;
 import com.mlesniak.template.statistics.StatisticCategory;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class StatisticDO {
+public class StatisticDO implements Serializable {
     @Id
     @GeneratedValue
     private long id;

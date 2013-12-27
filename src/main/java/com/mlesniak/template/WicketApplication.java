@@ -10,6 +10,7 @@ import com.mlesniak.template.dao.UserDao;
 import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.logging.LogPage;
+import com.mlesniak.template.statistics.StatisticPage;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
@@ -69,6 +70,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         pageMapping.put("/log", LogPage.class);
         pageMapping.put("/login", SignInPage.class);
         pageMapping.put("/logout", SignOutPage.class);
+        pageMapping.put("/statistic", StatisticPage.class);
     }
 
     public static Map<String, Class<? extends WebPage>> getPageMapping() {
