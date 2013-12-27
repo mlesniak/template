@@ -17,8 +17,13 @@ import org.apache.wicket.settings.IExceptionSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class WicketApplication extends AuthenticatedWebApplication {
     private Logger log = LoggerFactory.getLogger(WicketApplication.class);
+    private static Map<String, Class<? extends WebPage>> pageMapping = new HashMap<>();
 
     @Override
     public Class<? extends WebPage> getHomePage() {
@@ -47,11 +52,30 @@ public class WicketApplication extends AuthenticatedWebApplication {
         // show internal error page rather than default developer page
         getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
 
-        mountPage("/config", ConfigPage.class);
-        mountPage("/log", LogPage.class);
-        mountPage("/login", SignInPage.class);
-        mountPage("/logout", SignOutPage.class);
+        mountPages();
 
         //EmailService.get().sendEmail("mail@mlesniak.com", "Test", new Date().toString());
+    }
+
+    private void mountPages() {
+        Map<String, Class<? extends WebPage>> mapping = getPageMapping();
+        for (String path : mapping.keySet()) {
+            mountPage(path, mapping.get(path));
+        }
+    }
+
+    private static void initializePageMapping() {
+        pageMapping.put("/config", ConfigPage.class);
+        pageMapping.put("/log", LogPage.class);
+        pageMapping.put("/login", SignInPage.class);
+        pageMapping.put("/logout", SignOutPage.class);
+    }
+
+    public static Map<String, Class<? extends WebPage>> getPageMapping() {
+        if (pageMapping.isEmpty()) {
+            initializePageMapping();
+        }
+
+        return Collections.unmodifiableMap(pageMapping);
     }
 }
