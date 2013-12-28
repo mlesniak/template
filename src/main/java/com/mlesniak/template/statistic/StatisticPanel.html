@@ -94,7 +94,14 @@
             $.plot("#chart", [ d1 ], {
                 xaxis: {
                     show: false
-                }
+                },
+                series: {
+                    lines: {
+                        fill: true,
+                        fillColor: "rgba(50, 50, 50, 0.1)"
+                    }
+                },
+                colors: ["black"]
             });
 
         });
