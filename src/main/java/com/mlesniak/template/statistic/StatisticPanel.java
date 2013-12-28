@@ -28,7 +28,7 @@ public class StatisticPanel extends Panel implements Serializable {
     private Logger log = LoggerFactory.getLogger(StatisticPanel.class);
     private static List<StatisticCategory> availableCategories = availableCategories();
     private List<StatisticDO> statDOs = new LinkedList<>();
-    private Computation computation;
+    private Computation computation = new Computation();
 
     private transient ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -70,12 +70,7 @@ public class StatisticPanel extends Panel implements Serializable {
     }
 
     private WebMarkupContainer addStatisticView(final IModel logs) {
-        final WebMarkupContainer container = new WebMarkupContainer("view") {
-            @Override
-            public boolean isVisible() {
-                return !statDOs.isEmpty();
-            }
-        };
+        final WebMarkupContainer container = new WebMarkupContainer("view");
 
         container.add(new Label("min", new Model<Double>() {
             @Override
@@ -144,9 +139,17 @@ public class StatisticPanel extends Panel implements Serializable {
     public void handleSubmit(StatisticModel model) {
         statDOs = StatisticDao.get().getStatisticByFilter(modelToLogFilter(model));
         computation = new Computation(statDOs);
-        for (StatisticDO statisticDO : statDOs) {
-            System.out.println(statisticDO);
+//        for (StatisticDO statisticDO : statDOs) {
+//            System.out.println(statisticDO);
+//        }
+
+        String join = "";
+        int i = 0;
+        for (Long time : computation.getValues()) {
+            join += ",[" + i++ + ", " + time + "]";
         }
+
+        System.out.println(join);
     }
 
     private StatisticFilter modelToLogFilter(StatisticModel model) {

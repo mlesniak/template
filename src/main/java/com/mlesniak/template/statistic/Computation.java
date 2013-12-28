@@ -36,6 +36,11 @@ public class Computation implements Serializable {
         computeMinAndMax();
     }
 
+    public Computation() {
+        average = min = max = 0;
+        values = Collections.emptyList();
+    }
+
     private void computeMinAndMax() {
         min = Double.MAX_VALUE;
         max = Double.MIN_VALUE;
