@@ -2,6 +2,7 @@ package com.mlesniak.template.statistic;
 
 import com.mlesniak.template.model.StatisticDO;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Provied different statistical computation methods for timings.
  */
-public class Computation {
+public class Computation implements Serializable {
     List<Long> values;
     long start = Long.MAX_VALUE;
     long end = Long.MIN_VALUE;

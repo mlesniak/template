@@ -5,6 +5,7 @@ import com.mlesniak.template.model.StatisticDO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -12,6 +13,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +27,8 @@ import java.util.List;
 public class StatisticPanel extends Panel implements Serializable {
     private Logger log = LoggerFactory.getLogger(StatisticPanel.class);
     private static List<StatisticCategory> availableCategories = availableCategories();
-    private List<StatisticDO> logDOs = new LinkedList<>();
+    private List<StatisticDO> statDOs = new LinkedList<>();
+    private Computation computation;
 
     private transient ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -52,11 +55,11 @@ public class StatisticPanel extends Panel implements Serializable {
         IModel logs = new LoadableDetachableModel<List<StatisticDO>>() {
             @Override
             protected List<StatisticDO> load() {
-                return logDOs;
+                return statDOs;
             }
         };
 
-        final WebMarkupContainer container = addLogListView(logs);
+        final WebMarkupContainer container = addStatisticView(logs);
 
         addLevelField(model, form);
         addSearchButton(model, form, keyword, container);
@@ -66,14 +69,43 @@ public class StatisticPanel extends Panel implements Serializable {
         add(form);
     }
 
-    private WebMarkupContainer addLogListView(final IModel logs) {
-        final WebMarkupContainer container = new WebMarkupContainer("view");
+    private WebMarkupContainer addStatisticView(final IModel logs) {
+        final WebMarkupContainer container = new WebMarkupContainer("view") {
+            @Override
+            public boolean isVisible() {
+                return !statDOs.isEmpty();
+            }
+        };
+
+        container.add(new Label("min", new Model<Double>() {
+            @Override
+            public Double getObject() {
+                return computation.getMin();
+            }
+        }));
+
+        container.add(new Label("max", new Model<Double>() {
+            @Override
+            public Double getObject() {
+                return computation.getMax();
+            }
+        }));
+
+        container.add(new Label("average", new Model<Double>() {
+            @Override
+            public Double getObject() {
+                return computation.getAverage();
+            }
+        }));
+
         container.setOutputMarkupId(true);
+        container.setOutputMarkupPlaceholderTag(true);
         add(container);
         return container;
     }
 
-    private void addSearchButton(final StatisticModel model, final Form<StatisticModel> form, final TextField<String> keyword, final WebMarkupContainer container) {
+    private void addSearchButton(final StatisticModel model, final Form<StatisticModel> form,
+                                 final TextField<String> keyword, final WebMarkupContainer container) {
         AjaxFallbackButton searchButton = new AjaxFallbackButton("submit", form) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -110,8 +142,9 @@ public class StatisticPanel extends Panel implements Serializable {
     }
 
     public void handleSubmit(StatisticModel model) {
-        logDOs = StatisticDao.get().getStatisticByFilter(modelToLogFilter(model));
-        for (StatisticDO statisticDO : logDOs) {
+        statDOs = StatisticDao.get().getStatisticByFilter(modelToLogFilter(model));
+        computation = new Computation(statDOs);
+        for (StatisticDO statisticDO : statDOs) {
             System.out.println(statisticDO);
         }
     }

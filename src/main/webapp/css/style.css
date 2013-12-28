@@ -33,3 +33,9 @@ h1 {
     vertical-align:middle;
     margin-right: -30px;
 }
+
+.statView {
+    padding-top: 10px;
+    border-top: 1px solid;
+    ;
+}

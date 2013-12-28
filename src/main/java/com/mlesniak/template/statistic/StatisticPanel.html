@@ -38,8 +38,13 @@
         </div>
     </form>
 
-    <div wicket:id="view">
-
+    <div wicket:id="view" class="statView">
+        <span class="col-sm-1"><wicket:message key="min"/></span>
+        <span wicket:id="min" class="col-sm-1"></span>
+        <span class="col-sm-1"><wicket:message key="max"/></span>
+        <span wicket:id="max" class="col-sm-1"></span>
+        <span class="col-sm-1"><wicket:message key="average"/></span>
+        <span wicket:id="average" class="col-sm-1"></span>
     </div>
 
     <span id="lang" style="display:none"><wicket:message key="logpanel.lang"/></span>
