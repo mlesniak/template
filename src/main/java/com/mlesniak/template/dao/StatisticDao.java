@@ -33,6 +33,33 @@ public class StatisticDao extends BaseDao {
         em.close();
     }
 
+    public List<String> getAvailableDesciption(final StatisticCategory category, final String descStart) {
+        return StatisticService.collect(StatisticCategory.Database, "collecting available descriptions",
+                new Callable<List<String>>() {
+                    @Override
+                    public List<String> call() throws Exception {
+                        EntityManager em = getEntityManager();
+                        TypedQuery<String> query = em.createQuery(createDescriptionQuery(), String.class);
+                        List<String> descList = query.getResultList();
+                        em.close();
+                        return descList;
+                    }
+
+                    private String createDescriptionQuery() {
+                        StringBuffer sb = new StringBuffer();
+
+                        sb.append("SELECT l.description FROM StatisticDO l WHERE ");
+                        if (category != null) {
+                            sb.append("l.category = " + category);
+                            sb.append(" AND ");
+                        }
+                        sb.append("l.description like \"%" + descStart + "%\"");
+
+                        return sb.toString();
+                    }
+                });
+    }
+
     public List<StatisticDO> getStatisticByFilter(final StatisticFilter filter) {
         return StatisticService.collect(StatisticCategory.Database, "collecting statistic",
                 new Callable<List<StatisticDO>>() {
