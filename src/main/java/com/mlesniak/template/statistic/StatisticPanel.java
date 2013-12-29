@@ -44,6 +44,13 @@ public class StatisticPanel extends Panel implements Serializable {
         }
     };
 
+    private transient ThreadLocal<SimpleDateFormat> dateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        }
+    };
+
     public StatisticPanel(String id) {
         super(id);
 
@@ -109,7 +116,7 @@ public class StatisticPanel extends Panel implements Serializable {
                 target.add(container);
                 target.focusComponent(keyword);
 
-                target.appendJavaScript("plot([" + joinStatisticValues() + "]);");
+                target.appendJavaScript("plot(" + joinStatisticValues() + ","  + joinDateValues() + ");");
             }
         };
         form.add(searchButton);
@@ -145,12 +152,43 @@ public class StatisticPanel extends Panel implements Serializable {
 
     private String joinStatisticValues() {
         StringBuffer join = new StringBuffer();
+        join.append("[");
         int i = 0;
         for (Long time : computation.getValues()) {
             join.append(",[" + i++ + ", " + time + "]");
         }
 
-        return join.deleteCharAt(0).toString();
+        join.append("]");
+        return join.deleteCharAt(1).toString();
+    }
+
+    private String joinDateValues() {
+        StringBuffer join = new StringBuffer();
+        join.append("[");
+        for (StatisticDO statDO : statDOs) {
+            join.append("," + getJSArray(statDO));
+        }
+
+        join.append("]");
+        return join.deleteCharAt(1).toString();
+    }
+
+    /**
+     * JS Array for category, description and timestamp.
+     * @param statDO
+     */
+    private String getJSArray(StatisticDO statDO) {
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("[\"");
+        sb.append(statDO.getCategory());
+        sb.append("\", \"");
+        sb.append(statDO.getDescription());
+        sb.append("\", \"");
+        sb.append(dateTimeFormat.get().format(new Date(statDO.getTimestamp())));
+        sb.append("\"]");
+
+        return sb.toString();
     }
 
     private StatisticFilter modelToLogFilter(StatisticModel model) {

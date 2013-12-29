@@ -39,12 +39,28 @@
     </form>
 
     <div wicket:id="view" class="statView">
-        <span class="col-sm-offset-3 col-sm-1"><wicket:message key="min"/></span>
+        <span class="col-sm-1">Category</span>
+        <span id="pointCategory" class="col-sm-1"></span>
+        <span class="col-sm-offset-8 col-sm-1"><wicket:message key="min"/></span>
         <span wicket:id="min" class="col-sm-1"></span>
-        <span class="col-sm-1"><wicket:message key="max"/></span>
+        <br/>
+
+        <span class="col-sm-1">Date</span>
+        <span id="pointDate" class="col-sm-2"></span>
+        <span class="col-sm-offset-7 col-sm-1"><wicket:message key="max"/></span>
         <span wicket:id="max" class="col-sm-1"></span>
+        <br/>
+
+
+        <span class="col-sm-1">Description</span>
+        <span id="pointDescription" class="col-sm-9"></span>
         <span class="col-sm-1"><wicket:message key="average"/></span>
         <span wicket:id="average" class="col-sm-1"></span>
+        <br/>
+        <span class="col-sm-1">Duration</span>
+        <span id="pointDuration" class="col-sm-1"></span>
+
+
         <div id="chart"></div>
     </div>
 
@@ -52,7 +68,9 @@
     <span id="format" style="display:none"><wicket:message key="logpanel.format"/></span>
 
     <script type="text/javascript">
-        function plot(data) {
+        function plot(data, xlabel) {
+            console.log(xlabel);
+
             $.plot("#chart", [ data ], {
                 xaxis: {
                     show: false
@@ -67,6 +85,15 @@
                 grid: {
                     hoverable: true,
                     autoHighlight: true
+                }
+            });
+
+            $("#chart").bind("plothover", function (event, pos, item) {
+                if (item) {
+                    $("#pointCategory").text(xlabel[item.datapoint[0]][0]);
+                    $("#pointDate").text(xlabel[item.datapoint[0]][2]);
+                    $("#pointDescription").text(xlabel[item.datapoint[0]][1]);
+                    $("#pointDuration").text(item.datapoint[1]);
                 }
             });
 
@@ -85,7 +112,10 @@
                 lang: $("#lang").text(),
                 format: $("#format").text()
             });
-            plot([]);
+            plot([], []);
+
+            $("#datetimepickerStart").val("");
+            $("#datetimepickerEnd").val("");
         });
     </script>
 
