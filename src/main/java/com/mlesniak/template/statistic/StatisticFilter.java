@@ -81,7 +81,7 @@ public class StatisticFilter {
                     category.toString());
         }
         if (keyword != null) {
-            attributeQueries.add(" LOWER(l.formattedMessages) LIKE '%" + keyword.toLowerCase() + "%' ");
+            attributeQueries.add(" LOWER(l.description) LIKE '%" + keyword.toLowerCase() + "%' ");
         }
         if (startTime != null) {
             attributeQueries.add(" l.timestamp >= " + startTime);
