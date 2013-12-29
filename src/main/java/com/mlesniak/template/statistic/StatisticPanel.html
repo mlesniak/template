@@ -48,13 +48,30 @@
         <div id="chart"></div>
     </div>
 
-
-
     <span id="lang" style="display:none"><wicket:message key="logpanel.lang"/></span>
     <span id="format" style="display:none"><wicket:message key="logpanel.format"/></span>
 
-    <!--<script src="js/jquery.datetimepicker.js"></script>-->
     <script type="text/javascript">
+        function plot(data) {
+            $.plot("#chart", [ data ], {
+                xaxis: {
+                    show: false
+                },
+                series: {
+                    lines: {
+                        fill: true,
+                        fillColor: "rgba(50, 50, 50, 0.1)"
+                    }
+                },
+                colors: ["black"],
+                grid: {
+                    hoverable: true,
+                    autoHighlight: true
+                }
+            });
+
+        }
+
         $(function () {
             $('#datetimepickerStart').datetimepicker({
                 validateOnBlur: false,
@@ -68,42 +85,7 @@
                 lang: $("#lang").text(),
                 format: $("#format").text()
             });
-        })
-    </script>
-
-
-    <script type="text/javascript">
-        $(function () {
-
-
-//            var plot = $.plot($("#chart"), [ [[0, 0], [1, 1]] ], { yaxis: { max: 1 } });
-//            console.log("drawn");
-//            plot.draw();
-
-            var d1 = [];
-            for (var i = 0; i < 100; i += 0.5) {
-                d1.push([i, Math.sin(i)]);
-            }
-
-            d1 = [[0, 36],[1, 35],[2, 29],[3, 31],[4, 23],[5, 35],[6, 39],[7, 36],[8, 20],[9, 31],[10, 16],[11, 17],[12, 25],[13, 20],[14, 31],[15, 28],[16, 20],[17, 29],[18, 25],[19, 25],[20, 15],[21, 25],[22, 25],[23, 25],[24, 26],[25, 2],[26, 1],[27, 1],[28, 2],[29, 10],[30, 21],[31, 17],[32, 14],[33, 9],[34, 15],[35, 14],[36, 10],[37, 13],[38, 154],[39, 24],[40, 17],[41, 180],[42, 168]
-            ]
-
-            // TODO Show average.
-            // TODO hide canvas if no values.
-
-            $.plot("#chart", [ d1 ], {
-                xaxis: {
-                    show: false
-                },
-                series: {
-                    lines: {
-                        fill: true,
-                        fillColor: "rgba(50, 50, 50, 0.1)"
-                    }
-                },
-                colors: ["black"]
-            });
-
+            plot([]);
         });
     </script>
 

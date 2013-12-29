@@ -108,6 +108,8 @@ public class StatisticPanel extends Panel implements Serializable {
                 handleSubmit(model);
                 target.add(container);
                 target.focusComponent(keyword);
+
+                target.appendJavaScript("plot([" + joinStatisticValues() + "]);");
             }
         };
         form.add(searchButton);
@@ -139,17 +141,16 @@ public class StatisticPanel extends Panel implements Serializable {
     public void handleSubmit(StatisticModel model) {
         statDOs = StatisticDao.get().getStatisticByFilter(modelToLogFilter(model));
         computation = new Computation(statDOs);
-//        for (StatisticDO statisticDO : statDOs) {
-//            System.out.println(statisticDO);
-//        }
+    }
 
-        String join = "";
+    private String joinStatisticValues() {
+        StringBuffer join = new StringBuffer();
         int i = 0;
         for (Long time : computation.getValues()) {
-            join += ",[" + i++ + ", " + time + "]";
+            join.append(",[" + i++ + ", " + time + "]");
         }
 
-        System.out.println(join);
+        return join.deleteCharAt(0).toString();
     }
 
     private StatisticFilter modelToLogFilter(StatisticModel model) {
