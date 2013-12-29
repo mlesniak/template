@@ -100,7 +100,7 @@ public class StatisticFilter {
             }
         }
 
-        sb.append(" Order by l.id desc ");
+        sb.append(" Order by l.id asc ");
 
         return sb.toString();
     }
