@@ -69,8 +69,6 @@
 
     <script type="text/javascript">
         function plot(data, xlabel) {
-            console.log(xlabel);
-
             $.plot("#chart", [ data ], {
                 xaxis: {
                     show: false
@@ -84,7 +82,8 @@
                 colors: ["black"],
                 grid: {
                     hoverable: true,
-                    autoHighlight: true
+                    autoHighlight: true,
+                    mouseActiveRadius: 400
                 }
             });
 
