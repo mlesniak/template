@@ -45,3 +45,35 @@ h1 {
     width: 1110px !important;
     height: 400px !important;
 }
+
+
+/* Autocomplete textfield highlighting for bootstrap.  */
+div.wicket-aa ul {
+    list-style:none;
+    padding: 2px;
+    margin:0;
+}
+
+div.wicket-aa ul li.selected {
+    background-color: #0081c2;
+    color: white;
+    padding: 2px;
+    margin:0;
+}
+
+div.wicket-aa ul li {
+    padding: 2px;
+    margin:0;
+}
+
+div.wicket-aa-container {
+    border-width: 1px;
+    border-color: #cccccc;
+    border-style: solid;
+}
+
+div.wicket-aa {
+    background-color: white;
+    padding: 2px;
+    text-align:left;
+}

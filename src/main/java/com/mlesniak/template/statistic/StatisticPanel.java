@@ -4,6 +4,8 @@ import com.mlesniak.template.dao.StatisticDao;
 import com.mlesniak.template.model.StatisticDO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -19,10 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class StatisticPanel extends Panel implements Serializable {
     private Logger log = LoggerFactory.getLogger(StatisticPanel.class);
@@ -57,7 +56,7 @@ public class StatisticPanel extends Panel implements Serializable {
         final StatisticModel model = new StatisticModel();
         Form<StatisticModel> form = new Form<>("logForm", new CompoundPropertyModel<>(model));
 
-        final TextField<String> keyword = addKeywordField(form);
+        final AutoCompleteTextField<String> keyword = addKeywordField(form);
 
         IModel logs = new LoadableDetachableModel<List<StatisticDO>>() {
             @Override
@@ -138,10 +137,20 @@ public class StatisticPanel extends Panel implements Serializable {
         form.add(endTime);
     }
 
-    private TextField<String> addKeywordField(Form<StatisticModel> form) {
-        final TextField<String> keyword = new TextField<>("keyword");
+    private AutoCompleteTextField<String> addKeywordField(Form<StatisticModel> form) {
+        AutoCompleteSettings settings = new AutoCompleteSettings().setAdjustInputWidth(false);
+
+        final AutoCompleteTextField<String> keyword = new AutoCompleteTextField<String>("keyword", settings) {
+            @Override
+            protected Iterator<String> getChoices(String input) {
+                return StatisticDao.get().getAvailableDesciption(null, input).iterator();
+            }
+        };
+
+
         keyword.setOutputMarkupId(true);
         form.add(keyword);
+
         return keyword;
     }
 
