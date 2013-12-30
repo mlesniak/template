@@ -115,7 +115,11 @@ public class StatisticPanel extends Panel implements Serializable {
                 target.add(container);
                 target.focusComponent(keyword);
 
-                target.appendJavaScript("plot(" + joinStatisticValues() + ","  + joinDateValues() + ");");
+                if (statDOs.isEmpty()) {
+                    target.appendJavaScript("plot([], []);");
+                } else {
+                    target.appendJavaScript("plot(" + joinStatisticValues() + "," + joinDateValues() + ");");
+                }
             }
         };
         form.add(searchButton);
@@ -184,6 +188,7 @@ public class StatisticPanel extends Panel implements Serializable {
 
     /**
      * JS Array for category, description and timestamp.
+     *
      * @param statDO
      */
     private String getJSArray(StatisticDO statDO) {

@@ -20,6 +20,9 @@ public class Computation implements Serializable {
 
     public Computation(List<StatisticDO> source) {
         values = new LinkedList<>();
+        if (source.isEmpty()) {
+            return;
+        }
 
         for (StatisticDO statisticDO : source) {
             values.add(statisticDO.getTime());
