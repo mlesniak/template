@@ -68,8 +68,14 @@
     <span id="format" style="display:none"><wicket:message key="logpanel.format"/></span>
 
     <script type="text/javascript">
-        function plot(data, xlabel) {
-            $.plot("#chart", [ data ], {
+        function plot(data, xlabel, avg) {
+            $.plot("#chart", [ data, {
+                color: "rgb(255, 0, 0)",
+                lines: {
+                    fill: false
+                },
+                data: avg
+            } ], {
                 xaxis: {
                     show: false
                 },

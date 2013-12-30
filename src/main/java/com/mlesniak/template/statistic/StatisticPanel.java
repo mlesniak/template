@@ -116,13 +116,19 @@ public class StatisticPanel extends Panel implements Serializable {
                 target.focusComponent(keyword);
 
                 if (statDOs.isEmpty()) {
-                    target.appendJavaScript("plot([], []);");
+                    target.appendJavaScript("plot([], [], []);");
                 } else {
-                    target.appendJavaScript("plot(" + joinStatisticValues() + "," + joinDateValues() + ");");
+                    target.appendJavaScript("plot(" + joinStatisticValues() + "," + joinDateValues() + ","
+                            + averageValue() + ");");
                 }
             }
         };
         form.add(searchButton);
+    }
+
+    private String averageValue() {
+        double avg = computation.getAverage();
+        return "[[0," + avg + "], [" + (computation.getValues().size() - 1) + ", " + avg + "]]";
     }
 
     private void addLevelField(StatisticModel model, Form<StatisticModel> form) {
