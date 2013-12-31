@@ -49,13 +49,12 @@ public class StatisticDao extends BaseDao {
                         StringBuffer sb = new StringBuffer();
 
                         sb.append("SELECT DISTINCT l.description FROM StatisticDO l WHERE ");
-                        if (category != null) {
-                            sb.append("l.category = " + category);
+                        if (category != null && category != StatisticCategory.All) {
+                            sb.append("l.category = " + StatisticCategory.class.getCanonicalName() + "." + category);
                             sb.append(" AND ");
                         }
                         sb.append("l.description like \"%" + descStart + "%\"");
                         sb.append(" ORDER BY l.description ASC");
-
                         return sb.toString();
                     }
                 });
