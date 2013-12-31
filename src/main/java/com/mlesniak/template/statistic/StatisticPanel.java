@@ -30,26 +30,7 @@ public class StatisticPanel extends Panel implements Serializable {
     private List<StatisticDO> statDOs = new LinkedList<>();
     private Computation computation = new Computation();
 
-    private transient ThreadLocal<SimpleDateFormat> simpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd");
-        }
-    };
-
-    private transient ThreadLocal<SimpleDateFormat> simpleTimeFormat = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("HH:mm:ss");
-        }
-    };
-
-    private transient ThreadLocal<SimpleDateFormat> dateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        }
-    };
+    private transient ThreadLocal<SimpleDateFormat> dateTimeFormat;
 
     public StatisticPanel(String id) {
         super(id);
@@ -211,7 +192,7 @@ public class StatisticPanel extends Panel implements Serializable {
         sb.append("\", \"");
         sb.append(statDO.getDescription());
         sb.append("\", \"");
-        sb.append(dateTimeFormat.get().format(new Date(statDO.getTimestamp())));
+        sb.append(getDateTimeFormat().format(new Date(statDO.getTimestamp())));
         sb.append("\"]");
 
         return sb.toString();
@@ -223,7 +204,6 @@ public class StatisticPanel extends Panel implements Serializable {
         logFilter.addCategory(model.getCategory());
         logFilter.addStartTime(model.getStartTime());
         logFilter.addEndTime(model.getEndTime());
-        logFilter.build();
         return logFilter;
     }
 
@@ -233,11 +213,16 @@ public class StatisticPanel extends Panel implements Serializable {
         return list;
     }
 
-    private String toDate(long timestamp) {
-        return simpleDateFormat.get().format(new Date(timestamp));
-    }
+    public SimpleDateFormat getDateTimeFormat() {
+        if (dateTimeFormat == null) {
+            dateTimeFormat = new ThreadLocal<SimpleDateFormat>() {
+                @Override
+                protected SimpleDateFormat initialValue() {
+                    return new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                }
+            };
+        }
 
-    private String toTime(long timestamp) {
-        return simpleTimeFormat.get().format(new Date(timestamp));
+        return dateTimeFormat.get();
     }
 }
