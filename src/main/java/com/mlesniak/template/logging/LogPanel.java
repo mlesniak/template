@@ -146,7 +146,6 @@ public class LogPanel extends Panel implements Serializable {
         logFilter.addLevel(model.getLevel());
         logFilter.addStartTime(model.getStartTime());
         logFilter.addEndTime(model.getEndTime());
-        logFilter.build();
         return logFilter;
     }
 

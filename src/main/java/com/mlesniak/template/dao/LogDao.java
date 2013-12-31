@@ -40,7 +40,7 @@ public class LogDao extends BaseDao {
             @Override
             public List<LogDO> call() throws Exception {
                 EntityManager em = getEntityManager();
-                TypedQuery<LogDO> query = em.createQuery(logFilter.build(), LogDO.class);
+                TypedQuery<LogDO> query = logFilter.build();
                 query.setMaxResults(MAX_RESULTS);
                 List<LogDO> logDOList = query.getResultList();
                 for (LogDO logDO : logDOList) {

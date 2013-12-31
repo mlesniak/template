@@ -1,18 +1,20 @@
 package com.mlesniak.template.logging;
 
 import ch.qos.logback.classic.Level;
+import com.mlesniak.template.dao.StatisticDao;
+import com.mlesniak.template.model.LogDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class LogFilter {
     private Logger log = LoggerFactory.getLogger(LogFilter.class);
-    
+
     private Level level;
     private String keyword;
     private Long startTime;
@@ -72,22 +74,29 @@ public class LogFilter {
         return this;
     }
 
-    public String build() {
+    public TypedQuery<LogDO> build() {
+        EntityManager em = StatisticDao.get().getEntityManager();
+
         StringBuffer sb = new StringBuffer();
+        Map<String, Object> params = new HashMap<>();
         sb.append("SELECT l FROM LogDO l ");
 
         List<String> attributeQueries = new ArrayList<>();
         if (level != null && level != Level.ALL) {
-            attributeQueries.add(" l.level = '" + level.levelStr + "\'");
+            attributeQueries.add(" l.level = :level");
+            params.put("level", level.levelStr);
         }
         if (keyword != null) {
-            attributeQueries.add(" LOWER(l.formattedMessages) LIKE '%" + keyword.toLowerCase() + "%' ");
+            attributeQueries.add(" LOWER(l.formattedMessages) LIKE :keyword ");
+            params.put("keyword", "%" + keyword.toLowerCase() + "%");
         }
         if (startTime != null) {
-            attributeQueries.add(" l.timestamp >= " + startTime);
+            attributeQueries.add(" l.timestamp >= :startTime");
+            params.put("startTime", startTime);
         }
         if (endTime != null) {
-            attributeQueries.add(" l.timestamp <= " + endTime);
+            attributeQueries.add(" l.timestamp <= :endTime");
+            params.put("endTime", endTime);
         }
 
         if (!attributeQueries.isEmpty()) {
@@ -102,7 +111,12 @@ public class LogFilter {
 
         sb.append(" Order by l.id desc ");
 
-        return sb.toString();
+        TypedQuery<LogDO> query = em.createQuery(sb.toString(), LogDO.class);
+        for (String param : params.keySet()) {
+            query.setParameter(param, params.get(param));
+        }
+
+        return query;
     }
 
     @Override
