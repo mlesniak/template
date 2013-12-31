@@ -1,13 +1,15 @@
 package com.mlesniak.template.statistic;
 
+import com.mlesniak.template.dao.StatisticDao;
+import com.mlesniak.template.model.StatisticDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class StatisticFilter {
     private Logger log = LoggerFactory.getLogger(StatisticFilter.class);
@@ -71,23 +73,29 @@ public class StatisticFilter {
         return this;
     }
 
-    public String build() {
+    public TypedQuery<StatisticDO> build() {
+        EntityManager em = StatisticDao.get().getEntityManager();
+
         StringBuffer sb = new StringBuffer();
+        Map<String, Object> params = new HashMap<>();
         sb.append("SELECT l FROM StatisticDO l ");
 
         List<String> attributeQueries = new ArrayList<>();
         if (category != null && category != StatisticCategory.All) {
-            attributeQueries.add(" l.category = " + StatisticCategory.class.getCanonicalName() + "." +
-                    category.toString());
+            attributeQueries.add(" l.category = :category");
+            params.put("category", category);
         }
         if (keyword != null) {
-            attributeQueries.add(" LOWER(l.description) LIKE '%" + keyword.toLowerCase() + "%' ");
+            attributeQueries.add(" LOWER(l.description) LIKE :keyword ");
+            params.put("keyword", "%" + keyword.toLowerCase() + "%");
         }
         if (startTime != null) {
-            attributeQueries.add(" l.timestamp >= " + startTime);
+            attributeQueries.add(" l.timestamp >= :startTime");
+            params.put("startTime", startTime);
         }
         if (endTime != null) {
-            attributeQueries.add(" l.timestamp <= " + endTime);
+            attributeQueries.add(" l.timestamp <= :endTime");
+            params.put("endTime", endTime);
         }
 
         if (!attributeQueries.isEmpty()) {
@@ -102,7 +110,12 @@ public class StatisticFilter {
 
         sb.append(" Order by l.id asc ");
 
-        return sb.toString();
+        TypedQuery<StatisticDO> query = em.createQuery(sb.toString(), StatisticDO.class);
+        for (String param : params.keySet()) {
+            query.setParameter(param, params.get(param));
+        }
+
+        return query;
     }
 
     @Override

@@ -66,7 +66,7 @@ public class StatisticDao extends BaseDao {
                     @Override
                     public List<StatisticDO> call() throws Exception {
                         EntityManager em = getEntityManager();
-                        TypedQuery<StatisticDO> query = em.createQuery(filter.build(), StatisticDO.class);
+                        TypedQuery<StatisticDO> query = filter.build();
                         List<StatisticDO> logDOList = query.getResultList();
                         for (StatisticDO logDO : logDOList) {
                             em.detach(logDO);
