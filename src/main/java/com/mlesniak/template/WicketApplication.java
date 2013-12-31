@@ -11,6 +11,7 @@ import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.logging.LogPage;
 import com.mlesniak.template.statistic.StatisticPage;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
@@ -32,7 +33,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
     }
 
     @Override
-    protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass(){
+    protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
         return BasicAuthenticationSession.class;
     }
 
@@ -54,6 +55,10 @@ public class WicketApplication extends AuthenticatedWebApplication {
         getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
 
         mountPages();
+
+        if (getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
+            getResourceSettings().setThrowExceptionOnMissingResource(false);
+        }
 
         //EmailService.get().sendEmail("mail@mlesniak.com", "Test", new Date().toString());
     }
