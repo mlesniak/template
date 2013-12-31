@@ -3,6 +3,7 @@ package com.mlesniak.template.statistic;
 import com.mlesniak.template.dao.StatisticDao;
 import com.mlesniak.template.model.StatisticDO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
@@ -56,18 +57,15 @@ public class StatisticPanel extends Panel implements Serializable {
         final StatisticModel model = new StatisticModel();
         Form<StatisticModel> form = new Form<>("logForm", new CompoundPropertyModel<>(model));
 
-        final AutoCompleteTextField<String> keyword = addKeywordField(form);
-
         IModel logs = new LoadableDetachableModel<List<StatisticDO>>() {
             @Override
             protected List<StatisticDO> load() {
                 return statDOs;
             }
         };
-
         final WebMarkupContainer container = addStatisticView(logs);
-
         addLevelField(model, form);
+        final AutoCompleteTextField<String> keyword = addKeywordField(form, model);
         addSearchButton(model, form, keyword, container);
         addDateFields(form);
 
@@ -131,10 +129,17 @@ public class StatisticPanel extends Panel implements Serializable {
         return "[[0," + avg + "], [" + (computation.getValues().size() - 1) + ", " + avg + "]]";
     }
 
-    private void addLevelField(StatisticModel model, Form<StatisticModel> form) {
-        DropDownChoice<StatisticCategory> level = new DropDownChoice<>("category", availableCategories);
+    private DropDownChoice<StatisticCategory> addLevelField(final StatisticModel model, Form<StatisticModel> form) {
+        final DropDownChoice<StatisticCategory> level = new DropDownChoice<>("category", availableCategories);
+        level.add(new OnChangeAjaxBehavior() {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                model.setCategory(level.getModelObject());
+            }
+        });
         model.setCategory(StatisticCategory.All);
         form.add(level);
+        return level;
     }
 
     private void addDateFields(Form<StatisticModel> form) {
@@ -147,13 +152,14 @@ public class StatisticPanel extends Panel implements Serializable {
         form.add(endTime);
     }
 
-    private AutoCompleteTextField<String> addKeywordField(Form<StatisticModel> form) {
+    private AutoCompleteTextField<String> addKeywordField(Form<StatisticModel> form,
+                                                          final StatisticModel model) {
         AutoCompleteSettings settings = new AutoCompleteSettings().setAdjustInputWidth(false);
 
         final AutoCompleteTextField<String> keyword = new AutoCompleteTextField<String>("keyword", settings) {
             @Override
             protected Iterator<String> getChoices(String input) {
-                return StatisticDao.get().getAvailableDesciption(null, input).iterator();
+                return StatisticDao.get().getAvailableDesciption(model.getCategory(), input).iterator();
             }
         };
 
