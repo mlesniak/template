@@ -17,21 +17,21 @@ import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSessio
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IExceptionSettings;
+import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static org.quartz.JobBuilder.newJob;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 public class WicketApplication extends AuthenticatedWebApplication {
     private Logger log = LoggerFactory.getLogger(WicketApplication.class);
@@ -92,21 +92,27 @@ public class WicketApplication extends AuthenticatedWebApplication {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
 
+            Reflections reflections = new Reflections("com.mlesniak");
+            Set<Class<? extends Job>> jobs = reflections.getSubTypesOf(Job.class);
+            for (Class<? extends Job> job : jobs) {
+                log.info("Job found:" + job.getCanonicalName());
+            }
+
             JobDetail job = newJob(HelloJob.class)
                     .withIdentity("job1", "group1")
                     .build();
 
-            // Trigger the job to run now, and then repeat every 40 seconds
-            Trigger trigger = newTrigger()
-                    .withIdentity("trigger1", "group1")
-                    .startNow()
-                    .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(40)
-                            .repeatForever())
-                    .build();
-
-            // Tell quartz to schedule the job using our trigger
-            scheduler.scheduleJob(job, trigger);
+//            // Trigger the job to run now, and then repeat every 40 seconds
+//            Trigger trigger = newTrigger()
+//                    .withIdentity("trigger1", "group1")
+//                    .startNow()
+//                    .withSchedule(simpleSchedule()
+//                            .withIntervalInSeconds(40)
+//                            .repeatForever())
+//                    .build();
+//
+//            // Tell quartz to schedule the job using our trigger
+//            scheduler.scheduleJob(job, trigger);
 
             log.info("Scheduler started");
         } catch (SchedulerException e) {
