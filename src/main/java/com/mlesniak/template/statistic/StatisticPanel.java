@@ -135,7 +135,10 @@ public class StatisticPanel extends Panel implements Serializable {
 
     private AutoCompleteTextField<String> addKeywordField(Form<StatisticModel> form,
                                                           final StatisticModel model) {
-        AutoCompleteSettings settings = new AutoCompleteSettings().setAdjustInputWidth(false);
+        AutoCompleteSettings settings = new AutoCompleteSettings()
+                .setAdjustInputWidth(false)
+                .setShowListOnEmptyInput(true)
+                .setThrottleDelay(150);
 
         final AutoCompleteTextField<String> keyword = new AutoCompleteTextField<String>("keyword", settings) {
             @Override
