@@ -1,5 +1,6 @@
 package com.mlesniak.template.config;
 
+import com.mlesniak.template.jobs.SchedulerService;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
@@ -35,15 +36,28 @@ public class ConfigPanel extends Panel {
             protected void onSubmit() {
                 super.onSubmit();
                 boolean reload = false;
+                boolean restartScheduler = false;
                 for (Map.Entry<String, String> entry : model.entrySet()) {
                     if (isChangeableKey(entry.getKey())) {
+                        if (Config.get().get(entry.getKey()).equals(entry.getValue())) {
+                            continue;
+                        }
+
                         if (entry.getKey().equals(ConfigKeys.SHOW_DEFAULT_OPTIONS)) {
                             reload = true;
+                        }
+                        if (SchedulerService.get().isJobKey(entry.getKey())) {
+                            // Compare with old value and only restart if changed.
+                            restartScheduler = true;
                         }
 
                         Config.get().set(entry.getKey(), entry.getValue());
                         log.info("Storing new value. " + entry.getKey() + ": " + entry.getValue());
                     }
+                }
+
+                if (restartScheduler) {
+                    SchedulerService.get().restartScheduler();
                 }
 
                 if (reload) {

@@ -7,18 +7,23 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.Set;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
+
 public class SchedulerService {
-    public static final String REPEAT_SECONDS = ".repeatSeconds";
     private Logger log = LoggerFactory.getLogger(SchedulerService.class);
     private static SchedulerService INSTANCE;
 
     private static final String START_NOW = ".startNow";
+    private static final String REPEAT_SECONDS = ".repeatSeconds";
+    private static final String CRON = ".cron";
+    private Set<Class<? extends Job>> jobs;
 
     public static SchedulerService get() {
         if (INSTANCE == null) {
@@ -26,6 +31,19 @@ public class SchedulerService {
         }
 
         return INSTANCE;
+    }
+
+    /**
+     * Returns true if the given key corresponds to a job class.
+     */
+    public boolean isJobKey(String key) {
+        for (Class<? extends Job> jobClass : findJobs()) {
+            if (key.startsWith(jobClass.getCanonicalName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void startScheduler() {
@@ -43,17 +61,28 @@ public class SchedulerService {
                         .build();
 
                 TriggerBuilder<Trigger> builder = newTrigger().withIdentity(name);
-                if (config.getBoolean(name + START_NOW)) {
-                    builder.startNow();
+
+                if (config.isKeyDefined(name + START_NOW) && config.getBoolean(name + START_NOW)) {
                     log.debug("Starting immediately");
+                    builder.startNow();
                 }
 
                 if (config.isKeyDefined(name + REPEAT_SECONDS)) {
                     int seconds = config.getInt(name + REPEAT_SECONDS);
+                    log.debug("Repeating forever. seconds=" + seconds);
                     builder.withSchedule(simpleSchedule()
                             .withIntervalInSeconds(seconds)
                             .repeatForever());
-                    log.debug("Repeating forever. seconds=" + seconds);
+                }
+
+                if (config.isKeyDefined(name + CRON)) {
+                    String cronExpression = config.get(name + CRON);
+                    if (cronExpression.startsWith("#")) {
+                        log.info("Cron expression is disabled. job=" + name);
+                    } else {
+                        log.debug("With cron. cron=" + cronExpression);
+                        builder.withSchedule(cronSchedule(cronExpression));
+                    }
                 }
 
                 scheduler.scheduleJob(job, builder.build());
@@ -67,13 +96,19 @@ public class SchedulerService {
     }
 
     private Set<Class<? extends Job>> findJobs() {
+        if (jobs != null) {
+            return jobs;
+        }
+
         Reflections reflections = new Reflections("com.mlesniak");
-        Set<Class<? extends Job>> jobs = reflections.getSubTypesOf(Job.class);
+        jobs = reflections.getSubTypesOf(Job.class);
         if (log.isDebugEnabled()) {
             for (Class<? extends Job> job : jobs) {
                 log.debug("Job found:" + job.getCanonicalName());
             }
         }
+        jobs = Collections.unmodifiableSet(jobs);
+
         return jobs;
     }
 
@@ -84,5 +119,10 @@ public class SchedulerService {
         } catch (SchedulerException e) {
             log.error("Unable to shutdown scheduler. msg=" + e.getMessage(), e);
         }
+    }
+
+    public void restartScheduler() {
+        stopScheduler();
+        startScheduler();
     }
 }
