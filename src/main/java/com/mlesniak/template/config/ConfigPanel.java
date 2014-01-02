@@ -37,7 +37,7 @@ public class ConfigPanel extends Panel {
                 boolean reload = false;
                 for (Map.Entry<String, String> entry : model.entrySet()) {
                     if (isChangeableKey(entry.getKey())) {
-                        if (entry.getKey().equals(ConfigKeys.SHOW_DEFAILT_OPTIONS)) {
+                        if (entry.getKey().equals(ConfigKeys.SHOW_DEFAULT_OPTIONS)) {
                             reload = true;
                         }
 
@@ -93,7 +93,7 @@ public class ConfigPanel extends Panel {
                 if (!isChangeableKey(item.getModelObject())) {
                     inputField.setEnabled(false);
                     label.add(new AttributeAppender("class", "disabled"));
-                    item.setVisible(Config.get().getBoolean(ConfigKeys.SHOW_DEFAILT_OPTIONS));
+                    item.setVisible(Config.get().getBoolean(ConfigKeys.SHOW_DEFAULT_OPTIONS));
                 }
             }
 

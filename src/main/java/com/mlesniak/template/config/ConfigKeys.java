@@ -5,7 +5,7 @@ package com.mlesniak.template.config;
  */
 public class ConfigKeys {
     public static final String ALLOW_SUBMIT = "allowSubmit";
-    public static final String SHOW_DEFAILT_OPTIONS = "showDefaultOptions";
+    public static final String SHOW_DEFAULT_OPTIONS = "showDefaultOptions";
 
     // Database configuration.
     public static final String DATABASE_DRIVER = "database.driver";
