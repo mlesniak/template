@@ -9,7 +9,7 @@ import com.mlesniak.template.config.ConfigPage;
 import com.mlesniak.template.dao.UserDao;
 import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
-import com.mlesniak.template.jobs.HelloJob;
+import com.mlesniak.template.jobs.SchedulerService;
 import com.mlesniak.template.logging.LogPage;
 import com.mlesniak.template.statistic.StatisticPage;
 import org.apache.wicket.RuntimeConfigurationType;
@@ -17,21 +17,14 @@ import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSessio
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IExceptionSettings;
-import org.quartz.Job;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
-import static org.quartz.JobBuilder.newJob;
 
 public class WicketApplication extends AuthenticatedWebApplication {
     private Logger log = LoggerFactory.getLogger(WicketApplication.class);
@@ -40,13 +33,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try {
-            StdSchedulerFactory.getDefaultScheduler().shutdown(false);
-            log.info("Scheduler shut down.");
-        } catch (SchedulerException e) {
-            log.error("Unable to shutdown scheduler. msg=" + e.getMessage(), e);
-        }
-
+        SchedulerService.get().stopScheduler();
     }
 
     @Override
@@ -84,41 +71,10 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
         //EmailService.get().sendEmail("mail@mlesniak.com", "Test", new Date().toString());
 
-        startScheduler();
+        SchedulerService.get().startScheduler();
     }
 
-    private void startScheduler() {
-        try {
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-            scheduler.start();
 
-            Reflections reflections = new Reflections("com.mlesniak");
-            Set<Class<? extends Job>> jobs = reflections.getSubTypesOf(Job.class);
-            for (Class<? extends Job> job : jobs) {
-                log.info("Job found:" + job.getCanonicalName());
-            }
-
-            JobDetail job = newJob(HelloJob.class)
-                    .withIdentity("job1", "group1")
-                    .build();
-
-//            // Trigger the job to run now, and then repeat every 40 seconds
-//            Trigger trigger = newTrigger()
-//                    .withIdentity("trigger1", "group1")
-//                    .startNow()
-//                    .withSchedule(simpleSchedule()
-//                            .withIntervalInSeconds(40)
-//                            .repeatForever())
-//                    .build();
-//
-//            // Tell quartz to schedule the job using our trigger
-//            scheduler.scheduleJob(job, trigger);
-
-            log.info("Scheduler started");
-        } catch (SchedulerException e) {
-            log.error("Unable to start scheduling. msg=" + e.getMessage(), e);
-        }
-    }
 
     private void mountPages() {
         Map<String, Class<? extends WebPage>> mapping = getPageMapping();

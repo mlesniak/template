@@ -42,7 +42,7 @@ public class BaseDao {
         Config config = Config.get();
         log.debug("Updating database");
         ConfigDao dao = ConfigDao.get();
-        for (String key : config.getDefaultKeys()) {
+        for (String key : config.getKeys()) {
             if (dao.isKeyDefined(key)) {
                 continue;
             }

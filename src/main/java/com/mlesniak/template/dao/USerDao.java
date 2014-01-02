@@ -1,6 +1,7 @@
 package com.mlesniak.template.dao;
 
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigKeys;
 import com.mlesniak.template.model.UserDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +25,15 @@ public class UserDao extends BaseDao {
 
     public void addAdminUser() {
         Config config = Config.get();
-        if (getByUsername(config.get(Config.Key.defaultAdminUsername)) != null) {
+        if (getByUsername(config.get(ConfigKeys.ADMIN_USERNAME)) != null) {
             return;
         }
 
         UserDO admin = new UserDO();
-        admin.setUsername(config.get(Config.Key.defaultAdminUsername));
-        admin.setPassword(config.get(Config.Key.defaultAdminPassword));
-        admin.setEmail(config.get(Config.Key.defaultAdminEmail));
-        admin.setRoles(config.get(Config.Key.defaultAdminRoles));
+        admin.setUsername(config.get(ConfigKeys.ADMIN_USERNAME));
+        admin.setPassword(config.get(ConfigKeys.ADMIN_PASSWORD));
+        admin.setEmail(config.get(ConfigKeys.ADMIN_EMAIL));
+        admin.setRoles(config.get(ConfigKeys.ADMIN_ROLES));
         add(admin);
     }
 

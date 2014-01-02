@@ -5,9 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.security.Key;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public class Config {
     private Logger log = LoggerFactory.getLogger(Config.class);
@@ -40,22 +41,10 @@ public class Config {
      */
     public Map<String, String> getConfig() {
         Map<String, String> map = new HashMap<>();
-        for (String name : getDefaultKeys()) {
+        for (String name : getKeys()) {
             map.put(name, get(name));
         }
         return map;
-    }
-
-    public List<String> getDefaultKeys() {
-        List<String> list = new LinkedList<>();
-        for (Field keyField : ConfigKeys.class.getDeclaredFields()) {
-            try {
-                list.add((String) keyField.get(String.class));
-            } catch (IllegalAccessException e) {
-                log.error("Unable to access field. field=" + keyField);
-            }
-        }
-        return list;
     }
 
     public void load() {
@@ -80,6 +69,10 @@ public class Config {
         databaseResolution = true;
     }
 
+    public boolean isKeyDefined(String key) {
+        return ConfigDao.get().isKeyDefined(key);
+    }
+
     public void set(String key, String value) {
         if (!databaseResolution) {
             log.warn("Key not set. Database initalization not finished. key=" + key);
@@ -101,5 +94,9 @@ public class Config {
         ConfigDao.get().clear();
         ConfigDao.get().initializeFromPropertiesFile();
         databaseResolution = true;
+    }
+
+    public Set<String> getKeys() {
+        return (Set<String>)(Set<?>)properties.keySet();
     }
 }
