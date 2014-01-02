@@ -2,6 +2,7 @@ package com.mlesniak.template.app;
 
 import com.mlesniak.template.BasePage;
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigKeys;
 import com.mlesniak.template.dao.MessageDao;
 import com.mlesniak.template.model.MessageDO;
 import org.apache.wicket.markup.html.basic.Label;
@@ -30,7 +31,7 @@ public class HomePage extends BasePage {
         Label disabledMessage = new Label("disabledMessage", new ResourceModel("form.disabled")) {
             @Override
             public boolean isVisible() {
-                return !Config.get().getBoolean(Config.Key.allowSubmit);
+                return !Config.get().getBoolean(ConfigKeys.ALLOW_SUBMIT);
             }
         };
         add(disabledMessage);
@@ -49,7 +50,7 @@ public class HomePage extends BasePage {
 
             @Override
             public boolean isVisible() {
-                return Config.get().getBoolean(Config.Key.allowSubmit);
+                return Config.get().getBoolean(ConfigKeys.ALLOW_SUBMIT);
             }
         };
         TextField<String> input = new TextField<>("message");

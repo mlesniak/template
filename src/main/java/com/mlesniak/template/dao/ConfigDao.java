@@ -1,6 +1,5 @@
 package com.mlesniak.template.dao;
 
-import com.mlesniak.template.config.Config;
 import com.mlesniak.template.model.ConfigDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,30 +25,30 @@ public class ConfigDao extends BaseDao {
         super.init();
     }
 
-    public boolean isKeyDefined(Config.Key key) {
+    public boolean isKeyDefined(String key) {
         return get(key, false) != null;
     }
 
-    public ConfigDO get(Config.Key key) {
+    public ConfigDO get(String key) {
         return get(key, true);
     }
 
-    private ConfigDO get(Config.Key key, boolean doLog) {
+    private ConfigDO get(String key, boolean doLog) {
         try {
             checkAndInvalidateCache();
             return getConfigForKey(key, true);
         } catch (RuntimeException exception) {
             if (doLog) {
-                log.warn("Unable to get key. key=" + key.get());
+                log.warn("Unable to get key. key=" + key);
             }
         }
 
         return null;
     }
 
-    private ConfigDO getConfigForKey(Config.Key key, boolean detach) {
+    private ConfigDO getConfigForKey(String key, boolean detach) {
         EntityManager em = getEntityManager();
-        String query = "SELECT c FROM ConfigDO c WHERE c.key = '" + key.get() + "'";
+        String query = "SELECT c FROM ConfigDO c WHERE c.key = '" + key + "'";
         ConfigDO configDO = em.createQuery(query, ConfigDO.class).getSingleResult();
         if (detach) {
             em.detach(configDO);
@@ -74,7 +73,7 @@ public class ConfigDao extends BaseDao {
         }
     }
 
-    public void update(Config.Key key, String value) {
+    public void update(String key, String value) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         ConfigDO configDO = getConfigForKey(key, false);
@@ -86,11 +85,11 @@ public class ConfigDao extends BaseDao {
         resetCache();
     }
 
-    public void put(Config.Key key, String value) {
+    public void put(String key, String value) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         ConfigDO configDO = new ConfigDO();
-        configDO.setKey(key.get());
+        configDO.setKey(key);
         configDO.setValue(value);
         em.persist(configDO);
         em.getTransaction().commit();

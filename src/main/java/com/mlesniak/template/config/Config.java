@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.security.Key;
 import java.util.*;
 
 public class Config {
@@ -16,60 +18,6 @@ public class Config {
 
 
 
-    public enum Key {
-        allowSubmit(),
-        showDefaultOptions(),
-
-        // Database configuration.
-        databaseDriver("database.driver"),
-        databaseURL("database.url"),
-        databaseUsername("database.user"),
-        databasePassword("database.password"),
-        databaseGeneration("database.generation"),
-
-        defaultAdminUsername("database.admin.username"),
-        defaultAdminPassword("database.admin.password"),
-        defaultAdminEmail("database.admin.email"),
-        defaultAdminRoles("database.admin.roles"),
-        defaultAdmimLanguage("database.admin.language"),
-
-        // This is currently quite GMail-centric.
-        emailFrom("email.from"),
-        emailHost("email.host"),
-        emailPort("email.port"),
-        emailUsername("email.username"),
-        emailPassword("email.password"),
-
-        ;
-        private final String path;
-
-        Key() {
-            this.path = null;
-        }
-
-        Key(String path) {
-            this.path = path;
-        }
-
-        public String get() {
-            if (path == null) {
-                return this.toString();
-            }
-
-            return path;
-        }
-
-        public static Key getKey(String value) {
-            for (Key key : Key.values()) {
-                if (key.get().equals(value)) {
-                    return key;
-                }
-            }
-
-            return null;
-        }
-
-    }
     private Config() {
         properties = new Properties();
         load();
@@ -87,39 +35,43 @@ public class Config {
         return INSTANCE;
     }
 
-    public Map<Key, String> getConfig() {
-        Map<Key, String> map = new HashMap<>();
-        for (Key key : Key.values()) {
-            map.put(key, get(key));
+    /**
+     * Returns configuration for all default keys from {@link com.mlesniak.template.config.ConfigKeys}.
+     */
+    public Map<String, String> getConfig() {
+        Map<String, String> map = new HashMap<>();
+        for (String name : getDefaultKeys()) {
+            map.put(name, get(name));
         }
         return map;
     }
 
-    public List<Key> getDefinedKeys() {
-        return Arrays.asList(Key.values());
+    public List<String> getDefaultKeys() {
+        List<String> list = new LinkedList<>();
+        for (Field keyField : ConfigKeys.class.getDeclaredFields()) {
+            try {
+                list.add((String) keyField.get(String.class));
+            } catch (IllegalAccessException e) {
+                log.error("Unable to access field. field=" + keyField);
+            }
+        }
+        return list;
     }
 
     public void load() {
         log.debug("Loading configuration.");
         try {
             properties.load(Config.class.getResourceAsStream(FILENAME));
-            // Check that only valid configuration keys are loaded.
-            for (String key : properties.stringPropertyNames()) {
-                if (Key.getKey(key) == null) {
-                    log.warn("Key not defined in enum, ignoring. key=" + key);
-                    properties.remove(key);
-                }
-            }
         } catch (IOException | NullPointerException e) {
             log.error("Unable to load config file from classpath. filename=" + FILENAME);
         }
     }
 
-    public boolean getBoolean(Key key) {
+    public boolean getBoolean(String key) {
         return Boolean.parseBoolean(get(key));
     }
 
-    public int getInt(Key key) {
+    public int getInt(String key) {
         return Integer.parseInt(get(key));
     }
 
@@ -128,18 +80,18 @@ public class Config {
         databaseResolution = true;
     }
 
-    public void set(Key key, String value) {
+    public void set(String key, String value) {
         if (!databaseResolution) {
-            log.warn("Key not set. Database initalization not finished. key=" + key.get());
+            log.warn("Key not set. Database initalization not finished. key=" + key);
             return;
         }
 
         ConfigDao.get().update(key, value);
     }
 
-    public String get(Key key) {
+    public String get(String key) {
         if (!databaseResolution) {
-            return properties.getProperty(key.get());
+            return properties.getProperty(key);
         }
         return ConfigDao.get().get(key).getValue();
     }

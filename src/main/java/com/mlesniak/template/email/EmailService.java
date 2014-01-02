@@ -1,6 +1,7 @@
 package com.mlesniak.template.email;
 
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigKeys;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -25,13 +26,13 @@ public class EmailService  {
         Config config = Config.get();
 
         try {
-            email.setHostName(config.get(Config.Key.emailHost));
-            email.setSmtpPort(config.getInt(Config.Key.emailPort));
+            email.setHostName(config.get(ConfigKeys.EMAIL_HOST));
+            email.setSmtpPort(config.getInt(ConfigKeys.EMAIL_PORT));
             DefaultAuthenticator auth = new DefaultAuthenticator(
-                    config.get(Config.Key.emailUsername), config.get(Config.Key.emailPassword));
+                    config.get(ConfigKeys.EMAIL_USERNAME), config.get(ConfigKeys.EMAIL_PASSWORD));
             email.setAuthenticator(auth);
             email.setSSLOnConnect(true);
-            email.setFrom(config.get(Config.Key.emailFrom));
+            email.setFrom(config.get(ConfigKeys.EMAIL_FROM));
             email.setSubject(subject);
             email.setMsg(message);
             email.addTo(to);

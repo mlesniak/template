@@ -1,6 +1,7 @@
 package com.mlesniak.template.dao;
 
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +27,11 @@ public class BaseDao {
     private static void initializeFactory() {
         Map<String, String> configuration = new HashMap<>();
         Config config = Config.get();
-        configuration.put("javax.persistence.jdbc.driver", config.get(Config.Key.databaseDriver));
-        configuration.put("javax.persistence.jdbc.url", config.get(Config.Key.databaseURL));
-        configuration.put("javax.persistence.jdbc.username", config.get(Config.Key.databaseUsername));
-        configuration.put("javax.persistence.jdbc.password", config.get(Config.Key.databasePassword));
-        String ddlGeneration = config.get(Config.Key.databaseGeneration);
+        configuration.put(ConfigKeys.DATABASE_DRIVER, config.get(ConfigKeys.DATABASE_DRIVER));
+        configuration.put(ConfigKeys.DATABASE_URL, config.get(ConfigKeys.DATABASE_URL));
+        configuration.put(ConfigKeys.DATABASE_USER, config.get(ConfigKeys.DATABASE_USER));
+        configuration.put(ConfigKeys.DATABASE_PASSWORD, config.get(ConfigKeys.DATABASE_PASSWORD));
+        String ddlGeneration = config.get(ConfigKeys.DATABASE_GENERATION);
         if (ddlGeneration != null) {
             configuration.put("eclipselink.ddl-generation", ddlGeneration);
         }
@@ -41,14 +42,14 @@ public class BaseDao {
         Config config = Config.get();
         log.debug("Updating database");
         ConfigDao dao = ConfigDao.get();
-        for (Config.Key key : config.getDefinedKeys()) {
+        for (String key : config.getDefaultKeys()) {
             if (dao.isKeyDefined(key)) {
                 continue;
             }
             String value = config.get(key);
             dao.put(key, value);
             if (log.isDebugEnabled()) {
-                log.debug("Storing key=" + key.get());
+                log.debug("Storing key=" + key);
             }
         }
 

@@ -22,22 +22,22 @@ public class ConfigPanel extends Panel {
     public ConfigPanel(String id) {
         super(id);
 
-        final Map<Config.Key, String> model = Config.get().getConfig();
+        final Map<String, String> model = Config.get().getConfig();
         Form form = createForm(model);
         add(form);
 
         addResetButton(model, form);
     }
 
-    private Form createForm(final Map<Config.Key, String> model) {
+    private Form createForm(final Map<String, String> model) {
         Form form = new Form("configForm") {
             @Override
             protected void onSubmit() {
                 super.onSubmit();
                 boolean reload = false;
-                for (Map.Entry<Config.Key, String> entry : model.entrySet()) {
+                for (Map.Entry<String, String> entry : model.entrySet()) {
                     if (isChangeableKey(entry.getKey())) {
-                        if (entry.getKey().equals(Config.Key.showDefaultOptions)) {
+                        if (entry.getKey().equals(ConfigKeys.SHOW_DEFAILT_OPTIONS)) {
                             reload = true;
                         }
 
@@ -52,16 +52,16 @@ public class ConfigPanel extends Panel {
             }
         };
 
-        ListView<Config.Key> formFields = createFormFields(model);
+        ListView<String> formFields = createFormFields(model);
         form.add(formFields);
         return form;
     }
 
-    private ListView<Config.Key> createFormFields(final Map<Config.Key, String> model) {
-        ListView<Config.Key> listView = new ListView<Config.Key>("configValues", computeListModel(model)) {
+    private ListView<String> createFormFields(final Map<String, String> model) {
+        ListView<String> listView = new ListView<String>("configValues", computeListModel(model)) {
             @Override
-            protected void populateItem(final ListItem<Config.Key> item) {
-                Label label = new Label("key", item.getModelObject().get());
+            protected void populateItem(final ListItem<String> item) {
+                Label label = new Label("key", item.getModelObject());
                 TextField<String> inputField = new TextField<>("value", new Model<String>() {
                     @Override
                     public String getObject() {
@@ -75,7 +75,7 @@ public class ConfigPanel extends Panel {
                 });
 
                 try {
-                    String documentation = getString(item.getModelObject().get());
+                    String documentation = getString(item.getModelObject());
                     if (documentation != null) {
                         inputField.add(new AttributeModifier("title", documentation));
                     }
@@ -89,15 +89,15 @@ public class ConfigPanel extends Panel {
                 item.add(label);
             }
 
-            private void handleDatabaseDisabeled(ListItem<Config.Key> item, Label label, TextField<String> inputField) {
+            private void handleDatabaseDisabeled(ListItem<String> item, Label label, TextField<String> inputField) {
                 if (!isChangeableKey(item.getModelObject())) {
                     inputField.setEnabled(false);
                     label.add(new AttributeAppender("class", "disabled"));
-                    item.setVisible(Config.get().getBoolean(Config.Key.showDefaultOptions));
+                    item.setVisible(Config.get().getBoolean(ConfigKeys.SHOW_DEFAILT_OPTIONS));
                 }
             }
 
-            private void handleAutoFocusOnFirstElement(ListItem<Config.Key> item, TextField<String> inputField) {
+            private void handleAutoFocusOnFirstElement(ListItem<String> item, TextField<String> inputField) {
                 if (item.getIndex() == 0) {
                     inputField.add(new AttributeModifier("autofocus", "true"));
                 }
@@ -107,22 +107,17 @@ public class ConfigPanel extends Panel {
         return listView;
     }
 
-    private List<Config.Key> computeListModel(Map<Config.Key, String> model) {
-        List<Config.Key> keys = new ArrayList<>(model.keySet());
-        Collections.sort(keys, new Comparator<Config.Key>() {
-            @Override
-            public int compare(Config.Key o1, Config.Key o2) {
-                return o1.get().compareTo(o2.get());
-            }
-        });
+    private List<String> computeListModel(Map<String, String> model) {
+        List<String> keys = new ArrayList<>(model.keySet());
+        Collections.sort(keys);
         return keys;
     }
 
-    private boolean isChangeableKey(Config.Key key) {
-        return !key.get().startsWith("database.");
+    private boolean isChangeableKey(String key) {
+        return !key.startsWith("database.");
     }
 
-    private void addResetButton(final Map<Config.Key, String> model, final Form form) {
+    private void addResetButton(final Map<String, String> model, final Form form) {
         AjaxFallbackButton resetButton = new AjaxFallbackButton("resetButton", form) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
