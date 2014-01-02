@@ -28,4 +28,7 @@ public class ConfigKeys {
     public static final String EMAIL_PORT = "email.port";
     public static final String EMAIL_USERNAME = "email.username";
     public static final String EMAIL_PASSWORD = "email.password";
+
+    // Reset everything from file?
+    public static final String RESET = "reset";
 }

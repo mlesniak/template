@@ -105,6 +105,6 @@ public class ConfigDao extends BaseDao {
     }
 
     public void initializeFromPropertiesFile() {
-        storeNewKeysInDatabase();
+        storeNewDefaultKeysInDatabase();
     }
 }

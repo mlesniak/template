@@ -21,7 +21,15 @@ public class BaseDao {
         }
 
         initializeFactory();
-        storeNewKeysInDatabase();
+        storeNewDefaultKeysInDatabase();
+        checkAndDoReset();
+    }
+
+    private void checkAndDoReset() {
+        if (Config.get().getBoolean(ConfigKeys.RESET)) {
+            log.info("Resetting to default values.");
+            Config.get().resetToConfigFile();
+        }
     }
 
     private static void initializeFactory() {
@@ -38,7 +46,7 @@ public class BaseDao {
         factory = Persistence.createEntityManagerFactory("database", configuration);
     }
 
-    protected static void storeNewKeysInDatabase() {
+    protected static void storeNewDefaultKeysInDatabase() {
         Config config = Config.get();
         log.debug("Updating database");
         ConfigDao dao = ConfigDao.get();
