@@ -1,8 +1,12 @@
 package com.mlesniak.template.config;
 
 import com.mlesniak.template.jobs.SchedulerService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
@@ -19,15 +23,40 @@ import java.util.*;
 
 public class ConfigPanel extends Panel {
     private Logger log = LoggerFactory.getLogger(ConfigPanel.class);
+    private TextField<String> filter;
+    private ListView<String> formFields;
+    private final Form form;
+    private ListView<String> listView;
 
     public ConfigPanel(String id) {
         super(id);
 
         final Map<String, String> model = Config.get().getConfig();
-        Form form = createForm(model);
+        form = createForm(model);
         add(form);
 
+        addFilter(model);
         addResetButton(model, form);
+    }
+
+    private void addFilter(final Map<String, String> model) {
+        Form filterForm = new Form("filterForm");
+
+        final TextField<String> keyword = new TextField<>("filter", Model.of(""));
+        keyword.add(new OnChangeAjaxBehavior() {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                target.add(form);
+                listView.setModelObject(computeListModel(model));
+                System.out.println("changed:" + keyword.getModelObject());
+                target.appendJavaScript("updateQtip();");
+            }
+        });
+
+        filterForm.add(keyword);
+        add(filterForm);
+        keyword.setOutputMarkupId(true);
+        filter = keyword;
     }
 
     private Form createForm(final Map<String, String> model) {
@@ -66,15 +95,28 @@ public class ConfigPanel extends Panel {
             }
         };
 
-        ListView<String> formFields = createFormFields(model);
+        formFields = createFormFields(model);
         form.add(formFields);
+        form.setOutputMarkupId(true);
         return form;
     }
 
     private ListView<String> createFormFields(final Map<String, String> model) {
-        ListView<String> listView = new ListView<String>("configValues", computeListModel(model)) {
+        listView = new ListView<String>("configValues", computeListModel(model)) {
+            @Override
+            protected void onBeforeRender() {
+                super.onBeforeRender();
+                System.out.println("RENDERING");
+            }
+
             @Override
             protected void populateItem(final ListItem<String> item) {
+                System.out.println("Populating for item=" + item.getModelObject());
+
+//                if (!StringUtils.containsIgnoreCase(item.getModelObject(), filter.getModelObject())) {
+//                    return;
+//                }
+
                 Label label = new Label("key", item.getModelObject());
                 TextField<String> inputField = new TextField<>("value", new Model<String>() {
                     @Override
@@ -98,6 +140,7 @@ public class ConfigPanel extends Panel {
                 }
 
                 // handleAutoFocusOnFirstElement(item, inputField);
+                inputField.add(new AttributeModifier("tabindex", Integer.toString(item.getIndex() - 1)));
                 handleDatabaseDisabeled(item, label, inputField);
                 item.add(inputField);
                 item.add(label);
@@ -117,13 +160,28 @@ public class ConfigPanel extends Panel {
                 }
             }
         };
-        listView.setReuseItems(true);
+        listView.setReuseItems(false);
+        listView.setOutputMarkupId(true);
         return listView;
     }
 
     private List<String> computeListModel(Map<String, String> model) {
         List<String> keys = new ArrayList<>(model.keySet());
         Collections.sort(keys);
+        final String input = filter == null ? "" : (filter.getModelObject() == null ? "" : filter.getModelObject());
+        System.out.println("filtering for " + input);
+        CollectionUtils.filter(keys, new Predicate() {
+            @Override
+            public boolean evaluate(Object object) {
+                String s = (String) object;
+                if (StringUtils.containsIgnoreCase(s, input)) {
+                    System.out.println("accepting " + s);
+                }
+
+                return StringUtils.containsIgnoreCase(s, input);
+            }
+        });
+
         return keys;
     }
 

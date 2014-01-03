@@ -77,3 +77,8 @@ div.wicket-aa {
     padding: 2px;
     text-align:left;
 }
+
+.bottom-line {
+    padding-bottom: 10px;
+    border-bottom: 1px #cccccc solid;
+}

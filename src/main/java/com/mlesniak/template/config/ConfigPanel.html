@@ -2,6 +2,15 @@
 <html xmlns:wicket="http://wicket.apache.org">
 
 <wicket:panel>
+    <form wicket:id="filterForm" class="form-horizontal">
+        <div class="form-group bottom-line">
+            <label for="filter" class="col-sm-1">
+                <wicket:message key="form.filter"/>
+            </label>
+            <input wicket:id="filter" type="text" id="filter" size="30" autofocus title="test"/>
+        </div>
+    </form>
+
     <form wicket:id="configForm" class="form-horizontal">
         <div wicket:id="configValues" class="form-group">
             <label class="col-sm-4 control-label" style="text-align: left;"><span wicket:id="key"></span></label>
