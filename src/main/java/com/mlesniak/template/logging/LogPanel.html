@@ -42,23 +42,46 @@
         <table class="table table-hover table-bordered">
             <thead>
             <tr>
-                <th class="col-sm-1"><wicket:message key="logpanel.event"/></th>
-                <th class="col-sm-1"><wicket:message key="logpanel.date"/></th>
-                <th class="col-sm-1"><wicket:message key="logpanel.time"/></th>
-                <th class="col-sm-1"><wicket:message key="logpanel.level"/></th>
-                <th class="col-sm-1"><wicket:message key="logpanel.class"/></th>
-                <th><wicket:message key="logpanel.message"/></th>
+                <th class="col-sm-1">
+                    <wicket:message key="logpanel.event"/>
+                </th>
+                <th class="col-sm-1">
+                    <wicket:message key="logpanel.date"/>
+                </th>
+                <th class="col-sm-1">
+                    <wicket:message key="logpanel.time"/>
+                </th>
+                <th class="col-sm-1">
+                    <wicket:message key="logpanel.level"/>
+                </th>
+                <th class="col-sm-1">
+                    <wicket:message key="logpanel.class"/>
+                </th>
+                <th>
+                    <wicket:message key="logpanel.message"/>
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr wicket:id="listview">
-                <td><span wicket:id="eventid"></span></td>
-                <td><span wicket:id="date"></span></td>
-                <td><span wicket:id="time"></span></td>
-                <td><span wicket:id="level"></span></td>
-                <td><span wicket:id="class"></span></td>
-                <td><span wicket:id="message"></span></td>
-            </tr>
+
+            <wicket:container wicket:id="listview">
+                <tr>
+                    <td><a href="" wicket:id="eventid"><span wicket:id="eventIdText"></span></a></td>
+                    <td><span wicket:id="date"></span></td>
+                    <td><span wicket:id="time"></span></td>
+                    <td><span wicket:id="level"></span></td>
+                    <td><span wicket:id="class"></span></td>
+                    <td><span wicket:id="message"></span></td>
+                </tr>
+
+                <wicket:container wicket:id="listviewData">
+                    <tr>
+                        <td>Message</td>
+                        <td colspan="5"><span wicket:id="messageData"></span></td>
+                    </tr>
+                </wicket:container>
+            </wicket:container>
+
             </tbody>
         </table>
     </div>
