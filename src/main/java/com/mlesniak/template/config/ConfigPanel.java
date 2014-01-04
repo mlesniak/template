@@ -27,6 +27,7 @@ public class ConfigPanel extends Panel {
     private ListView<String> formFields;
     private final Form form;
     private ListView<String> listView;
+    private String oldKeyword = "";
 
     public ConfigPanel(String id) {
         super(id);
@@ -46,10 +47,16 @@ public class ConfigPanel extends Panel {
         keyword.add(new OnChangeAjaxBehavior() {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
+                // Check that the onChange-event was not simply passed due to tabbing.
+                if (StringUtils.equals(keyword.getModelObject(), oldKeyword)) {
+                    return;
+                }
+                oldKeyword = keyword.getModelObject();
+
                 target.add(form);
                 listView.setModelObject(computeListModel(model));
-                System.out.println("changed:" + keyword.getModelObject());
                 target.appendJavaScript("updateQtip();");
+                target.appendJavaScript("updateTabIndex();");
             }
         });
 
@@ -103,20 +110,16 @@ public class ConfigPanel extends Panel {
 
     private ListView<String> createFormFields(final Map<String, String> model) {
         listView = new ListView<String>("configValues", computeListModel(model)) {
+            int tabIndex = 1;
+
             @Override
             protected void onBeforeRender() {
                 super.onBeforeRender();
-                System.out.println("RENDERING");
+                tabIndex = 1;
             }
 
             @Override
             protected void populateItem(final ListItem<String> item) {
-                System.out.println("Populating for item=" + item.getModelObject());
-
-//                if (!StringUtils.containsIgnoreCase(item.getModelObject(), filter.getModelObject())) {
-//                    return;
-//                }
-
                 Label label = new Label("key", item.getModelObject());
                 TextField<String> inputField = new TextField<>("value", new Model<String>() {
                     @Override
@@ -140,12 +143,14 @@ public class ConfigPanel extends Panel {
                 }
 
                 // handleAutoFocusOnFirstElement(item, inputField);
-                inputField.add(new AttributeModifier("tabindex", Integer.toString(item.getIndex() - 1)));
                 handleDatabaseDisabeled(item, label, inputField);
                 item.add(inputField);
                 item.add(label);
             }
 
+            /**
+             * Returns true if visible.
+             */
             private void handleDatabaseDisabeled(ListItem<String> item, Label label, TextField<String> inputField) {
                 if (!isChangeableKey(item.getModelObject())) {
                     inputField.setEnabled(false);
@@ -169,15 +174,10 @@ public class ConfigPanel extends Panel {
         List<String> keys = new ArrayList<>(model.keySet());
         Collections.sort(keys);
         final String input = filter == null ? "" : (filter.getModelObject() == null ? "" : filter.getModelObject());
-        System.out.println("filtering for " + input);
         CollectionUtils.filter(keys, new Predicate() {
             @Override
             public boolean evaluate(Object object) {
                 String s = (String) object;
-                if (StringUtils.containsIgnoreCase(s, input)) {
-                    System.out.println("accepting " + s);
-                }
-
                 return StringUtils.containsIgnoreCase(s, input);
             }
         });

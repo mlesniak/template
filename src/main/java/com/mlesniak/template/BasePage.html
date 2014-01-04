@@ -26,6 +26,17 @@
 
 
 <script type="text/javascript">
+    var updateTabIndex = function(){
+        var tabindex = 1;
+        $('input').each(function() {
+            if (this.type != "hidden") {
+                var $input = $(this);
+                $input.attr("tabindex", tabindex);
+                tabindex++;
+            }
+        });
+    };
+
     var updateQtip = function() {
         $('input[title]').qtip({
             show: 'focus',
@@ -39,6 +50,7 @@
 
     $(function () {
         updateQtip();
+        updateTabIndex();
     });
 </script>
 
