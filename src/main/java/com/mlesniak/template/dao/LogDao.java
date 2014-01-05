@@ -16,7 +16,7 @@ import java.util.concurrent.Callable;
 public class LogDao extends BaseDao {
     private Logger log = LoggerFactory.getLogger(LogDao.class);
     private static LogDao INSTANCE;
-    public static int MAX_RESULTS = 1000;
+    public static int MAX_RESULTS = 250;
 
     public static LogDao get() {
         if (INSTANCE == null) {

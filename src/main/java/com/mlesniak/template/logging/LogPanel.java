@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Level;
 import com.mlesniak.template.dao.LogDao;
 import com.mlesniak.template.model.LogDO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -73,45 +72,33 @@ public class LogPanel extends Panel implements Serializable {
     }
 
     private WebMarkupContainer addLogListView(final IModel logs) {
-//        final ListView<LogDO> listView2 = new ListView<LogDO>("listview2", logs) {
-//            @Override
-//            protected void populateItem(ListItem<LogDO> item) {
-//                LogDO model = item.getModelObject();
-//                item.add(new Label("message", model.getFormattedMessages()));
-//            }
-//        };
+        //        final ListView<LogDO> listView2 = new ListView<LogDO>("listview2", logs) {
+        //            @Override
+        //            protected void populateItem(ListItem<LogDO> item) {
+        //                LogDO model = item.getModelObject();
+        //                item.add(new Label("message", model.getFormattedMessages()));
+        //            }
+        //        };
 
         final ListView<LogDO> listView = new ListView<LogDO>("listview", logs) {
             @Override
             protected void populateItem(ListItem<LogDO> item) {
-                final WebMarkupContainer listViewData = new WebMarkupContainer("listviewData");
-                listViewData.setOutputMarkupPlaceholderTag(true);
-                listViewData.setVisible(false);
 
                 LogDO model = item.getModelObject();
-                AjaxFallbackLink<String> openLink = new AjaxFallbackLink<String>("eventid") {
-                    @Override
-                    public void onClick(AjaxRequestTarget target) {
-                        listViewData.setVisible(!listViewData.isVisible());
-                        target.add(listViewData);
-                    }
-                };
-                openLink.add(new Label("eventIdText", model.getId()));
-                item.add(openLink);
-//                item.add(new Label("eventid", model.getId()));
-
+                item.add(new Label("eventid", model.getId()));
                 item.add(new Label("date", toDate(model.getTimestamp())));
                 item.add(new Label("time", toTime(model.getTimestamp())));
                 item.add(new Label("level", model.getLevel()));
-                String callerClass = model.getCallerClass();
-                item.add(new Label("class", callerClass.substring(callerClass.lastIndexOf('.') + 1)));
                 item.add(new Label("message", model.getFormattedMessages()));
 
-
-                item.add(listViewData);
-
-                // Additional data display
-                listViewData.add(new Label("messageData", model.getFormattedMessages()));
+                // Extended information.
+                String location = model.getCallerFilename() + ":" + model.getCallerLine();
+                item.add(new Label("filenameData", location));
+                item.add(new Label("classData", model.getCallerClass() + "." + model.getCallerMethod()));
+                item.add(new Label("arg0Data", model.getArg0()));
+                item.add(new Label("arg1Data", model.getArg1()));
+                item.add(new Label("arg2Data", model.getArg2()));
+                item.add(new Label("arg3Data", model.getArg3()));
 
                 if (model.getLevel().equals(Level.WARN.toString())) {
                     item.add(new AttributeAppender("class", new Model<String>("warning"), " "));
@@ -123,10 +110,9 @@ public class LogPanel extends Panel implements Serializable {
         };
 
 
-
         final WebMarkupContainer container = new WebMarkupContainer("view");
         container.add(listView);
-//        container.add(listView2);
+        //        container.add(listView2);
         container.setOutputMarkupId(true);
         add(container);
         return container;
@@ -140,6 +126,7 @@ public class LogPanel extends Panel implements Serializable {
                 handleSubmit(model);
                 target.add(container);
                 target.focusComponent(keyword);
+                target.appendJavaScript("updateListener();");
             }
         };
         form.add(searchButton);

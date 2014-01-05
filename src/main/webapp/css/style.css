@@ -82,3 +82,18 @@ div.wicket-aa {
     padding-bottom: 10px;
     border-bottom: 1px #cccccc solid;
 }
+
+.dataTitle {
+    font-weight: bold;
+    vertical-align: top;
+    width: 120px;
+}
+
+.dataContent {
+    vertical-align: top;
+}
+
+.additionalData {
+    display: none;
+    background-color: #f5f5f5 !important;
+}
