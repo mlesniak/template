@@ -72,24 +72,18 @@ public class LogPanel extends Panel implements Serializable {
     }
 
     private WebMarkupContainer addLogListView(final IModel logs) {
-        //        final ListView<LogDO> listView2 = new ListView<LogDO>("listview2", logs) {
-        //            @Override
-        //            protected void populateItem(ListItem<LogDO> item) {
-        //                LogDO model = item.getModelObject();
-        //                item.add(new Label("message", model.getFormattedMessages()));
-        //            }
-        //        };
-
         final ListView<LogDO> listView = new ListView<LogDO>("listview", logs) {
             @Override
             protected void populateItem(ListItem<LogDO> item) {
+                WebMarkupContainer row = new WebMarkupContainer("row");
+                item.add(row);
 
                 LogDO model = item.getModelObject();
-                item.add(new Label("eventid", model.getId()));
-                item.add(new Label("date", toDate(model.getTimestamp())));
-                item.add(new Label("time", toTime(model.getTimestamp())));
-                item.add(new Label("level", model.getLevel()));
-                item.add(new Label("message", model.getFormattedMessages()));
+                row.add(new Label("eventid", model.getId()));
+                row.add(new Label("date", toDate(model.getTimestamp())));
+                row.add(new Label("time", toTime(model.getTimestamp())));
+                row.add(new Label("level", model.getLevel()));
+                row.add(new Label("message", model.getFormattedMessages()));
 
                 // Extended information.
                 String location = model.getCallerFilename() + ":" + model.getCallerLine();
@@ -101,10 +95,10 @@ public class LogPanel extends Panel implements Serializable {
                 item.add(new Label("arg3Data", model.getArg3()));
 
                 if (model.getLevel().equals(Level.WARN.toString())) {
-                    item.add(new AttributeAppender("class", new Model<String>("warning"), " "));
+                    row.add(new AttributeAppender("class", new Model<String>("warning"), " "));
                 }
                 if (model.getLevel().equals(Level.ERROR.toString())) {
-                    item.add(new AttributeAppender("class", new Model<String>("danger"), " "));
+                    row.add(new AttributeAppender("class", new Model<String>("danger"), " "));
                 }
             }
         };
