@@ -56,7 +56,8 @@ public class LogDao extends BaseDao {
             sb.append("\n");
         }
 
-        if (sb.length() > 0) {
+        // Ignore empty exceptions with a single newline.
+        if (sb.length() > 1) {
             logDO.setException(sb.toString());
         }
     }

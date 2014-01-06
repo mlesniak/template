@@ -87,13 +87,13 @@ public class LogPanel extends Panel implements Serializable {
 
                 // Extended information.
                 String location = model.getCallerFilename() + ":" + model.getCallerLine();
-                item.add(new Label("filenameData", location));
-                item.add(new Label("classData", model.getCallerClass() + "." + model.getCallerMethod()));
-                item.add(new Label("arg0Data", model.getArg0()));
-                item.add(new Label("arg1Data", model.getArg1()));
-                item.add(new Label("arg2Data", model.getArg2()));
-                item.add(new Label("arg3Data", model.getArg3()));
-                item.add(new Label("exceptionData", model.getException()));
+                item.add(new VisibleLabel("filenameData", location));
+                item.add(new VisibleLabel("classData", model.getCallerClass() + "." + model.getCallerMethod()));
+                item.add(new VisibleLabel("arg0Data", model.getArg0()));
+                item.add(new VisibleLabel("arg1Data", model.getArg1()));
+                item.add(new VisibleLabel("arg2Data", model.getArg2()));
+                item.add(new VisibleLabel("arg3Data", model.getArg3()));
+                item.add(new VisibleLabel("exceptionData", model.getException()));
 
                 if (model.getLevel().equals(Level.WARN.toString())) {
                     row.add(new AttributeAppender("class", new Model<String>("warning"), " "));

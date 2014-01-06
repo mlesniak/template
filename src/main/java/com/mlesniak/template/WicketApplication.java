@@ -61,11 +61,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
         UserDao.get().addAdminUser();
 
         getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
-//        getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
-        // show internal error page rather than default developer page
-        //getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
 
-        /* In case of unhandled exception redirect it to a custom page */
+        // In case of unhandled exception redirect it to a custom page.
         getRequestCycleListeners().add(new AbstractRequestCycleListener() {
             @Override
             public IRequestHandler onException(RequestCycle cycle, Exception e) {
