@@ -5,12 +5,14 @@ import com.mlesniak.template.authentification.BasicAuthenticationSession;
 import com.mlesniak.template.authentification.SignInPage;
 import com.mlesniak.template.authentification.SignOutPage;
 import com.mlesniak.template.config.Config;
+import com.mlesniak.template.config.ConfigKeys;
 import com.mlesniak.template.config.ConfigPage;
 import com.mlesniak.template.dao.UserDao;
 import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.jobs.SchedulerService;
 import com.mlesniak.template.logging.LogPage;
+import com.mlesniak.template.sms.SMSService;
 import com.mlesniak.template.statistic.StatisticPage;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -78,6 +80,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
         }
 
         //EmailService.get().sendEmail("mail@mlesniak.com", "Test", new Date().toString());
+
+        SMSService.get().sendSMS(Config.get().get(ConfigKeys.SMS_ADMIN), "Test with ä!?&");
 
         SchedulerService.get().startScheduler();
     }

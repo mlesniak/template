@@ -29,6 +29,12 @@ public class ConfigKeys {
     public static final String EMAIL_USERNAME = "email.username";
     public static final String EMAIL_PASSWORD = "email.password";
 
+    // SMS service configuration.
+    public static final String SMS_FROM = "sms.from";
+    public static final String SMS_API = "sms.api";
+    public static final String SMS_SECRET = "sms.secret";
+    public static final String SMS_ADMIN = "sms.admin";
+
     // Reset everything from file?
     public static final String RESET = "reset";
 }
