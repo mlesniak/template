@@ -52,7 +52,7 @@ public class Config {
         try {
             properties.load(Config.class.getResourceAsStream(FILENAME));
         } catch (IOException | NullPointerException e) {
-            log.error("Unable to load config file from classpath. filename=" + FILENAME);
+            log.error("Unable to load config file from classpath. filename=" + FILENAME, e);
         }
     }
 

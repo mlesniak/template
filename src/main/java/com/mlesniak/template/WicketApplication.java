@@ -15,10 +15,12 @@ import com.mlesniak.template.statistic.StatisticPage;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.core.request.handler.PageProvider;
+import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.settings.IExceptionSettings;
-import org.quartz.SchedulerException;
-import org.quartz.impl.StdSchedulerFactory;
+import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,9 +61,18 @@ public class WicketApplication extends AuthenticatedWebApplication {
         UserDao.get().addAdminUser();
 
         getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
-        getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
+//        getApplicationSettings().setInternalErrorPage(InternalErrorPage.class);
         // show internal error page rather than default developer page
-        getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
+        //getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
+
+        /* In case of unhandled exception redirect it to a custom page */
+        getRequestCycleListeners().add(new AbstractRequestCycleListener() {
+            @Override
+            public IRequestHandler onException(RequestCycle cycle, Exception e) {
+                return new RenderPageRequestHandler(new
+                        PageProvider(new InternalErrorPage(e)));
+            }
+        });
 
         mountPages();
 
@@ -73,7 +84,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
         SchedulerService.get().startScheduler();
     }
-
 
 
     private void mountPages() {

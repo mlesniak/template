@@ -58,6 +58,17 @@ public class LogDO implements Serializable {
     @Column(name = "caller_line")
     private String callerLine;
 
+    // We generate the exception on the fly.
+    private transient String exception;
+
+    public String getException() {
+        return exception;
+    }
+
+    public void setException(String exception) {
+        this.exception = exception;
+    }
+
     public long getId() {
         return id;
     }
@@ -192,6 +203,7 @@ public class LogDO implements Serializable {
                 ", callerClass='" + callerClass + '\'' +
                 ", callerMethod='" + callerMethod + '\'' +
                 ", callerLine='" + callerLine + '\'' +
+                ", exception='" + exception + '\'' +
                 '}';
     }
 }

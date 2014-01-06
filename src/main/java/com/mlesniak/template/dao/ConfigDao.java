@@ -39,7 +39,7 @@ public class ConfigDao extends BaseDao {
             return getConfigForKey(key, true);
         } catch (RuntimeException exception) {
             if (doLog) {
-                log.warn("Unable to get key. key=" + key);
+                log.warn("Unable to get key. key=" + key, exception);
             }
         }
 

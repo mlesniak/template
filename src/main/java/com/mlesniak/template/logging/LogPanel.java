@@ -93,6 +93,7 @@ public class LogPanel extends Panel implements Serializable {
                 item.add(new Label("arg1Data", model.getArg1()));
                 item.add(new Label("arg2Data", model.getArg2()));
                 item.add(new Label("arg3Data", model.getArg3()));
+                item.add(new Label("exceptionData", model.getException()));
 
                 if (model.getLevel().equals(Level.WARN.toString())) {
                     row.add(new AttributeAppender("class", new Model<String>("warning"), " "));

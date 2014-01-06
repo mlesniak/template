@@ -44,7 +44,7 @@ public class LogFilter {
             Date date = dateTimeFormat.get().parse(start);
             startTime = date.getTime();
         } catch (ParseException e) {
-            log.error("Unable to parse start time. startTime=" + start);
+            log.error("Unable to parse start time. startTime=" + start, e);
         }
         return this;
     }
@@ -58,7 +58,7 @@ public class LogFilter {
             Date date = dateTimeFormat.get().parse(end);
             endTime = date.getTime();
         } catch (ParseException e) {
-            log.error("Unable to parse end time. endTime=" + end);
+            log.error("Unable to parse end time. endTime=" + end, e);
         }
         return this;
     }

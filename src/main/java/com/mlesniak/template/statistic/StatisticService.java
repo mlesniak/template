@@ -29,7 +29,7 @@ public class StatisticService {
             result = resultType.call();
             end = System.currentTimeMillis();
         }catch (RuntimeException e) {
-            log.warn("Throwing runtime exception. e=" + e.getMessage());
+            log.warn("Throwing runtime exception. e=" + e.getMessage(), e);
             throw e;
         } catch (Exception e) {
             // Is this the correct thing to do?

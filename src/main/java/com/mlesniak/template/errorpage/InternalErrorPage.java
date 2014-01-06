@@ -15,4 +15,10 @@ public class InternalErrorPage extends BasePage {
         log.error("Unexpected error. code=" + code);
         add(new Label("errorCode", code));
     }
+
+    public InternalErrorPage(Exception e) {
+        String code = UUID.randomUUID().toString().substring(0, 8);
+        log.error("Unexpected error. code=" + code, e);
+        add(new Label("errorCode", code));
+    }
 }

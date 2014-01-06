@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -26,15 +27,6 @@ public class LogDao extends BaseDao {
         return INSTANCE;
     }
 
-    public LogDO getLogById(long id) {
-        EntityManager em = getEntityManager();
-        String query = "SELECT c FROM LogDO c WHERE c.id = " + id;
-        LogDO logDO = em.createQuery(query, LogDO.class).getSingleResult();
-        em.detach(logDO);
-        em.close();
-        return logDO;
-    }
-
     public List<LogDO> getLogByFilter(final LogFilter logFilter) {
         return StatisticService.collect(StatisticCategory.Database, "collecting log", new Callable<List<LogDO>>() {
             @Override
@@ -45,10 +37,27 @@ public class LogDao extends BaseDao {
                 List<LogDO> logDOList = query.getResultList();
                 for (LogDO logDO : logDOList) {
                     em.detach(logDO);
+                    attachException(em, logDO);
                 }
                 em.close();
                 return logDOList;
             }
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    private void attachException(EntityManager em, LogDO logDO) {
+        Query query = em.createNativeQuery("SELECT e.trace_line FROM logging_event_exception e where e.event_id = " +
+                logDO.getId() + " ORDER by e.i asc");
+
+        StringBuffer sb = new StringBuffer();
+        for (String line : (List<String>) query.getResultList()) {
+            sb.append(line);
+            sb.append("\n");
+        }
+
+        if (sb.length() > 0) {
+            logDO.setException(sb.toString());
+        }
     }
 }
