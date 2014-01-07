@@ -21,7 +21,7 @@
         <appender-ref ref="DATABASE"/>
     </logger>
 
-    <logger name="org.apache.wicket" level="info" additivity="false">
+    <logger name="org.apache.wicket" level="warn" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="DATABASE"/>
     </logger>
