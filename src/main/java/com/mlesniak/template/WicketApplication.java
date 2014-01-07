@@ -11,6 +11,8 @@ import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.jobs.SchedulerService;
 import com.mlesniak.template.logging.LogPage;
+import com.mlesniak.template.plugin.HelloWorld;
+import com.mlesniak.template.plugin.PluginService;
 import com.mlesniak.template.statistic.StatisticPage;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -81,6 +83,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
         //SMSService.get().sendSMS(Config.get().get(ConfigKeys.SMS_ADMIN), "Test with ä!?&");
 
         SchedulerService.get().startScheduler();
+
+        HelloWorld world = PluginService.get().get(HelloWorld.class);
     }
 
 

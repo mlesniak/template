@@ -35,6 +35,9 @@ public class ConfigKeys {
     public static final String SMS_SECRET = "sms.secret";
     public static final String SMS_ADMIN = "sms.admin";
 
+    // Plugin configuration.
+    public static final String PLUGIN_DIRECTORY = "pluginDirectory";
+
     // Reset everything from file?
     public static final String RESET = "reset";
 }
