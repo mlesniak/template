@@ -1,10 +1,15 @@
 package com.mlesniak.template.sms;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SMSMessage {
     private String to;
+    @SerializedName("message-id")
     private String messageId;
     private String status;
+    @SerializedName("remaining-balance")
     private String remainingBalance;
+    @SerializedName("message-price")
     private String messagePrice;
     private String network;
 

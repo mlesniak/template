@@ -1,17 +1,20 @@
 package com.mlesniak.template.sms;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class SMSResult {
-    private long messageCount;
+    @SerializedName("message-count")
+    private int messageCount;
 
     private List<SMSMessage> messages;
 
-    public long getMessageCount() {
+    public int getMessageCount() {
         return messageCount;
     }
 
-    public void setMessageCount(long messageCount) {
+    public void setMessageCount(int messageCount) {
         this.messageCount = messageCount;
     }
 

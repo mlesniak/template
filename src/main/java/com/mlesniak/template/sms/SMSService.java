@@ -51,9 +51,9 @@ public class SMSService {
 
         Gson gson = new Gson();
         SMSResult smsResult = gson.fromJson(result, SMSResult.class);
-        System.out.println(smsResult);
 
-        log.info("Sent SMS. to=" + to + " msg='" + text + "'");
+        String remainingBalance = smsResult.getMessages().get(smsResult.getMessageCount() - 1).getRemainingBalance();
+        log.info("Sent SMS. to=" + to + " ,msg='" + text + "'" + " ,remainingBalance=" + remainingBalance);
     }
 
     private URL generateURL(String to, String text, Config config) throws UnsupportedEncodingException, MalformedURLException {
