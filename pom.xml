@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!--JSON parsing-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
+        </dependency>
         <!--Scheduling of jobs-->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

@@ -1,5 +1,6 @@
 package com.mlesniak.template.sms;
 
+import com.google.gson.Gson;
 import com.mlesniak.template.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +40,18 @@ public class SMSService {
             return;
         }
 
+        String result = null;
         try {
-            String result = getURLContent(url);
+            result = getURLContent(url);
             System.out.println(result);
         } catch (IOException e) {
             log.error("Unable to connect.", e);
+            return;
         }
+
+        Gson gson = new Gson();
+        SMSResult smsResult = gson.fromJson(result, SMSResult.class);
+        System.out.println(smsResult);
 
         log.info("Sent SMS. to=" + to + " msg='" + text + "'");
     }
@@ -53,7 +60,8 @@ public class SMSService {
         URL url;
         String s = "https://rest.nexmo.com/sms/json?api_key=" + config.get(SMS_API) + "&api_secret=" +
                 config.get(SMS_SECRET) + "&from=" + config.get(SMS_FROM) + "&to=" + to + "&text=" +
-                URLEncoder.encode(text, "UTF-8");
+                URLEncoder.encode(text, "ISO-8859-1");
+        System.out.println(s);
         url = new URL(s);
         return url;
     }
