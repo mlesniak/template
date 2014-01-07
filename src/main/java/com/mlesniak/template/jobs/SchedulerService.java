@@ -62,9 +62,12 @@ public class SchedulerService {
 
                 TriggerBuilder<Trigger> builder = newTrigger().withIdentity(name);
 
+                boolean shouldSchedule = false;
+
                 if (config.isKeyDefined(name + START_NOW) && config.getBoolean(name + START_NOW)) {
                     log.debug("Starting immediately");
                     builder.startNow();
+                    shouldSchedule = true;
                 }
 
                 if (config.isKeyDefined(name + REPEAT_SECONDS)) {
@@ -73,6 +76,7 @@ public class SchedulerService {
                     builder.withSchedule(simpleSchedule()
                             .withIntervalInSeconds(seconds)
                             .repeatForever());
+                    shouldSchedule = true;
                 }
 
                 if (config.isKeyDefined(name + CRON)) {
@@ -82,11 +86,17 @@ public class SchedulerService {
                     } else {
                         log.debug("With cron. cron=" + cronExpression);
                         builder.withSchedule(cronSchedule(cronExpression));
+                        shouldSchedule = true;
                     }
                 }
 
-                scheduler.scheduleJob(job, builder.build());
-                log.info("Scheduled job. job=" + name);
+                if (shouldSchedule) {
+                    scheduler.scheduleJob(job, builder.build());
+                    log.info("Scheduled job. job=" + name);
+                } else {
+                    log.info("Job found, but no schedule/trigger specified. Ignoring job.");
+                }
+
             }
 
             log.info("Scheduler started");
