@@ -84,7 +84,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
         SchedulerService.get().startScheduler();
 
-        HelloWorld world = PluginService.get().get(HelloWorld.class);
+        HelloWorld world = PluginService.get().getPlugin(HelloWorld.class);
     }
 
 

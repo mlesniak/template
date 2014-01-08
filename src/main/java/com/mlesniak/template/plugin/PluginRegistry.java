@@ -3,15 +3,21 @@ package com.mlesniak.template.plugin;
 import org.apache.commons.lang3.StringUtils;
 
 public enum PluginRegistry {
-    HelloWorld("HelloWorld", HelloWorld.class)
+    HelloWorld("HelloWorld", "com.mlesniak.template.plugin.HelloWorldImpl", HelloWorld.class)
     ;
 
     private String name;
+    private String mainClass;
     private Class iface;
 
-    PluginRegistry(String name, Class iface) {
+    PluginRegistry(String name, String mainClass, Class iface) {
         this.name = name;
+        this.mainClass = mainClass;
         this.iface = iface;
+    }
+
+    public String getMainClass() {
+        return mainClass;
     }
 
     public String getName() {
