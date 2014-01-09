@@ -14,7 +14,7 @@ public class PluginDO {
     @Column(nullable = false)
     private long timestamp;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
