@@ -22,26 +22,21 @@ public class PluginService {
         return INSTANCE;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T getPlugin(Class<T> iface) {
         String directory = Config.get().get(ConfigKeys.PLUGIN_DIRECTORY);
-
         PluginRegistry plugin = PluginRegistry.get(iface);
-
-
+        File jarFile = new File(directory + "/" + plugin + ".jar");
         log.info("Loading plugin: " + plugin + " ,path=" + directory + "/" + plugin + ".jar");
 
-        File jarFile = new File(directory + "/" + plugin + ".jar");
-
         try {
-            URL myJarFile = new URL("jar","", "file:"+jarFile.getAbsolutePath()+"!/");
-            URLClassLoader cl = URLClassLoader.newInstance(new URL[] {myJarFile});
-            Class clazz= cl.loadClass(plugin.getMainClass());
-
-
-        } catch (MalformedURLException | ClassNotFoundException e) {
+            URL[] urls = {new URL("jar:file:" + jarFile.getAbsoluteFile() + "!/")};
+            ClassLoader cl = URLClassLoader.newInstance(urls, getClass().getClassLoader());
+            Class clazz = cl.loadClass(plugin.getMainClass());
+            return (T)(clazz.newInstance());
+        } catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             log.error("Unable to load plugin. plugin=" + plugin, e);
         }
-
 
         return null;
     }
