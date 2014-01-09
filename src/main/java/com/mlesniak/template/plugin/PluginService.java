@@ -2,6 +2,8 @@ package com.mlesniak.template.plugin;
 
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.config.ConfigKeys;
+import com.mlesniak.template.dao.PluginDao;
+import com.mlesniak.template.model.PluginDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +53,9 @@ public class PluginService {
 
     private Class loadClass(Class plugin) {
         String name = plugin.getSimpleName();
+        PluginDO pluginDO = PluginDao.get().getByName(name);
+
+
         Config config = Config.get();
         String pluginFile = config.get("plugin." + name + ".file");
         String pluginMainClass = config.get("plugin." + name + ".class");
