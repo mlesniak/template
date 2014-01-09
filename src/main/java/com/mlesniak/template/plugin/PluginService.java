@@ -34,34 +34,35 @@ public class PluginService {
     @SuppressWarnings("unchecked")
     public <T> T getPlugin(Class<T> iface) {
         Class clazz = null;
-        PluginRegistry plugin = PluginRegistry.get(iface);
-
         if (cache.containsKey(iface)) {
             clazz = cache.get(iface);
         } else {
-            clazz = loadClass(plugin);
+            clazz = loadClass(iface);
         }
 
         try {
             return (T) (clazz.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            log.error("Unable to load plugin. plugin=" + plugin, e);
+            log.error("Unable to load plugin. plugin=" + iface.getSimpleName(), e);
         }
 
         return null;
     }
 
-    private Class loadClass(PluginRegistry plugin) {
-        Class clazz = null;
+    private Class loadClass(Class plugin) {
+        String name = plugin.getSimpleName();
+        Config config = Config.get();
+        String pluginFile = config.get("plugin." + name + ".file");
+        String pluginMainClass = config.get("plugin." + name + ".class");
+        String directory = config.get(ConfigKeys.PLUGIN_DIRECTORY);
 
-        String directory = Config.get().get(ConfigKeys.PLUGIN_DIRECTORY);
-        File jarFile = new File(directory + "/" + plugin + ".jar");
+        Class clazz = null;
+        File jarFile = new File(directory + "/" + pluginFile + ".jar");
         log.info("Loading plugin: " + plugin + " ,path=" + directory + "/" + plugin + ".jar");
         try {
             URL[] urls = {new URL("jar:file:" + jarFile.getAbsoluteFile() + "!/")};
             ClassLoader cl = URLClassLoader.newInstance(urls, getClass().getClassLoader());
-            clazz = cl.loadClass(plugin.getMainClass());
-
+            clazz = cl.loadClass(pluginMainClass);
         } catch (MalformedURLException | ClassNotFoundException e) {
             log.error("Unable to load plugin. plugin=" + plugin, e);
         }
