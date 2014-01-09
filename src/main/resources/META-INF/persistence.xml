@@ -10,6 +10,7 @@
         <class>com.mlesniak.template.model.ConfigDO</class>
         <class>com.mlesniak.template.model.LogDO</class>
         <class>com.mlesniak.template.model.StatisticDO</class>
+        <class>com.mlesniak.template.model.PluginDO</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
