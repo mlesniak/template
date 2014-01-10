@@ -86,6 +86,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
         HelloWorld world = PluginService.get().getPlugin(HelloWorld.class);
         world.sayHello("Michael");
+//        PluginService.get().storeJARinDatabase(HelloWorld.class);
     }
 
 
