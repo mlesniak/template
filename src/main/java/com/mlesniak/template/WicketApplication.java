@@ -12,6 +12,7 @@ import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.jobs.SchedulerService;
 import com.mlesniak.template.logging.LogPage;
 import com.mlesniak.template.plugin.HelloWorld;
+import com.mlesniak.template.plugin.PluginPage;
 import com.mlesniak.template.plugin.PluginService;
 import com.mlesniak.template.statistic.StatisticPage;
 import org.apache.wicket.RuntimeConfigurationType;
@@ -103,6 +104,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         pageMapping.put("/login", SignInPage.class);
         pageMapping.put("/logout", SignOutPage.class);
         pageMapping.put("/statistic", StatisticPage.class);
+        pageMapping.put("/plugins", PluginPage.class);
     }
 
     public static Map<String, Class<? extends WebPage>> getPageMapping() {

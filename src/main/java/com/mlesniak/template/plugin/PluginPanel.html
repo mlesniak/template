@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+
+<wicket:panel>
+    <form wicket:id="filterForm" class="form-horizontal">
+        <div class="form-group bottom-line">
+            <label for="filter" class="col-sm-1">
+                <wicket:message key="form.filter"/>
+            </label>
+            <input wicket:id="filter" type="text" id="filter" size="30" autofocus/>
+        </div>
+    </form>
+
+    <form wicket:id="configForm" class="form-horizontal">
+        <div wicket:id="configValues" class="form-group">
+            <label class="col-sm-4 control-label" style="text-align: left;"><span wicket:id="key"></span></label>
+            <input wicket:id="value" class="col-sm-8" type="text"/>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-default col-sm-offset-8 col-sm-2"
+                   wicket:message="value:form.save"/>
+            <button wicket:id="resetButton" class="btn btn-default col-sm-2">
+                <wicket:message key="form.reset"/>
+            </button>
+
+        </div>
+    </form>
+</wicket:panel>
+
+</html>
