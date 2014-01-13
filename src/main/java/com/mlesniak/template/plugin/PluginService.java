@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PluginService {
@@ -51,6 +52,10 @@ public class PluginService {
         pluginDO.setTimestamp(System.currentTimeMillis());
         log.debug("Writing plugin to database. plugin=" + getFilePath(plugin));
         PluginDao.get().write(pluginDO);
+    }
+
+    public List<PluginDO> getPlugins() {
+        return PluginDao.get().getPlugins();
     }
 
     @SuppressWarnings("unchecked")

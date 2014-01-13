@@ -42,4 +42,13 @@ public class PluginDao extends BaseDao {
         }
         return resultList.get(0);
     }
+
+    public List<PluginDO> getPlugins() {
+        EntityManager em = getEntityManager();
+        TypedQuery<PluginDO> query = em.createQuery("SELECT u FROM PluginDO u", PluginDO.class);
+        List<PluginDO> resultList = query.getResultList();
+        em.close();
+
+        return resultList;
+    }
 }
