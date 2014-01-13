@@ -4,13 +4,19 @@ import com.mlesniak.template.config.Config;
 import com.mlesniak.template.model.PluginDO;
 import com.mlesniak.utils.DateUtils;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +63,6 @@ public class PluginPanel extends Panel {
         ListView<PluginDO> listView = new ListView<PluginDO>("rows", model) {
             @Override
             protected void populateItem(ListItem<PluginDO> row) {
-                System.out.println(row);
                 PluginDO pluginDO = row.getModelObject();
                 row.add(new Label("date", getDateLabel(pluginDO)));
                 row.add(new Label("time", getTimeLabel(pluginDO)));
@@ -79,5 +84,37 @@ public class PluginPanel extends Panel {
             }
         };
         add(listView);
+
+        final IModel<String> pluginChoice = new Model<String>() {
+            String pluginDO;
+
+            @Override
+            public String getObject() {
+                return pluginDO;
+            }
+
+            @Override
+            public void setObject(String object) {
+                pluginDO = object;
+            }
+        };
+
+        final List<String> choices = new ArrayList<>();
+        for (PluginDO pluginDO : model.getObject()) {
+            choices.add(pluginDO.getName());
+        }
+        final DropDownChoice<String> plugin = new DropDownChoice<>("plugin", pluginChoice, choices);
+
+        FileUploadField uploadField = new FileUploadField("fileUpload");
+
+        Form<Void> form = new Form<Void>("form") {
+            @Override
+            protected void onSubmit() {
+                System.out.println(pluginChoice.getObject());
+            }
+        };
+        form.add(plugin);
+        form.add(uploadField);
+        add(form);
     }
 }

@@ -2,6 +2,13 @@
 <html xmlns:wicket="http://wicket.apache.org">
 
 <wicket:panel>
+    <form wicket:id="form">
+        <select wicket:id="plugin"></select>
+        <input wicket:id="fileUpload" type="file"/>
+        <input type="submit" value="Upload"/>
+    </form>
+    <hr/>
+
     <table class="table table-hover table-bordered">
         <thead>
         <th class="col-sm-1">Date</th>
@@ -17,7 +24,6 @@
                 <td><span wicket:id="name"></span></td>
             </tr>
         </wicket:container>
-
         </tbody>
     </table>
 </wicket:panel>
