@@ -51,4 +51,21 @@ public class PluginDao extends BaseDao {
 
         return resultList;
     }
+
+    public void update(String name, byte[] jar) {
+        PluginDO pluginDO = getByName(name);
+        if (pluginDO == null) {
+            pluginDO = new PluginDO();
+            pluginDO.setName(name);
+        }
+
+        pluginDO.setTimestamp(System.currentTimeMillis());
+        pluginDO.setJar(jar);
+
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.merge(pluginDO);
+        em.getTransaction().commit();
+        em.close();
+    }
 }

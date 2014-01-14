@@ -121,4 +121,10 @@ public class PluginService {
         }
         return clazz;
     }
+
+    public void update(String name, byte[] jar) {
+        PluginDao.get().update(name, jar);
+        log.info("Plugin updated. name=" + name + " , jar.length=" + jar);
+        resetCache();
+    }
 }
