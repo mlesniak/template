@@ -97,3 +97,8 @@ div.wicket-aa {
     display: none;
     background-color: #f5f5f5 !important;
 }
+
+
+.align-button {
+    margin-left: 14px;
+}
