@@ -27,9 +27,12 @@ public class BaseDao {
 
     private void checkAndDoReset() {
         if (Config.get().getBoolean(ConfigKeys.RESET)) {
-            log.info("Resetting to default values.");
+            log.warn("Resetting to default values.");
             Config.get().resetToConfigFile();
         }
+
+        // Everything updated. Use only database from now on.
+        Config.get().enableDatabaseResolution();
     }
 
     private static void initializeFactory() {
@@ -60,9 +63,6 @@ public class BaseDao {
                 log.debug("Storing key=" + key);
             }
         }
-
-        // Everything updated. Use only database from now on.
-        config.enableDatabaseResolution();
     }
 
     public EntityManager getEntityManager() {
