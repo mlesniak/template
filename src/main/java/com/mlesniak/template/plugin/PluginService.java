@@ -75,9 +75,8 @@ public class PluginService {
             return (T) (clazz.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
             log.error("Unable to load plugin. plugin=" + iface.getSimpleName(), e);
+            throw new IllegalStateException("plugin error.");
         }
-
-        return null;
     }
 
     private <T> Class loadClassFromDatabase(Class<T> iface) {
@@ -124,7 +123,7 @@ public class PluginService {
 
     public void update(String name, byte[] jar) {
         PluginDao.get().update(name, jar);
-        log.info("Plugin updated. name=" + name + " , jar.length=" + jar);
+        log.info("Plugin updated. name=" + name + " , jar.length=" + jar.length);
         resetCache();
     }
 }
