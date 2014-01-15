@@ -38,10 +38,10 @@ public class BaseDao {
     private static void initializeFactory() {
         Map<String, String> configuration = new HashMap<>();
         Config config = Config.get();
-        configuration.put(ConfigKeys.DATABASE_DRIVER, config.get(ConfigKeys.DATABASE_DRIVER));
-        configuration.put(ConfigKeys.DATABASE_URL, config.get(ConfigKeys.DATABASE_URL));
-        configuration.put(ConfigKeys.DATABASE_USER, config.get(ConfigKeys.DATABASE_USER));
-        configuration.put(ConfigKeys.DATABASE_PASSWORD, config.get(ConfigKeys.DATABASE_PASSWORD));
+        configuration.put("javax.persistence.jdbc.driver", config.get(ConfigKeys.DATABASE_DRIVER));
+        configuration.put("javax.persistence.jdbc.url", config.get(ConfigKeys.DATABASE_URL));
+        configuration.put("javax.persistence.jdbc.user", config.get(ConfigKeys.DATABASE_USER));
+        configuration.put("javax.persistence.jdbc.password", config.get(ConfigKeys.DATABASE_PASSWORD));
         String ddlGeneration = config.get(ConfigKeys.DATABASE_GENERATION);
         if (ddlGeneration != null) {
             configuration.put("eclipselink.ddl-generation", ddlGeneration);
