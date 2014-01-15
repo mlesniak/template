@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head/>
+<body>
+<wicket:extend>
+    <form wicket:id="form" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="name" class="col-sm-1">
+                <wicket:message key="form.name"/>
+            </label>
+            <input wicket:id="name" type="text" id="name" autofocus/>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-1">
+                <wicket:message key="form.email"/>
+            </label>
+            <input wicket:id="email" type="text" id="email" tabindex="2"/>
+        </div>
+
+        <div class="form-group">
+            <label for="message" class="col-sm-1">
+                <wicket:message key="form.message"/>
+            </label>
+            <textarea wicket:id="message" type="text" id="message" class="comment" tabindex="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-default col-sm-offset-1 col-sm-1" wicket:message="value:form.submit"/>
+        </div>
+    </form>
+
+    <!--<div id="dialog" class="modal hide fade">-->
+        <!--<div class="modal-header">-->
+            <!--<a href="#" class="close">&times;</a>-->
+            <!--<h3> Showing Modal </h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--I need to show up!-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<a href="#" class="btn primary">Done</a>-->
+        <!--</div>-->
+    <!--</div>-->
+
+</wicket:extend>
+</body>
+</html>

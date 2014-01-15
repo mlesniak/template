@@ -6,6 +6,7 @@ import com.mlesniak.template.authentification.SignInPage;
 import com.mlesniak.template.authentification.SignOutPage;
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.config.ConfigPage;
+import com.mlesniak.template.contact.ContactPage;
 import com.mlesniak.template.dao.UserDao;
 import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
@@ -105,6 +106,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         pageMapping.put("/logout", SignOutPage.class);
         pageMapping.put("/statistic", StatisticPage.class);
         pageMapping.put("/plugins", PluginPage.class);
+        pageMapping.put("/contact", ContactPage.class);
     }
 
     public static Map<String, Class<? extends WebPage>> getPageMapping() {
