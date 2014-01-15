@@ -31,8 +31,10 @@ public class ContactPage  extends BasePage {
         Form<ContactModel> form = new Form<ContactModel>("form", new CompoundPropertyModel<>(model)) {
             @Override
             protected void onSubmit() {
-                log.info("Sending contact message. from=" + model.email);
+                String[] args = new String[] {model.name, model.email, model.message};
+                log.info("Sending contact message. from=" + model.email, args);
                 EmailService.get().sendEmail(Config.get().get(ConfigKeys.ADMIN_EMAIL), "Contact", toMessage(model));
+                setResponsePage(ContactThankYouPage.class);
             }
         };
 
