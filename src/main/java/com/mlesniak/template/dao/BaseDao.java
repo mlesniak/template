@@ -2,12 +2,16 @@ package com.mlesniak.template.dao;
 
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.config.ConfigKeys;
+import org.apache.log4j.lf5.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,12 +52,36 @@ public class BaseDao {
         }
 
         // Special handling for embedded derby.
+        boolean derby = false;
         if (config.get(ConfigKeys.DATABASE_DRIVER).equals("org.apache.derby.jdbc.EmbeddedDriver")) {
             log.info("Adding configuration for derby.");
             configuration.put("eclipselink.target-database", "Derby");
+            derby = true;
         }
 
         factory = Persistence.createEntityManagerFactory("database", configuration);
+        if (derby) {
+            // Fill database.
+            EntityManager em = factory.createEntityManager();
+            InputStream stream = BaseDao.class.getClassLoader().getResourceAsStream("/derby.sql");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+                StreamUtils.copy(stream, out);
+            } catch (IOException e) {
+                log.error("Unable to read derby.sql.", e);
+            }
+
+            em.getTransaction().begin();
+            String[] sqlStatements = new String(out.toByteArray()).split(";");
+            for (String statement : sqlStatements) {
+                if (org.apache.commons.lang3.StringUtils.isBlank(statement)) {
+                    continue;
+                }
+                System.out.println(statement);
+                em.createNativeQuery(statement).executeUpdate();
+            }
+            em.getTransaction().commit();
+        }
     }
 
     protected static void storeNewDefaultKeysInDatabase() {
