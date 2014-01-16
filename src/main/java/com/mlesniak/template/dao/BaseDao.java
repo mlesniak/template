@@ -51,24 +51,24 @@ public class BaseDao {
             configuration.put("eclipselink.ddl-generation", ddlGeneration);
         }
 
-        // Special handling for embedded derby.
-        boolean derby = false;
-        if (config.get(ConfigKeys.DATABASE_DRIVER).equals("org.apache.derby.jdbc.EmbeddedDriver")) {
-            log.info("Adding configuration for derby.");
-            configuration.put("eclipselink.target-database", "Derby");
-            derby = true;
+        // Special handling for embedded h2Used.
+        boolean h2Embedded = false;
+        if (config.get(ConfigKeys.DATABASE_DRIVER).equals("org.h2.Driver")) {
+            log.info("Adding configuration for h2.");
+//            configuration.put("eclipselink.target-database", "Derby");
+            h2Embedded = false;
         }
 
         factory = Persistence.createEntityManagerFactory("database", configuration);
-        if (derby) {
+        if (h2Embedded) {
             // Fill database.
             EntityManager em = factory.createEntityManager();
-            InputStream stream = BaseDao.class.getClassLoader().getResourceAsStream("/derby.sql");
+            InputStream stream = BaseDao.class.getClassLoader().getResourceAsStream("/h2Used.sql");
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             try {
                 StreamUtils.copy(stream, out);
             } catch (IOException e) {
-                log.error("Unable to read derby.sql.", e);
+                log.error("Unable to read h2Used.sql.", e);
             }
 
             em.getTransaction().begin();
