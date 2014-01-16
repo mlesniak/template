@@ -1,14 +1,27 @@
 <configuration scan="true" scanPeriod="30 seconds">
+    <!--<appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">-->
+        <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+            <!--<dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+                <!--<driverClass>org.postgresql.Driver</driverClass>-->
+                <!--<url>jdbc:postgresql://localhost/template</url>-->
+                <!--<user>template</user>-->
+                <!--<password>template</password>-->
+            <!--</dataSource>-->
+        <!--</connectionSource>-->
+    <!--</appender>-->
+
+
     <appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
             <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
-                <driverClass>org.postgresql.Driver</driverClass>
-                <url>jdbc:postgresql://localhost/template</url>
-                <user>template</user>
-                <password>template</password>
+                <driverClass>org.h2.Driver</driverClass>
+                <url>jdbc:h2:mem:template</url>
+                <user></user>
+                <password></password>
             </dataSource>
         </connectionSource>
     </appender>
+
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
