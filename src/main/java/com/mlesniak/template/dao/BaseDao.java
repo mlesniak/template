@@ -52,9 +52,11 @@ public class BaseDao {
         }
 
         factory = Persistence.createEntityManagerFactory("database", configuration);
+        handleEmbeddedInitialization();
+    }
 
-        // Special handling for embedded h2.
-        if (config.get(ConfigKeys.DATABASE_DRIVER).equals("org.h2.Driver")) {
+    private static void handleEmbeddedInitialization() {
+        if (Config.get().get(ConfigKeys.DATABASE_DRIVER).equals("org.h2.Driver")) {
             log.info("Adding configuration for h2.");
 
             // Fill database.
