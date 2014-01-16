@@ -12,15 +12,16 @@
         <class>com.mlesniak.template.model.StatisticDO</class>
         <class>com.mlesniak.template.model.PluginDO</class>
 
-        <!--<properties>-->
+        <properties>
             <!--<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>-->
             <!--<property name="javax.persistence.jdbc.url"-->
-                      <!--value="jdbc:postgresql://localhost/template"/>-->
+            <!--value="jdbc:postgresql://localhost/template"/>-->
             <!--<property name="javax.persistence.jdbc.user" value="template"/>-->
             <!--<property name="javax.persistence.jdbc.password" value="template"/>-->
             <!--&lt;!&ndash; EclipseLink should create the database schema automatically &ndash;&gt;-->
             <!--<property name="eclipselink.ddl-generation.output-mode"-->
-                      <!--value="database"/>-->
-        <!--</properties>-->
+            <!--value="database"/>-->
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+        </properties>
     </persistence-unit>
 </persistence>

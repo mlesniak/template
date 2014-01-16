@@ -11,15 +11,15 @@ public class ConfigDO {
     private long id;
 
     @Column(unique = true)
-    private String key;
+    private String identifier;
     private String value;
 
-    public String getKey() {
-        return key;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setIdentifier(String key) {
+        this.identifier = key;
     }
 
     public String getValue() {
@@ -34,7 +34,7 @@ public class ConfigDO {
     public String toString() {
         return "ConfigDO{" +
                 "id=" + id +
-                ", key='" + key + '\'' +
+                ", key='" + identifier + '\'' +
                 ", value='" + value + '\'' +
                 '}';
     }

@@ -46,6 +46,13 @@ public class BaseDao {
         if (ddlGeneration != null) {
             configuration.put("eclipselink.ddl-generation", ddlGeneration);
         }
+
+        // Special handling for embedded derby.
+        if (config.get(ConfigKeys.DATABASE_DRIVER).equals("org.apache.derby.jdbc.EmbeddedDriver")) {
+            log.info("Adding configuration for derby.");
+            configuration.put("eclipselink.target-database", "Derby");
+        }
+
         factory = Persistence.createEntityManagerFactory("database", configuration);
     }
 

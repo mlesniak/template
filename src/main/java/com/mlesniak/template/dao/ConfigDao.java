@@ -48,7 +48,7 @@ public class ConfigDao extends BaseDao {
 
     private ConfigDO getConfigForKey(String key, boolean detach) {
         EntityManager em = getEntityManager();
-        String query = "SELECT c FROM ConfigDO c WHERE c.key = '" + key + "'";
+        String query = "SELECT c FROM ConfigDO c WHERE c.identifier = '" + key + "'";
         ConfigDO configDO = em.createQuery(query, ConfigDO.class).getSingleResult();
         if (detach) {
             em.detach(configDO);
@@ -89,7 +89,7 @@ public class ConfigDao extends BaseDao {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         ConfigDO configDO = new ConfigDO();
-        configDO.setKey(key);
+        configDO.setIdentifier(key);
         configDO.setValue(value);
         em.persist(configDO);
         em.getTransaction().commit();
