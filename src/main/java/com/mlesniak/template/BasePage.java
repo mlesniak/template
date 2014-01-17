@@ -33,6 +33,7 @@ public class BasePage extends WebPage {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.render(new PriorityHeaderItem(JavaScriptReferenceHeaderItem.forReference(JQueryResourceReference.get())));
+        JavaScriptReferenceHeaderItem ref = JavaScriptReferenceHeaderItem.forReference(JQueryResourceReference.get());
+        response.render(new PriorityHeaderItem(ref));
     }
 }
