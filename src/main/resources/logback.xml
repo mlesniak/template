@@ -1,6 +1,6 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <!--Persistent database-->
-    <!--
+    <!-- -->
     <appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">
         <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
             <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -11,22 +11,18 @@
             </dataSource>
         </connectionSource>
     </appender>
-    -->
 
     <!--Inital embedded database-->
-    <!-- -->
-    <appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">
-        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-            <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
-                <driverClass>org.h2.Driver</driverClass>
-                <url>jdbc:h2:mem:template</url>
-                <user/>
-                <password/>
-            </dataSource>
-        </connectionSource>
-    </appender>
-    <!-- -->
-
+    <!--<appender name="DATABASE" class="ch.qos.logback.classic.db.DBAppender">-->
+        <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+            <!--<dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+                <!--<driverClass>org.h2.Driver</driverClass>-->
+                <!--<url>jdbc:h2:mem:template</url>-->
+                <!--<user/>-->
+                <!--<password/>-->
+            <!--</dataSource>-->
+        <!--</connectionSource>-->
+    <!--</appender>-->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

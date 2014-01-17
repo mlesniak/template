@@ -1,5 +1,8 @@
 package com.mlesniak.template.dao;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.db.DBAppender;
+import ch.qos.logback.core.db.DriverManagerConnectionSource;
 import com.mlesniak.template.config.Config;
 import com.mlesniak.template.config.ConfigKeys;
 import org.apache.log4j.lf5.util.StreamUtils;
@@ -24,9 +27,32 @@ public class BaseDao {
             return;
         }
 
+//        handleLogback();
         initializeFactory();
         storeNewDefaultKeysInDatabase();
         checkAndDoReset();
+    }
+
+    private void handleLogback() {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        DBAppender database = (DBAppender) loggerContext.getLogger("com.mlesniak").getAppender("DATABASE");
+
+        DriverManagerConnectionSource dmcs = new DriverManagerConnectionSource();
+        Config config = Config.get();
+        dmcs.setDriverClass(config.get(ConfigKeys.DATABASE_DRIVER));
+        dmcs.setUrl(config.get(ConfigKeys.DATABASE_URL));
+        dmcs.setUser(config.get(ConfigKeys.DATABASE_USER));
+        dmcs.setPassword(config.get(ConfigKeys.DATABASE_PASSWORD));
+        dmcs.setContext(loggerContext);
+        dmcs.start();
+
+        if (database != null) {
+            database.stop();
+            database.setConnectionSource(dmcs);
+            database.start();
+        }
+        loggerContext.reset();
+        log.info("Logging database configured.");
     }
 
     private void checkAndDoReset() {
@@ -75,7 +101,6 @@ public class BaseDao {
                 if (org.apache.commons.lang3.StringUtils.isBlank(statement)) {
                     continue;
                 }
-                System.out.println(statement);
                 em.createNativeQuery(statement).executeUpdate();
             }
             em.getTransaction().commit();
