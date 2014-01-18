@@ -5,8 +5,6 @@ import com.mlesniak.template.config.Config;
 import com.mlesniak.template.config.ConfigKeys;
 import com.mlesniak.template.dao.MessageDao;
 import com.mlesniak.template.model.MessageDO;
-import com.mlesniak.template.plugin.HelloWorld;
-import com.mlesniak.template.plugin.PluginService;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -49,12 +47,12 @@ public class HomePage extends BasePage {
                 MessageDao.get().write(messageDO);
                 log.info(message.toString(), messageDO.getId());
 
-                try {
-                    HelloWorld plugin = PluginService.get().getPlugin(HelloWorld.class);
-                    plugin.sayHello(message.getMessage());
-                } catch (IllegalStateException e) {
-                    // Ok.
-                }
+                // try {
+                //     HelloWorld plugin = PluginService.get().getPlugin(HelloWorld.class);
+                //     plugin.sayHello(message.getMessage());
+                // } catch (IllegalStateException e) {
+                //     // Ok.
+                // }
             }
 
             @Override
