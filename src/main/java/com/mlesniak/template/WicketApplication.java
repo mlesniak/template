@@ -12,6 +12,7 @@ import com.mlesniak.template.errorpage.AccessDeniedPage;
 import com.mlesniak.template.errorpage.InternalErrorPage;
 import com.mlesniak.template.jobs.SchedulerService;
 import com.mlesniak.template.logging.LogPage;
+import com.mlesniak.template.pages.StaticPage;
 import com.mlesniak.template.plugin.HelloWorld;
 import com.mlesniak.template.plugin.PluginPage;
 import com.mlesniak.template.plugin.PluginService;
@@ -106,6 +107,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         pageMapping.put("/statistic", StatisticPage.class);
         pageMapping.put("/plugins", PluginPage.class);
         pageMapping.put("/contact", ContactPage.class);
+        pageMapping.put("/article", StaticPage.class);
     }
 
     public static Map<String, Class<? extends WebPage>> getPageMapping() {
