@@ -99,6 +99,11 @@ public class WicketApplication extends AuthenticatedWebApplication {
         }
     }
 
+    @Override
+    public RuntimeConfigurationType getConfigurationType() {
+        return RuntimeConfigurationType.DEPLOYMENT;
+    }
+
     private static void initializePageMapping() {
         pageMapping.put("/config", ConfigPage.class);
         pageMapping.put("/log", LogPage.class);
