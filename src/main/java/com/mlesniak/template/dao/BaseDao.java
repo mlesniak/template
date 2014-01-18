@@ -27,7 +27,7 @@ public class BaseDao {
             return;
         }
 
-//        handleLogback();
+        handleLogback();
         initializeFactory();
         storeNewDefaultKeysInDatabase();
         checkAndDoReset();
@@ -51,7 +51,7 @@ public class BaseDao {
             database.setConnectionSource(dmcs);
             database.start();
         }
-        loggerContext.reset();
+        log.info("Restarting logback.");
         log.info("Logging database configured.");
     }
 
