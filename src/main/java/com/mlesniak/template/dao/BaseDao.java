@@ -55,16 +55,6 @@ public class BaseDao {
         log.info("Logging database configured.");
     }
 
-    private void checkAndDoReset() {
-        if (Config.get().getBoolean(ConfigKeys.RESET)) {
-            log.warn("Resetting to default values.");
-            Config.get().resetToConfigFile();
-        }
-
-        // Everything updated. Use only database from now on.
-        Config.get().enableDatabaseResolution();
-    }
-
     private static void initializeFactory() {
         Map<String, String> configuration = new HashMap<>();
         Config config = Config.get();
@@ -123,11 +113,21 @@ public class BaseDao {
         }
     }
 
-    public EntityManager getEntityManager() {
-        return factory.createEntityManager();
+    private void checkAndDoReset() {
+        if (Config.get().getBoolean(ConfigKeys.RESET)) {
+            log.warn("Resetting to default values.");
+            Config.get().resetToConfigFile();
+        }
+
+        // Everything updated. Use only database from now on.
+        Config.get().enableDatabaseResolution();
     }
 
     public EntityManagerFactory getEntityManagerFactory() {
         return factory;
+    }
+
+    public EntityManager getEntityManager() {
+        return factory.createEntityManager();
     }
 }

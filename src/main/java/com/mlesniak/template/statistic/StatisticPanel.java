@@ -37,7 +37,6 @@ public class StatisticPanel extends Panel implements Serializable {
 
         final StatisticModel model = new StatisticModel();
         Form<StatisticModel> form = new Form<>("logForm", new CompoundPropertyModel<>(model));
-
         IModel logs = new LoadableDetachableModel<List<StatisticDO>>() {
             @Override
             protected List<StatisticDO> load() {
@@ -49,7 +48,6 @@ public class StatisticPanel extends Panel implements Serializable {
         final AutoCompleteTextField<String> keyword = addKeywordField(form, model);
         addSearchButton(model, form, keyword, container);
         addDateFields(form);
-
         form.setOutputMarkupId(true);
         add(form);
     }
@@ -63,14 +61,12 @@ public class StatisticPanel extends Panel implements Serializable {
                 return computation.getMin();
             }
         }));
-
         container.add(new Label("max", new Model<Double>() {
             @Override
             public Double getObject() {
                 return computation.getMax();
             }
         }));
-
         container.add(new Label("average", new Model<Double>() {
             @Override
             public Double getObject() {

@@ -31,11 +31,10 @@ public class ConfigPanel extends Panel {
 
     public ConfigPanel(String id) {
         super(id);
-
         final Map<String, String> model = Config.get().getConfig();
-        form = createForm(model);
-        add(form);
 
+        form = createConfigKeyList(model);
+        add(form);
         addFilter(model);
         addResetButton(model, form);
     }
@@ -66,7 +65,7 @@ public class ConfigPanel extends Panel {
         filter = keyword;
     }
 
-    private Form createForm(final Map<String, String> model) {
+    private Form createConfigKeyList(final Map<String, String> model) {
         Form form = new Form("configForm") {
             @Override
             protected void onSubmit() {
@@ -142,7 +141,6 @@ public class ConfigPanel extends Panel {
                     // This is ok.
                 }
 
-                // handleAutoFocusOnFirstElement(item, inputField);
                 handleDatabaseDisabeled(item, label, inputField);
                 item.add(inputField);
                 item.add(label);
@@ -156,12 +154,6 @@ public class ConfigPanel extends Panel {
                     inputField.setEnabled(false);
                     label.add(new AttributeAppender("class", "disabled"));
                     item.setVisible(Config.get().getBoolean(ConfigKeys.SHOW_DEFAULT_OPTIONS));
-                }
-            }
-
-            private void handleAutoFocusOnFirstElement(ListItem<String> item, TextField<String> inputField) {
-                if (item.getIndex() == 0) {
-                    inputField.add(new AttributeModifier("autofocus", "true"));
                 }
             }
         };

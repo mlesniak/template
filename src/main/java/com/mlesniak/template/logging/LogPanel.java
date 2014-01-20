@@ -53,16 +53,13 @@ public class LogPanel extends Panel implements Serializable {
         Form<LogModel> form = new Form<>("logForm", new CompoundPropertyModel<>(model));
 
         final TextField<String> keyword = addKeywordField(form);
-
         IModel logs = new LoadableDetachableModel<List<LogDO>>() {
             @Override
             protected List<LogDO> load() {
                 return logDOs;
             }
         };
-
         final WebMarkupContainer container = addLogListView(logs);
-
         addLevelField(model, form);
         addSearchButton(model, form, keyword, container);
         addDateFields(form);

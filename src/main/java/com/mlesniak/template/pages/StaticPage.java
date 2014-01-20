@@ -1,6 +1,7 @@
 package com.mlesniak.template.pages;
 
 import com.mlesniak.template.BasePage;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
@@ -19,18 +20,18 @@ public class StaticPage extends BasePage {
         super(parameters);
 
         String page;
-        if (parameters.get(0) == null) {
+        if (parameters.get(0) == null || StringUtils.isBlank((parameters.get(0).toString()))) {
             page = "index";
         } else {
             page = parameters.get(0).toString();
         }
 
-        String content = replaceApplicationRoot(getContent(page));
-
+        String content = getContent(page);
         if (content == null) {
             log.warn("Unable to find page. page=" + page);
             throw new AbortWithHttpErrorCodeException(404, "Not found:" + page);
         }
+        content = replaceApplicationRoot(content);
 
         Label html = new Label("content", content);
         html.setEscapeModelStrings(false);

@@ -62,10 +62,20 @@ public class WicketApplication extends AuthenticatedWebApplication {
         log.info("Starting application.");
         Config.get().init();
         UserDao.get().addAdminUser();
-
         getApplicationSettings().setAccessDeniedPage(AccessDeniedPage.class);
+        addOwnErrorPage();
+        mountPages();
+        setDeploymentMode();
+        SchedulerService.get().startScheduler();
+    }
 
-        // In case of unhandled exception redirect it to a custom page.
+    private void setDeploymentMode() {
+        if (getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
+            getResourceSettings().setThrowExceptionOnMissingResource(false);
+        }
+    }
+
+    private void addOwnErrorPage() {
         getRequestCycleListeners().add(new AbstractRequestCycleListener() {
             @Override
             public IRequestHandler onException(RequestCycle cycle, Exception e) {
@@ -73,20 +83,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
                         PageProvider(new InternalErrorPage(e)));
             }
         });
-
-        mountPages();
-
-        if (getConfigurationType() == RuntimeConfigurationType.DEPLOYMENT) {
-            getResourceSettings().setThrowExceptionOnMissingResource(false);
-        }
-
-        //EmailService.get().sendEmail("mail@mlesniak.com", "Test", new Date().toString());
-        //SMSService.get().sendSMS(Config.get().get(ConfigKeys.SMS_ADMIN), "Test with ä!?&");
-
-        SchedulerService.get().startScheduler();
-
-        //        HelloWorld world = PluginService.get().getPlugin(HelloWorld.class);
-        //        world.sayHello("Michael");
     }
 
 

@@ -16,8 +16,15 @@ public class SignInPanel extends Panel {
     public SignInPanel(String id) {
         super(id);
 
+        Form<SignInModel> form = addSignInForm();
+        addUsernameField(form);
+        addPasswordField(form);
+        add(form);
+    }
+
+    private Form<SignInModel> addSignInForm() {
         final SignInModel model = new SignInModel();
-        Form<SignInModel> form = new Form<SignInModel>("signInForm", new CompoundPropertyModel<>(model)) {
+        return new Form<SignInModel>("signInForm", new CompoundPropertyModel<>(model)) {
             @Override
             protected void onSubmit() {
                 if (model.getUsername() == null || model.getUsername().isEmpty()) {
@@ -34,10 +41,6 @@ public class SignInPanel extends Panel {
                 }
             }
         };
-
-        addUsernameField(form);
-        addPasswordField(form);
-        add(form);
     }
 
     private void addUsernameField(Form<SignInModel> form) {

@@ -51,11 +51,7 @@ public class StatisticServletFilter implements Filter {
         }
 
         long duration, starttime = System.currentTimeMillis();
-
-        // proceed along the chain
         chain.doFilter(request, response);
-
-        // after response returns, calculate duration and log it
         duration = System.currentTimeMillis() - starttime;
         if (duration < LOG_TRESHOLD_MIN) {
             return;

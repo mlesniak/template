@@ -13,9 +13,6 @@ public class StatisticPage extends BasePage {
     public StatisticPage(final PageParameters parameters) {
         super(parameters);
 
-        // For I18N-testing.
-        // getSession().setLocale(Locale.GERMANY);
-
         StatisticPanel logPanel = new StatisticPanel("statisticPanel");
         add(logPanel);
     }

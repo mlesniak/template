@@ -25,7 +25,6 @@ public class ContactPage  extends BasePage {
     @Override
     protected void onInitialize() {
         super.onInitialize();
-        System.out.println("Hello there!");
 
         final ContactModel model = new ContactModel();
         Form<ContactModel> form = new Form<ContactModel>("form", new CompoundPropertyModel<>(model)) {

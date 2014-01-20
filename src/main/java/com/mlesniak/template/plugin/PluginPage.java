@@ -13,9 +13,6 @@ public class PluginPage extends BasePage {
     public PluginPage(final PageParameters parameters) {
         super(parameters);
 
-        // For I18N-testing.
-        // getSession().setLocale(Locale.GERMANY);
-
         PluginPanel configPanel = new PluginPanel("configPanel");
         add(configPanel);
     }

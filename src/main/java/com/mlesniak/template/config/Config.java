@@ -17,8 +17,6 @@ public class Config {
     private static Config INSTANCE;
     private boolean databaseResolution = false;
 
-
-
     private Config() {
         properties = new Properties();
         load();
@@ -36,9 +34,6 @@ public class Config {
         return INSTANCE;
     }
 
-    /**
-     * Returns configuration for all default keys from {@link com.mlesniak.template.config.ConfigKeys}.
-     */
     public Map<String, String> getConfig() {
         Map<String, String> map = new HashMap<>();
         for (String name : getKeys()) {

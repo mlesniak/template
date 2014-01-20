@@ -38,10 +38,6 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
         return result;
     }
 
-    public String getUsername() {
-        return user.getUsername();
-    }
-
     @Override
     public Roles getRoles() {
         Roles resultRoles = new Roles();
@@ -53,6 +49,10 @@ public class BasicAuthenticationSession extends AuthenticatedWebSession {
         }
 
         return resultRoles;
+    }
+
+    public String getUsername() {
+        return user.getUsername();
     }
 
     public UserDO getUser() {

@@ -13,9 +13,6 @@ public class ConfigPage extends BasePage {
     public ConfigPage(final PageParameters parameters) {
         super(parameters);
 
-        // For I18N-testing.
-        // getSession().setLocale(Locale.GERMANY);
-
         ConfigPanel configPanel = new ConfigPanel("configPanel");
         add(configPanel);
     }

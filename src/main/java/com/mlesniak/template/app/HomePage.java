@@ -20,9 +20,6 @@ public class HomePage extends BasePage {
     public HomePage(final PageParameters parameters) {
         super(parameters);
 
-        // For I18N-testing.
-        // getSession().setLocale(Locale.GERMANY);
-
         addMessageInputField();
         addNotVisibleLabel();
     }
@@ -42,17 +39,9 @@ public class HomePage extends BasePage {
         Form<MessageDO> messageForm = new Form<MessageDO>("messageForm", new CompoundPropertyModel<>(message)) {
             @Override
             protected void onSubmit() {
-                // Copy message to new object.
                 MessageDO messageDO = new MessageDO(message);
                 MessageDao.get().write(messageDO);
                 log.info(message.toString(), messageDO.getId());
-
-                // try {
-                //     HelloWorld plugin = PluginService.get().getPlugin(HelloWorld.class);
-                //     plugin.sayHello(message.getMessage());
-                // } catch (IllegalStateException e) {
-                //     // Ok.
-                // }
             }
 
             @Override

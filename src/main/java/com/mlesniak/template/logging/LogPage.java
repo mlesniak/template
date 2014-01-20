@@ -13,9 +13,6 @@ public class LogPage extends BasePage {
     public LogPage(final PageParameters parameters) {
         super(parameters);
 
-        // For I18N-testing.
-        // getSession().setLocale(Locale.GERMANY);
-
         LogPanel logPanel = new LogPanel("logPanel");
         add(logPanel);
     }

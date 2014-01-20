@@ -56,7 +56,8 @@ public class SMSService {
         log.info("Sent SMS. to=" + to + " ,msg='" + text + "'" + " ,remainingBalance=" + remainingBalance);
     }
 
-    private URL generateURL(String to, String text, Config config) throws UnsupportedEncodingException, MalformedURLException {
+    private URL generateURL(String to, String text, Config config) throws UnsupportedEncodingException,
+            MalformedURLException {
         URL url;
         String s = "https://rest.nexmo.com/sms/json?api_key=" + config.get(SMS_API) + "&api_secret=" +
                 config.get(SMS_SECRET) + "&from=" + config.get(SMS_FROM) + "&to=" + to + "&text=" +
